@@ -16,6 +16,9 @@ Plug 'jiangmiao/auto-pairs'
 " Nerdcommenter
 Plug 'scrooloose/nerdcommenter'
 
+" Vim-surround
+Plug 'tpope/vim-surround'
+
 " lightline
 Plug 'itchyny/lightline.vim'
 
