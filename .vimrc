@@ -86,6 +86,8 @@ set colorcolumn=80
 " theme
 set background=dark
 colorscheme gruvbox
+" no banner for netrw
+let g:netrw_banner=0
 " statusline
 set laststatus=2
 " lightline
