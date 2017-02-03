@@ -42,6 +42,8 @@ set nobackup
 set noswapfile
 " enable mouse
 set mouse=a
+" scrolloff
+set scrolloff=8
 " use relative line number by default
 set relativenumber
 " save on buffer switch
