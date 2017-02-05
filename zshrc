@@ -19,6 +19,8 @@ zplug load #--verbose
 setopt PROMPT_SUBST
 PROMPT=$'\n%{\e[47m\e[30m%} %T %{\e[37m\e[44m%} ${$(print -P "%4(c:.../:)%3c")//\\//  } %{\e[34m\e[40m%}%{\e[0m%}\n\$ '
 zstyle ':completion:*' menu select
+#echo $WORDCHARS *?_-.[]~=/&;!#$%^(){}<>
+WORDCHARS=''
 
 ##-- alias --##
 alias vi="vim"
