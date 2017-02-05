@@ -16,7 +16,8 @@ fi
 zplug load #--verbose
 
 ##-- better defaults --##
-PS1=$'\n%{\e[47m\e[30m%} %T %{\e[37m\e[44m%}'" ${$(print -P "%4(c:.../:)%3c")//\//  } "$'%{\e[34m\e[40m%}%{\e[0m%}\n\$ '
+setopt PROMPT_SUBST
+PROMPT=$'\n%{\e[47m\e[30m%} %T %{\e[37m\e[44m%} ${$(print -P "%4(c:.../:)%3c")//\\//  } %{\e[34m\e[40m%}%{\e[0m%}\n\$ '
 zstyle ':completion:*' menu select
 
 ##-- alias --##
