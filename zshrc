@@ -1,4 +1,4 @@
-# zplug
+##-- zplug --##
 # git clone https://github.com/zplug/zplug ~/.zplug
 source ~/.zplug/init.zsh
 
@@ -12,15 +12,14 @@ if ! zplug check --verbose; then
         echo; zplug install
     fi
 fi
-
 # Then, source plugins and add commands to $PATH
 zplug load #--verbose
 
-# better default
+##-- better defaults --##
 PS1=$'\n%{\e[47m\e[30m%} %T %{\e[37m\e[44m%} %4(c:.../:)%3c %{\e[34m\e[40m%}%{\e[0m%}\n\$ '
 zstyle ':completion:*' menu select
 
-# alias
+##-- alias --##
 alias vi="vim"
 alias ls="ls -G"
 alias la="ls -la"
@@ -28,7 +27,7 @@ alias ll="ls -l"
 alias cat="ccat"
 alias cal="gcal"
 
-##-- Applications --##
+##-- applications --##
 # hh
 export HISTFILE=~/.zsh_history  # ensure history file visibility
 export HH_CONFIG=hicolor        # get more colors
