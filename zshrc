@@ -5,6 +5,7 @@ source ~/.zplug/init.zsh
 zplug "zsh-users/zsh-history-substring-search"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "hlissner/zsh-autopair", defer:2
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -28,11 +29,11 @@ zstyle ':completion:*' menu select
 #echo $WORDCHARS *?_-.[]~=/&;!#$%^(){}<>
 export WORDCHARS=''
 
+source ~/.zshrc.local
 ##-- alias --##
 alias vi="vim"
-alias ls="ls -G"
 alias la="ls -la"
-alias ll="ls -l"
+alias ll="ls -lh"
 
 ##-- applications --##
 # zsh-history-substring-search
@@ -45,4 +46,3 @@ bindkey '^X^F' fasd-complete-f  # C-x C-f to do fasd-complete-f (only files)
 bindkey '^X^D' fasd-complete-d  # C-x C-d to do fasd-complete-d (only directories)
 bindkey '^X^A' fasd-complete    # C-x C-a to do fasd-complete (files and directories)
 
-source ~/.zshrc.local
