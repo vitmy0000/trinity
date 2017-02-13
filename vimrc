@@ -7,22 +7,11 @@
 " Make sure you use single quotes
 call plug#begin('~/.vim/plugged')
 
-" MuComplete
 Plug 'lifepillar/vim-mucomplete'
-
-" AutoPairs
 Plug 'jiangmiao/auto-pairs'
-
-" Nerdcommenter
-Plug 'scrooloose/nerdcommenter'
-
-" Vim-surround
+Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-surround'
-
-" lightline
 Plug 'itchyny/lightline.vim'
-
-" theme
 Plug 'flazz/vim-colorschemes'
 
 " Initialize plugin system
@@ -50,8 +39,6 @@ set relativenumber
 set autowriteall
 " spell check
 set spell
-" leader
-let mapleader = "\<Space>"
 " configure backspace so it acts as it should act
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
