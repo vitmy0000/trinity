@@ -125,6 +125,8 @@ autocmd FileType cpp,scala set tabstop=2 shiftwidth=2 softtabstop=2
 " => Auto complete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set wildmenu
+" mucomplete
+set shortmess+=c
 set completeopt=menuone,noinsert,noselect
 let g:mucomplete#enable_auto_at_startup = 1
 
