@@ -16,6 +16,7 @@ Plug 'terryma/vim-expand-region'
 Plug 'haya14busa/incsearch.vim'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'morhetz/gruvbox'
+Plug 'ctrlpvim/ctrlp.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -125,9 +126,11 @@ autocmd FileType cpp,scala set tabstop=2 shiftwidth=2 softtabstop=2
 " => Auto complete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set wildmenu
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 " mucomplete
 set shortmess+=c
 set completeopt=menuone,noinsert,noselect
+let g:mucomplete#chains = { 'default': ['c-p', 'file', 'keyp'] }
 let g:mucomplete#enable_auto_at_startup = 1
 
 
@@ -153,6 +156,9 @@ map *  <Plug>(incsearch-nohl-*)
 map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
+" use ctrlp search cwd only
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_max_depth = 0
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
