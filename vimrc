@@ -43,6 +43,9 @@ set relativenumber
 set autowriteall
 " spell check
 set spell
+" wildmenu
+set wildmenu
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 " configure backspace so it acts as it should act
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
@@ -71,8 +74,6 @@ set nowrap
 set ruler
 " show typing command in status line
 set showcmd
-" show mode in status line
-set noshowmode
 " enable parentheses match
 set showmatch
 " highlight current line
@@ -86,25 +87,6 @@ colorscheme gruvbox
 let g:netrw_banner=0
 " statusline
 set laststatus=2
-" lightline
-let g:lightline = {
-    \ 'colorscheme': 'wombat',
-    \ 'active': {
-    \   'left': [ [ 'mode', 'paste', 'spell'],
-    \             [ 'readonly', 'filename', 'modified' ] ],
-    \ },
-    \ 'component': {
-    \   'readonly': '%{&readonly?"\ue0a2":""}',
-    \   'spell': '%{&spell?"SPELL":""}',
-    \ },
-    \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-    \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
-    \ }
-" vim-smooth-scroll
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
-noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
-noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -117,21 +99,6 @@ set autoindent
 set expandtab
 set smarttab
 set shiftround
-" change indent based on file type
-set tabstop=4 shiftwidth=4 softtabstop=4
-autocmd FileType cpp,scala set tabstop=2 shiftwidth=2 softtabstop=2
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Auto complete
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set wildmenu
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-" mucomplete
-set shortmess+=c
-set completeopt=menuone,noinsert,noselect
-let g:mucomplete#chains = { 'default': ['c-p', 'file', 'keyp'] }
-let g:mucomplete#enable_auto_at_startup = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -145,7 +112,18 @@ set incsearch
 set ignorecase
 " case sensitive when uppercase letter appear
 set smartcase
-" incsearch.vim
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugins
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"-- mucomplete --
+set shortmess+=c
+set completeopt=menuone,noinsert,noselect
+let g:mucomplete#chains = { 'default': ['c-p', 'file', 'keyp'] }
+let g:mucomplete#enable_auto_at_startup = 1
+
+"-- incsearch.vim --
 let g:incsearch#auto_nohlsearch = 1
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
@@ -156,9 +134,41 @@ map *  <Plug>(incsearch-nohl-*)
 map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
-" use ctrlp search cwd only
+
+"-- ctrlp --
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_max_depth = 0
+
+"-- lightline --
+" get rid of the extraneous default vim mode
+set noshowmode
+let g:lightline = {
+    \ 'colorscheme': 'wombat',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste', 'spell'],
+    \             [ 'readonly', 'filename', 'modified' ] ],
+    \ },
+    \ 'component': {
+    \   'readonly': '%{&readonly?"\ue0a2":""}',
+    \   'spell': '%{&spell?"SPELL":""}',
+    \ },
+    \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+    \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
+    \ }
+
+"-- vim-smooth-scroll --
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Lang
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" change indent based on file type
+set tabstop=4 shiftwidth=4 softtabstop=4
+autocmd FileType cpp,scala set tabstop=2 shiftwidth=2 softtabstop=2
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
