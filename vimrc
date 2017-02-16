@@ -17,6 +17,7 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'morhetz/gruvbox'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'justinmk/vim-sneak'
 
 " Initialize plugin system
 call plug#end()
@@ -143,24 +144,40 @@ let g:ctrlp_max_depth = 0
 " get rid of the extraneous default vim mode
 set noshowmode
 let g:lightline = {
-    \ 'colorscheme': 'wombat',
-    \ 'active': {
-    \   'left': [ [ 'mode', 'paste', 'spell'],
-    \             [ 'readonly', 'filename', 'modified' ] ],
-    \ },
-    \ 'component': {
-    \   'readonly': '%{&readonly?"\ue0a2":""}',
-    \   'spell': '%{&spell?"SPELL":""}',
-    \ },
-    \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-    \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
-    \ }
+            \ 'colorscheme': 'wombat',
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste', 'spell'],
+            \             [ 'readonly', 'filename', 'modified' ] ],
+            \ },
+            \ 'component': {
+            \   'readonly': '%{&readonly?"\ue0a2":""}',
+            \   'spell': '%{&spell?"SPELL":""}',
+            \ },
+            \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+            \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
+            \ }
 
 "-- vim-smooth-scroll --
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
 noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+
+"-- vim-sneak
+"replace 'f' with 1-char Sneak
+nmap f <Plug>Sneak_f
+nmap F <Plug>Sneak_F
+xmap f <Plug>Sneak_f
+xmap F <Plug>Sneak_F
+omap f <Plug>Sneak_f
+omap F <Plug>Sneak_F
+"replace 't' with 1-char Sneak
+nmap t <Plug>Sneak_t
+nmap T <Plug>Sneak_T
+xmap t <Plug>Sneak_t
+xmap T <Plug>Sneak_T
+omap t <Plug>Sneak_t
+omap T <Plug>Sneak_T
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
