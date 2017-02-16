@@ -25,6 +25,8 @@ setopt HISTIGNOREDUPS
 export HISTFILE=~/.zsh_history
 export HISTSIZE=500
 export SAVEHIST=500
+export DIRSTACKSIZE=10
+setopt autopushd pushdminus pushdsilent pushdtohome
 zstyle ':completion:*' menu select
 #echo $WORDCHARS *?_-.[]~=/&;!#$%^(){}<>
 export WORDCHARS=''
@@ -34,6 +36,7 @@ source ~/.zshrc.local
 alias vi="vim"
 alias la="ls -la"
 alias ll="ls -lh"
+alias dh="dirs -v"
 
 ##-- applications --##
 # zsh-history-substring-search
