@@ -124,8 +124,8 @@ set smartcase
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "-- mucomplete --
 set shortmess+=c
-set completeopt=menuone,noinsert,noselect
-let g:mucomplete#chains = { 'default': ['c-p', 'file', 'keyp'] }
+set completeopt=menuone,noinsert
+let g:mucomplete#chains = { 'default': ['c-n', 'file', 'keyn'] }
 let g:mucomplete#enable_auto_at_startup = 1
 
 "-- incsearch.vim --
