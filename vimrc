@@ -20,6 +20,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'justinmk/vim-sneak'
 Plug 'machakann/vim-highlightedyank'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'mhinz/vim-startify'
 
 " Initialize plugin system
 call plug#end()
@@ -186,6 +187,9 @@ omap T <Plug>Sneak_T
 "-- vim-highlightedyank --
 map y <Plug>(highlightedyank)
 
+"-- tcomment --
+let g:tcommentMapLeaderOp1 = '<Leader>c'
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Lang
@@ -230,3 +234,8 @@ function! XTermPasteBegin()
     return ""
 endfunction
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+" jump to last position when reopen
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
