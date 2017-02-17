@@ -21,6 +21,7 @@ Plug 'justinmk/vim-sneak'
 Plug 'machakann/vim-highlightedyank'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'mhinz/vim-startify'
+Plug 'nelstrom/vim-visual-star-search'
 
 " Initialize plugin system
 call plug#end()
@@ -50,9 +51,20 @@ set spell
 " wildmenu
 set wildmenu
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+" stop auto comment inserting
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+" remove trailing space when saving buffer
+autocmd BufWritePre * %s/\s\+$//e
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Keys
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " configure backspace so it acts as it should act
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
+" leader
+let mapleader = "\<Space>"
 " treat long lines as break lines (useful when moving around in them)
 nnoremap k gk
 nnoremap gk k
@@ -61,12 +73,15 @@ nnoremap gj j
 " stay visual mode after shifting
 vnoremap < <gv
 vnoremap > >gv
-" stop auto comment inserting
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-" remove trailing space when saving buffer
-autocmd BufWritePre * %s/\s\+$//e
-" leader
-let mapleader = "\<Space>"
+" Swap implementations of ` and ' jump to markers
+" By default, ' jumps to the marked line, ` jumps to the marked line and
+" column, so swap them
+nnoremap ' `
+nnoremap ` '
+" y$ -> Y Make Y behave like other capitals
+map Y y$
+" remap U to <C-r> for easier redo
+nnoremap U <C-r>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
