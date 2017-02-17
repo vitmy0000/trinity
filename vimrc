@@ -18,6 +18,8 @@ Plug 'terryma/vim-smooth-scroll'
 Plug 'morhetz/gruvbox'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'justinmk/vim-sneak'
+Plug 'machakann/vim-highlightedyank'
+Plug 'nathanaelkane/vim-indent-guides'
 
 " Initialize plugin system
 call plug#end()
@@ -62,6 +64,8 @@ vnoremap > >gv
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 " remove trailing space when saving buffer
 autocmd BufWritePre * %s/\s\+$//e
+" leader
+let mapleader = "\<Space>"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -163,7 +167,7 @@ noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
 noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
-"-- vim-sneak
+"-- vim-sneak --
 "replace 'f' with 1-char Sneak
 nmap f <Plug>Sneak_f
 nmap F <Plug>Sneak_F
@@ -178,6 +182,9 @@ xmap t <Plug>Sneak_t
 xmap T <Plug>Sneak_T
 omap t <Plug>Sneak_t
 omap T <Plug>Sneak_T
+
+"-- vim-highlightedyank --
+map y <Plug>(highlightedyank)
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
