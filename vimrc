@@ -52,14 +52,21 @@ set belloff=all
 set wildmenu
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 " save folding
-autocmd BufWinLeave *.* mkview!
-autocmd BufWinEnter *.* silent loadview
+augroup save_folding
+    autocmd!
+    autocmd BufWinLeave *.* mkview!
+    autocmd BufWinEnter *.* silent loadview
+augroup END
 " stop auto comment inserting
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+augroup disable_auto_comment
+    autocmd!
+    autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+augroup END
 " remove trailing space when saving buffer
-autocmd BufWritePre * %s/\s\+$//e
-" use tab toggole fold
-nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
+augroup remove_trailing_space
+    autocmd!
+    autocmd BufWritePre * %s/\s\+$//e
+augroup END
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -87,6 +94,8 @@ nnoremap ` '
 map Y y$
 " remap U to <C-r> for easier redo
 nnoremap U <C-r>
+" use tab toggole fold
+nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -218,7 +227,10 @@ let g:tcommentMapLeaderOp1 = '<Leader>c'
 
 "-- vim-signature --
 "close quickfix window after choosing
-autocmd FileType qf nnoremap <buffer> <CR> <CR>:lclose<CR>
+augroup close_quickfix
+    autocmd!
+    autocmd FileType qf nnoremap <buffer> <CR> <CR>:lclose<CR>
+augroup END
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -226,8 +238,11 @@ autocmd FileType qf nnoremap <buffer> <CR> <CR>:lclose<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " change indent based on file type
 set tabstop=8 shiftwidth=8 softtabstop=8
-autocmd FileType cpp,scala set tabstop=2 shiftwidth=2 softtabstop=2
-autocmd FileType python set tabstop=4 shiftwidth=4 softtabstop=4
+augroup file_indent
+    autocmd!
+    autocmd FileType cpp,scala set tabstop=2 shiftwidth=2 softtabstop=2
+    autocmd FileType python set tabstop=4 shiftwidth=4 softtabstop=4
+augroup END
 let g:mucomplete#chains = {
       \ 'default' : ['file', 'omni', 'keyn', 'dict'],
       \ 'vim'     : ['file', 'cmd', 'keyn'],
@@ -244,8 +259,8 @@ if ! has('gui_running')
     set ttimeoutlen=10
     augroup FastEscape
         autocmd!
-        au InsertEnter * set timeoutlen=0
-        au InsertLeave * set timeoutlen=2000
+        autocmd InsertEnter * set timeoutlen=0
+        autocmd InsertLeave * set timeoutlen=2000
     augroup END
 endif
 
