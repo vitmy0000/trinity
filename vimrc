@@ -27,7 +27,6 @@ Plug 'kshenoy/vim-signature'
 call plug#end()
 " }}}
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Better defaults {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -41,8 +40,6 @@ set nobackup
 set noswapfile
 " enable mouse
 set mouse=a
-" scrolloff
-set scrolloff=3
 " save on buffer switch
 set autowriteall
 " spell check
@@ -69,7 +66,6 @@ augroup remove_trailing_space
     autocmd BufWritePre * %s/\s\+$//e
 augroup END
 " }}}
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Keys  {{{
@@ -100,7 +96,6 @@ nnoremap U <C-r>
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 " }}}
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => UI {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -116,6 +111,8 @@ set ruler
 set showcmd
 " enable parentheses match
 set showmatch
+" scrolloff
+set scrolloff=3
 " highlight current line
 set cursorline
 " highlight column at 80
@@ -133,9 +130,8 @@ set foldlevelstart=1
 set foldopen-=search
 " }}}
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Indent {{{
+" => Indent and search {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " smart indent
 set smartindent
@@ -144,12 +140,6 @@ set autoindent
 set expandtab
 set smarttab
 set shiftround
-" }}}
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Search {{{
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " highlight search
 set hlsearch
 " incremental search
@@ -159,7 +149,6 @@ set ignorecase
 " case sensitive when uppercase letter appear
 set smartcase
 " }}}
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins {{{
@@ -250,7 +239,6 @@ augroup END
 
 " }}}
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Lang {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -271,7 +259,6 @@ let g:mucomplete#chains = {
       \ 'python'  : ['file', 'keyn'],
       \ }
 " }}}
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Extra functionality {{{
@@ -309,3 +296,10 @@ function! XTermPasteBegin()
 endfunction
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 " }}}
+
+" TODO {{{
+" ctrlp: file, grep, mru, buffer, mark, register, snippet,
+" tagbar, ale, youcompleteme
+" vim, python, c++, scala, java
+" }}}
+
