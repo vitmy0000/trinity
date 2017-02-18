@@ -20,8 +20,8 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'justinmk/vim-sneak'
 Plug 'machakann/vim-highlightedyank'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'mhinz/vim-startify'
 Plug 'nelstrom/vim-visual-star-search'
+Plug 'kshenoy/vim-signature'
 
 " Initialize plugin system
 call plug#end()
@@ -42,8 +42,6 @@ set noswapfile
 set mouse=a
 " scrolloff
 set scrolloff=8
-" use relative line number by default
-set relativenumber
 " save on buffer switch
 set autowriteall
 " spell check
@@ -51,10 +49,15 @@ set spell
 " wildmenu
 set wildmenu
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+" save folding
+autocmd BufWinLeave *.* mkview!
+autocmd BufWinEnter *.* silent loadview
 " stop auto comment inserting
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 " remove trailing space when saving buffer
 autocmd BufWritePre * %s/\s\+$//e
+" use tab toggole fold
+nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -89,6 +92,8 @@ nnoremap U <C-r>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " show line number
 set number
+" use relative line number
+set relativenumber
 " do not wrap line
 set nowrap
 " show line and column number
@@ -108,6 +113,8 @@ colorscheme gruvbox
 let g:netrw_banner=0
 " statusline
 set laststatus=2
+" foldcolumn
+set foldcolumn=2
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -141,7 +148,6 @@ set smartcase
 "-- mucomplete --
 set shortmess+=c
 set completeopt=menuone,noinsert
-let g:mucomplete#chains = { 'default': ['c-n', 'file', 'keyn'] }
 let g:mucomplete#enable_auto_at_startup = 1
 
 "-- incsearch.vim --
@@ -205,6 +211,10 @@ map y <Plug>(highlightedyank)
 "-- tcomment --
 let g:tcommentMapLeaderOp1 = '<Leader>c'
 
+"-- vim-signature --
+"close quickfix window after choosing
+autocmd FileType qf nnoremap <buffer> <CR> <CR>:lclose<CR>
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Lang
@@ -250,7 +260,3 @@ function! XTermPasteBegin()
 endfunction
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
-" jump to last position when reopen
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
