@@ -1,5 +1,5 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => vim-plug
+" => vim-plug {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 " :PlugInstall
@@ -25,10 +25,11 @@ Plug 'kshenoy/vim-signature'
 
 " Initialize plugin system
 call plug#end()
+" }}}
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Better defaults
+" => Better defaults {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " encoding
 set encoding=utf-8
@@ -67,10 +68,11 @@ augroup remove_trailing_space
     autocmd!
     autocmd BufWritePre * %s/\s\+$//e
 augroup END
+" }}}
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Keys
+" => Keys  {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " configure backspace so it acts as it should act
 set backspace=eol,start,indent
@@ -96,10 +98,11 @@ map Y y$
 nnoremap U <C-r>
 " use tab toggole fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
+" }}}
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => UI
+" => UI {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " show line number
 set number
@@ -127,10 +130,11 @@ set laststatus=2
 " fold
 set foldcolumn=3
 set foldlevelstart=1
+" }}}
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Indent
+" => Indent {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " smart indent
 set smartindent
@@ -139,10 +143,11 @@ set autoindent
 set expandtab
 set smarttab
 set shiftround
+" }}}
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Search
+" => Search {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " highlight search
 set hlsearch
@@ -152,18 +157,20 @@ set incsearch
 set ignorecase
 " case sensitive when uppercase letter appear
 set smartcase
+" }}}
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugins
+" => Plugins {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"-- mucomplete --
+"-- mucomplete -- {{{
 set shortmess+=c
 set complete-=t
 set completeopt=menuone,noinsert
 let g:mucomplete#enable_auto_at_startup = 1
+" }}}
 
-"-- incsearch.vim --
+"-- incsearch.vim -- {{{
 let g:incsearch#auto_nohlsearch = 1
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
@@ -174,12 +181,14 @@ map *  <Plug>(incsearch-nohl-*)
 map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
+" }}}
 
-"-- ctrlp --
+"-- ctrlp -- {{{
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_max_depth = 0
+" }}}
 
-"-- lightline --
+"-- lightline -- {{{
 " get rid of the extraneous default vim mode
 set noshowmode
 let g:lightline = {
@@ -195,14 +204,16 @@ let g:lightline = {
             \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
             \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
             \ }
+" }}}
 
-"-- vim-smooth-scroll --
+"-- vim-smooth-scroll -- {{{
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
 noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+" }}}
 
-"-- vim-sneak --
+"-- vim-sneak -- {{{
 let g:sneak#label = 1
 "replace 'f' with 1-char Sneak
 nmap f <Plug>Sneak_f
@@ -218,41 +229,52 @@ xmap t <Plug>Sneak_t
 xmap T <Plug>Sneak_T
 omap t <Plug>Sneak_t
 omap T <Plug>Sneak_T
+" }}}
 
-"-- vim-highlightedyank --
+"-- vim-highlightedyank -- {{{
 map y <Plug>(highlightedyank)
+" }}}
 
-"-- tcomment --
+"-- tcomment -- {{{
 let g:tcommentMapLeaderOp1 = '<Leader>c'
+" }}}
 
-"-- vim-signature --
+"-- vim-signature -- {{{
 "close quickfix window after choosing
 augroup close_quickfix
     autocmd!
     autocmd FileType qf nnoremap <buffer> <CR> <CR>:lclose<CR>
 augroup END
+" }}}
+
+" }}}
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Lang
+" => Lang {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " change indent based on file type
 set tabstop=8 shiftwidth=8 softtabstop=8
 augroup file_indent
     autocmd!
     autocmd FileType cpp,scala set tabstop=2 shiftwidth=2 softtabstop=2
-    autocmd FileType python set tabstop=4 shiftwidth=4 softtabstop=4
+    autocmd FileType python,vim set tabstop=4 shiftwidth=4 softtabstop=4
+augroup END
+augroup file_fold
+    autocmd!
+    autocmd FileType vim set foldmethod=marker
 augroup END
 let g:mucomplete#chains = {
       \ 'default' : ['file', 'omni', 'keyn', 'dict'],
       \ 'vim'     : ['file', 'cmd', 'keyn'],
       \ 'python'  : ['file', 'keyn'],
       \ }
+" }}}
 
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Extra functionality
+" => Extra functionality {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " leave insert mode quickly
 if ! has('gui_running')
@@ -286,4 +308,4 @@ function! XTermPasteBegin()
     return ""
 endfunction
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
-
+" }}}
