@@ -130,6 +130,7 @@ set laststatus=2
 " fold
 set foldcolumn=3
 set foldlevelstart=1
+set foldopen-=search
 " }}}
 
 
@@ -270,7 +271,6 @@ let g:mucomplete#chains = {
       \ 'python'  : ['file', 'keyn'],
       \ }
 " }}}
-
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
