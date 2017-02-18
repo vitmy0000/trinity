@@ -21,7 +21,6 @@ Plug 'justinmk/vim-sneak'
 Plug 'machakann/vim-highlightedyank'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'nelstrom/vim-visual-star-search'
-Plug 'kshenoy/vim-signature'
 
 " Initialize plugin system
 call plug#end()
@@ -127,7 +126,7 @@ set laststatus=2
 " fold
 set foldcolumn=3
 set foldlevelstart=1
-set foldopen-=search
+set foldopen-=search foldopen-=mark
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -229,14 +228,6 @@ map y <Plug>(highlightedyank)
 let g:tcommentMapLeaderOp1 = '<Leader>c'
 " }}}
 
-"-- vim-signature -- {{{
-"close quickfix window after choosing
-augroup close_quickfix
-    autocmd!
-    autocmd FileType qf nnoremap <buffer> <CR> <CR>:lclose<CR>
-augroup END
-" }}}
-
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -299,7 +290,7 @@ inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 " TODO {{{
 " ctrlp: file, grep, mru, buffer, mark, register, snippet,
-" tagbar, ale, youcompleteme
+" tagbar, ale, youcompleteme, target.vim
 " vim, python, c++, scala, java
 " }}}
 
