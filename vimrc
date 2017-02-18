@@ -41,7 +41,7 @@ set noswapfile
 " enable mouse
 set mouse=a
 " scrolloff
-set scrolloff=8
+set scrolloff=3
 " save on buffer switch
 set autowriteall
 " spell check
