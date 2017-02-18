@@ -46,6 +46,8 @@ set scrolloff=8
 set autowriteall
 " spell check
 set spell
+" no bell
+set belloff=all
 " wildmenu
 set wildmenu
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
@@ -113,8 +115,9 @@ colorscheme gruvbox
 let g:netrw_banner=0
 " statusline
 set laststatus=2
-" foldcolumn
-set foldcolumn=2
+" fold
+set foldcolumn=3
+set foldlevelstart=1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -147,6 +150,7 @@ set smartcase
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "-- mucomplete --
 set shortmess+=c
+set complete-=t
 set completeopt=menuone,noinsert
 let g:mucomplete#enable_auto_at_startup = 1
 
@@ -220,8 +224,15 @@ autocmd FileType qf nnoremap <buffer> <CR> <CR>:lclose<CR>
 " => Lang
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " change indent based on file type
-set tabstop=4 shiftwidth=4 softtabstop=4
+set tabstop=8 shiftwidth=8 softtabstop=8
 autocmd FileType cpp,scala set tabstop=2 shiftwidth=2 softtabstop=2
+autocmd FileType python set tabstop=4 shiftwidth=4 softtabstop=4
+let g:mucomplete#chains = {
+      \ 'default' : ['file', 'omni', 'keyn', 'dict'],
+      \ 'vim'     : ['file', 'cmd', 'keyn'],
+      \ 'python'  : ['file', 'keyn'],
+      \ }
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
