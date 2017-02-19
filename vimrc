@@ -91,7 +91,7 @@ nnoremap ` '
 map Y y$
 " remap U to <C-r> for easier redo
 nnoremap U <C-r>
-" use tab toggole fold
+" use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 " }}}
 
