@@ -116,6 +116,8 @@ set scrolloff=3
 set cursorline
 " highlight column at 80
 set colorcolumn=80
+" invisible character
+set listchars=tab:▸\ ,eol:¬,space:·
 " theme
 set background=dark
 colorscheme gruvbox
@@ -233,16 +235,16 @@ let g:tcommentMapLeaderOp1 = '<Leader>c'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Lang {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" change indent based on file type
-set tabstop=8 shiftwidth=8 softtabstop=8
-augroup file_indent
+" vim
+augroup file_vim
     autocmd!
-    autocmd FileType cpp,scala set tabstop=2 shiftwidth=2 softtabstop=2
-    autocmd FileType python,vim set tabstop=4 shiftwidth=4 softtabstop=4
-augroup END
-augroup file_fold
-    autocmd!
+    autocmd FileType vim set tabstop=4 shiftwidth=4 softtabstop=4
     autocmd FileType vim set foldmethod=marker
+augroup END
+" python
+augroup file_python
+    autocmd!
+    autocmd FileType python set tabstop=4 shiftwidth=4 softtabstop=4
 augroup END
 let g:mucomplete#chains = {
       \ 'default' : ['file', 'omni', 'keyn', 'dict'],
