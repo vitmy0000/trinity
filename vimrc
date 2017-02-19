@@ -21,6 +21,7 @@ Plug 'justinmk/vim-sneak'
 Plug 'machakann/vim-highlightedyank'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'nelstrom/vim-visual-star-search'
+Plug 'mhinz/vim-signify'
 
 " Initialize plugin system
 call plug#end()
