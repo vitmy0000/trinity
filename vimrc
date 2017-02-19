@@ -8,19 +8,18 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'lifepillar/vim-mucomplete'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-surround'
-Plug 'itchyny/lightline.vim'
-Plug 'terryma/vim-expand-region'
-Plug 'haya14busa/incsearch.vim'
-Plug 'terryma/vim-smooth-scroll'
-Plug 'morhetz/gruvbox'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'justinmk/vim-sneak'
-Plug 'machakann/vim-highlightedyank'
-Plug 'nathanaelkane/vim-indent-guides'
+Plug 'terryma/vim-expand-region'
 Plug 'nelstrom/vim-visual-star-search'
+Plug 'morhetz/gruvbox'
+Plug 'itchyny/lightline.vim'
+Plug 'terryma/vim-smooth-scroll'
+Plug 'haya14busa/incsearch.vim'
+Plug 'machakann/vim-highlightedyank'
 Plug 'mhinz/vim-signify'
 
 " Initialize plugin system
