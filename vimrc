@@ -1,3 +1,8 @@
+if isdirectory(@%)
+    echo "dir"
+else
+    echo "file"
+endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-plug {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -7,8 +12,13 @@
 " Make sure you use single quotes
 call plug#begin('~/.vim/plugged')
 
-Plug 'lifepillar/vim-mucomplete'
+Plug 'Valloric/YouCompleteMe'
+Plug 'Chiel92/vim-autoformat'
+Plug 'majutsushi/tagbar'
+Plug 'w0rp/ale'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-surround'
@@ -20,11 +30,14 @@ Plug 'itchyny/lightline.vim'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'haya14busa/incsearch.vim'
 Plug 'machakann/vim-highlightedyank'
-Plug 'mhinz/vim-signify'
+if !&diff
+    Plug 'mhinz/vim-signify'
+endif
 
 " Initialize plugin system
 call plug#end()
 " }}}
+let python_highlight_all = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Better defaults {{{
@@ -48,12 +61,6 @@ set belloff=all
 " wildmenu
 set wildmenu
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-" save folding
-augroup save_folding
-    autocmd!
-    autocmd BufWinLeave *.* mkview!
-    autocmd BufWinEnter *.* silent loadview
-augroup END
 " stop auto comment inserting
 augroup disable_auto_comment
     autocmd!
@@ -89,8 +96,10 @@ nnoremap ' `
 nnoremap ` '
 " y$ -> Y Make Y behave like other capitals
 map Y y$
-" remap U to <C-r> for easier redo
-nnoremap U <C-r>
+" vertical help
+cnoreabbrev H vert h
+" quick save
+noremap <Leader>s :update<CR>
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 " }}}
@@ -127,7 +136,6 @@ let g:netrw_banner=0
 set laststatus=2
 " fold
 set foldcolumn=3
-set foldlevelstart=1
 set foldopen-=search foldopen-=mark
 " }}}
 
@@ -154,11 +162,16 @@ set smartcase
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set updatetime=500
+"-- ale -- {{{
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 0
+" }}}
+
 "-- mucomplete -- {{{
 set shortmess+=c
-set complete-=t
 set completeopt=menuone,noinsert
-let g:mucomplete#enable_auto_at_startup = 1
+" let g:mucomplete#enable_auto_at_startup = 1
 " }}}
 
 "-- incsearch.vim -- {{{
@@ -246,12 +259,9 @@ augroup file_python
     autocmd!
     autocmd FileType python set tabstop=4 shiftwidth=4 softtabstop=4
 augroup END
-let g:mucomplete#chains = {
-      \ 'default' : ['file', 'omni', 'keyn', 'dict'],
-      \ 'vim'     : ['file', 'cmd', 'keyn'],
-      \ 'python'  : ['file', 'keyn'],
-      \ }
-" }}}
+let g:ale_linters = {
+            \   'python': ['pylint'],
+            \}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Extra functionality {{{
@@ -288,6 +298,11 @@ function! XTermPasteBegin()
     return ""
 endfunction
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal! g'\"" | endif
+endif
 " }}}
 
 " TODO {{{
