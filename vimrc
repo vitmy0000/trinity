@@ -18,8 +18,8 @@ call plug#begin('~/.vim/plugged')
 
 if !&diff
     Plug 'mhinz/vim-signify'
-    Plug 'Valloric/YouCompleteMe', {'do': './install.py', 'for': 'python'}
-    Plug 'lifepillar/vim-mucomplete', {'for': 'vim'}
+    Plug 'lifepillar/vim-mucomplete'
+    Plug 'davidhalter/jedi-vim'
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
     Plug 'Chiel92/vim-autoformat'
@@ -71,6 +71,8 @@ set wildmenu
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 " timeout to send CursorHold
 set updatetime=500
+" change dir based on editing file
+set autochdir
 " stop auto comment inserting
 augroup disable_auto_comment
     autocmd!
@@ -259,40 +261,18 @@ map y <Plug>(highlightedyank)
 
 "-- mucomplete -- {{{
 set shortmess+=c
+set complete-=t
 set completeopt=menuone,noinsert
 let g:mucomplete#enable_auto_at_startup = 1
+" add trigger path
+let g:mucomplete#trigger_auto_pattern = { 'default' : '\k\k$\|[\.\w]/$' }
 let g:mucomplete#chains = {
-            \ 'default' : ['file', 'omni', 'keyn', 'dict'],
-            \ 'vim'     : ['file', 'cmd', 'keyn']
+            \ 'vim'     : ['file', 'cmd', 'keyn'],
+            \ 'python'  : ['file', 'ulti', 'omni', 'keyn'],
             \ }
+" better quit complete
+inoremap <expr> <ESC> pumvisible() ? "\<ESC>a" : "\<ESC>"
 " }}}
-
-"-- YCM -- {{{
-" avoid conflict with <tab> in UtilSnips
-let g:ycm_key_list_select_completion = ['<Down>']
-let g:ycm_key_list_previous_completion = ['<Up>']
-let g:ycm_complete_in_comments = 1
-let g:ycm_complete_in_strings = 1
-let g:ycm_use_ultisnips_completer = 1
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_allow_changing_updatetime = 0
-let g:ycm_filetype_whitelist = {
-            \'python': 1,
-            \}
-let g:ycm_filetype_blacklist = {
-            \ 'tagbar' : 1,
-            \ 'qf' : 1,
-            \ 'notes' : 1,
-            \ 'markdown' : 1,
-            \ 'unite' : 1,
-            \ 'text' : 1,
-            \ 'vimwiki' : 1,
-            \ 'pandoc' : 1,
-            \ 'infolog' : 1,
-            \ 'mail' : 1
-            \}
 
 " }}}
 
