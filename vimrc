@@ -1,8 +1,12 @@
-if isdirectory(@%)
-    echo "dir"
-else
-    echo "file"
-endif
+" if isdirectory(@%)
+"     echo "dir"
+" else
+"     echo "file"
+" endif
+" note
+" ymc
+" python formatter: yapf
+" python lint: pylint
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-plug {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -12,38 +16,41 @@ endif
 " Make sure you use single quotes
 call plug#begin('~/.vim/plugged')
 
-Plug 'Valloric/YouCompleteMe'
-Plug 'Chiel92/vim-autoformat'
-Plug 'majutsushi/tagbar'
-Plug 'w0rp/ale'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'jiangmiao/auto-pairs'
-Plug 'tomtom/tcomment_vim'
-Plug 'tpope/vim-surround'
-Plug 'justinmk/vim-sneak'
-Plug 'terryma/vim-expand-region'
-Plug 'nelstrom/vim-visual-star-search'
+if !&diff
+    Plug 'mhinz/vim-signify'
+    Plug 'Valloric/YouCompleteMe', {'do': './install.py', 'for': 'python'}
+    Plug 'lifepillar/vim-mucomplete', {'for': 'vim'}
+    Plug 'SirVer/ultisnips'
+    Plug 'Chiel92/vim-autoformat'
+    Plug 'majutsushi/tagbar'
+    Plug 'mileszs/ack.vim'
+    Plug 'w0rp/ale'
+    Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'scrooloose/nerdtree'
+    Plug 'Xuyuanp/nerdtree-git-plugin'
+    Plug 'jiangmiao/auto-pairs'
+    Plug 'tomtom/tcomment_vim'
+    Plug 'tpope/vim-surround'
+    Plug 'justinmk/vim-sneak'
+    Plug 'terryma/vim-expand-region'
+    Plug 'nelstrom/vim-visual-star-search'
+    Plug 'haya14busa/incsearch.vim'
+    Plug 'machakann/vim-highlightedyank'
+endif
 Plug 'morhetz/gruvbox'
 Plug 'itchyny/lightline.vim'
 Plug 'terryma/vim-smooth-scroll'
-Plug 'haya14busa/incsearch.vim'
-Plug 'machakann/vim-highlightedyank'
-if !&diff
-    Plug 'mhinz/vim-signify'
-endif
 
 " Initialize plugin system
 call plug#end()
 " }}}
-let python_highlight_all = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Better defaults {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " encoding
 set encoding=utf-8
+scriptencoding utf-8
 " reload after external modification
 set autoread
 " cancel backup
@@ -80,7 +87,7 @@ augroup END
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
 " leader
-let mapleader = "\<Space>"
+let g:mapleader = "\<Space>"
 " treat long lines as break lines (useful when moving around in them)
 nnoremap k gk
 nnoremap gk k
@@ -100,6 +107,16 @@ map Y y$
 cnoreabbrev H vert h
 " quick save
 noremap <Leader>s :update<CR>
+" quick quit
+noremap <Leader>q :quit<CR>
+" tagbar
+noremap <Leader>t :TagbarToggle<CR>
+" nerdtree
+noremap <Leader>n :NERDTreeToggle<CR>
+" autoformat
+noremap <Leader>f :Autoformat<CR>
+" comment
+let g:tcommentMapLeaderOp1 = '<Leader>c'
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 " }}}
@@ -135,7 +152,6 @@ let g:netrw_banner=0
 " statusline
 set laststatus=2
 " fold
-set foldcolumn=3
 set foldopen-=search foldopen-=mark
 " }}}
 
@@ -162,7 +178,10 @@ set smartcase
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"-- tagbar -- {{{
 set updatetime=500
+" }}}
+
 "-- ale -- {{{
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
@@ -171,8 +190,13 @@ let g:ale_lint_on_text_changed = 0
 "-- mucomplete -- {{{
 set shortmess+=c
 set completeopt=menuone,noinsert
-" let g:mucomplete#enable_auto_at_startup = 1
+let g:mucomplete#enable_auto_at_startup = 1
+let g:mucomplete#chains = {
+            \ 'default' : ['file', 'omni', 'keyn', 'dict'],
+            \ 'vim'     : ['file', 'cmd', 'keyn']
+            \ }
 " }}}
+
 
 "-- incsearch.vim -- {{{
 let g:incsearch#auto_nohlsearch = 1
@@ -219,6 +243,11 @@ noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
 "-- vim-sneak -- {{{
 let g:sneak#label = 1
+" resolve sneak surround mangle
+xmap a <Plug>VSurround
+augroup surround_remap_S
+    autocmd VimEnter * xmap S <Plug>SneakLabel_S
+augroup END
 "replace 'f' with 1-char Sneak
 nmap f <Plug>Sneak_f
 nmap F <Plug>Sneak_F
@@ -239,10 +268,6 @@ omap T <Plug>Sneak_T
 map y <Plug>(highlightedyank)
 " }}}
 
-"-- tcomment -- {{{
-let g:tcommentMapLeaderOp1 = '<Leader>c'
-" }}}
-
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -251,17 +276,21 @@ let g:tcommentMapLeaderOp1 = '<Leader>c'
 " vim
 augroup file_vim
     autocmd!
-    autocmd FileType vim set tabstop=4 shiftwidth=4 softtabstop=4
-    autocmd FileType vim set foldmethod=marker
+    autocmd FileType vim setlocal tabstop=4 shiftwidth=4 softtabstop=4
+    autocmd FileType vim setlocal foldmethod=marker foldcolumn=3 foldlevel=20
 augroup END
 " python
 augroup file_python
     autocmd!
-    autocmd FileType python set tabstop=4 shiftwidth=4 softtabstop=4
+    autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
+    autocmd FileType python let python_highlight_all = 1
 augroup END
 let g:ale_linters = {
             \   'python': ['pylint'],
+            \   'vim'   : ['vint'],
             \}
+let g:formatters_python = ['yapf']
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Extra functionality {{{
@@ -272,7 +301,7 @@ if ! has('gui_running')
     augroup FastEscape
         autocmd!
         autocmd InsertEnter * set timeoutlen=0
-        autocmd InsertLeave * set timeoutlen=2000
+        autocmd InsertLeave * set timeoutlen=3000
     augroup END
 endif
 
@@ -286,28 +315,24 @@ function! WrapForTmux(s)
     if !exists('$TMUX')
         return a:s
     endif
-    let tmux_start = "\<Esc>Ptmux;"
-    let tmux_end = "\<Esc>\\"
-    return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
+    let l:tmux_start = "\<Esc>Ptmux;"
+    let l:tmux_end = "\<Esc>\\"
+    return l:tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . l:tmux_end
 endfunction
 let &t_SI .= WrapForTmux("\<Esc>[?2004h")
 let &t_EI .= WrapForTmux("\<Esc>[?2004l")
 function! XTermPasteBegin()
     set pastetoggle=<Esc>[201~
     set paste
-    return ""
+    return ''
 endfunction
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-    \| exe "normal! g'\"" | endif
-endif
+" jump to last postion when reopen
+augroup last_position
+    autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+augroup END
 " }}}
 
-" TODO {{{
-" ctrlp: file, grep, mru, buffer, mark, register, snippet,
-" tagbar, ale, youcompleteme, target.vim
-" vim, python, c++, scala, java
-" }}}
+
 
