@@ -21,6 +21,7 @@ if !&diff
     Plug 'Valloric/YouCompleteMe', {'do': './install.py', 'for': 'python'}
     Plug 'lifepillar/vim-mucomplete', {'for': 'vim'}
     Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
     Plug 'Chiel92/vim-autoformat'
     Plug 'majutsushi/tagbar'
     Plug 'mileszs/ack.vim'
@@ -68,6 +69,8 @@ set belloff=all
 " wildmenu
 set wildmenu
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+" timeout to send CursorHold
+set updatetime=500
 " stop auto comment inserting
 augroup disable_auto_comment
     autocmd!
@@ -104,7 +107,7 @@ nnoremap ` '
 " y$ -> Y Make Y behave like other capitals
 map Y y$
 " vertical help
-cnoreabbrev H vert h
+cnoreabbrev vh vert h
 " quick save
 noremap <Leader>s :update<CR>
 " quick quit
@@ -178,23 +181,9 @@ set smartcase
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"-- tagbar -- {{{
-set updatetime=500
-" }}}
-
 "-- ale -- {{{
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
-" }}}
-
-"-- mucomplete -- {{{
-set shortmess+=c
-set completeopt=menuone,noinsert
-let g:mucomplete#enable_auto_at_startup = 1
-let g:mucomplete#chains = {
-            \ 'default' : ['file', 'omni', 'keyn', 'dict'],
-            \ 'vim'     : ['file', 'cmd', 'keyn']
-            \ }
 " }}}
 
 
@@ -268,6 +257,53 @@ omap T <Plug>Sneak_T
 map y <Plug>(highlightedyank)
 " }}}
 
+"-- mucomplete -- {{{
+set shortmess+=c
+set completeopt=menuone,noinsert
+let g:mucomplete#enable_auto_at_startup = 1
+let g:mucomplete#chains = {
+            \ 'default' : ['file', 'omni', 'keyn', 'dict'],
+            \ 'vim'     : ['file', 'cmd', 'keyn']
+            \ }
+" }}}
+
+"-- YCM -- {{{
+" avoid conflict with <tab> in UtilSnips
+let g:ycm_key_list_select_completion = ['<Down>']
+let g:ycm_key_list_previous_completion = ['<Up>']
+let g:ycm_complete_in_comments = 1
+let g:ycm_complete_in_strings = 1
+let g:ycm_use_ultisnips_completer = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_allow_changing_updatetime = 0
+let g:ycm_filetype_whitelist = {
+            \'python': 1,
+            \}
+let g:ycm_filetype_blacklist = {
+            \ 'tagbar' : 1,
+            \ 'qf' : 1,
+            \ 'notes' : 1,
+            \ 'markdown' : 1,
+            \ 'unite' : 1,
+            \ 'text' : 1,
+            \ 'vimwiki' : 1,
+            \ 'pandoc' : 1,
+            \ 'infolog' : 1,
+            \ 'mail' : 1
+            \}
+
+" }}}
+
+"-- ultisnips -- {{{
+let g:UltiSnipsExpandTrigger       = "<tab>"
+let g:UltiSnipsJumpForwardTrigger  = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
+let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+" }}}
+
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -284,7 +320,9 @@ augroup file_python
     autocmd!
     autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
     autocmd FileType python let python_highlight_all = 1
+    autocmd FileType python let g:ycm_python_binary_path = 'python'
 augroup END
+
 let g:ale_linters = {
             \   'python': ['pylint'],
             \   'vim'   : ['vint'],
