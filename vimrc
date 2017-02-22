@@ -32,6 +32,7 @@ if !&diff
     Plug 'jiangmiao/auto-pairs'
     Plug 'tomtom/tcomment_vim'
     Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-repeat'
     Plug 'justinmk/vim-sneak'
     Plug 'terryma/vim-expand-region'
     Plug 'nelstrom/vim-visual-star-search'
@@ -234,6 +235,7 @@ noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
 "-- vim-sneak -- {{{
 let g:sneak#label = 1
+let g:sneak#use_ic_scs = 1
 " resolve sneak surround mangle
 xmap a <Plug>VSurround
 augroup surround_remap_S
@@ -270,16 +272,16 @@ let g:mucomplete#chains = {
             \ 'vim'     : ['file', 'cmd', 'keyn'],
             \ 'python'  : ['file', 'ulti', 'omni', 'keyn'],
             \ }
-" better quit complete
-inoremap <expr> <ESC> pumvisible() ? "\<ESC>a" : "\<ESC>"
 " }}}
 
+"-- jedi-vim -- {{{
+let g:jedi#show_call_signatures = 2
 " }}}
 
 "-- ultisnips -- {{{
-let g:UltiSnipsExpandTrigger       = "<tab>"
-let g:UltiSnipsJumpForwardTrigger  = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsExpandTrigger       = '<tab>'
+let g:UltiSnipsJumpForwardTrigger  = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
 let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
 " }}}
@@ -350,7 +352,6 @@ inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 augroup last_position
     autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 augroup END
+
 " }}}
-
-
 

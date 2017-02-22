@@ -34,6 +34,7 @@ export WORDCHARS=''
 source ~/.zshrc.local
 ##-- alias --##
 alias vi="vim"
+alias view="vim -R"
 alias la="ls -la"
 alias ll="ls -lh"
 alias dh="dirs -v"
