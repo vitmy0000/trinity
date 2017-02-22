@@ -1,12 +1,3 @@
-" if isdirectory(@%)
-"     echo "dir"
-" else
-"     echo "file"
-" endif
-" note
-" ymc
-" python formatter: yapf
-" python lint: pylint
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-plug {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -38,9 +29,9 @@ if !&diff
     Plug 'nelstrom/vim-visual-star-search'
     Plug 'haya14busa/incsearch.vim'
     Plug 'machakann/vim-highlightedyank'
+    Plug 'itchyny/lightline.vim'
 endif
 Plug 'morhetz/gruvbox'
-Plug 'itchyny/lightline.vim'
 Plug 'terryma/vim-smooth-scroll'
 
 " Initialize plugin system
@@ -189,7 +180,6 @@ let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 " }}}
 
-
 "-- incsearch.vim -- {{{
 let g:incsearch#auto_nohlsearch = 1
 map /  <Plug>(incsearch-forward)
@@ -205,21 +195,41 @@ map g# <Plug>(incsearch-nohl-g#)
 
 "-- ctrlp -- {{{
 let g:ctrlp_show_hidden = 1
-let g:ctrlp_max_depth = 0
+let g:ctrlp_working_path_mode = 0
+if isdirectory(@%)
+    "dir
+    let g:ctrlp_cmd = 'CtrlP '.getcwd()
+    echom 'OK, set project root: '.getcwd()
+else
+    "file
+    let g:ctrlp_max_depth = 0
+endif
+" }}}
+
+"-- signify -- {{{
+let g:signify_sign_show_count = 0
+let g:signify_sign_change = '*'
 " }}}
 
 "-- lightline -- {{{
 " get rid of the extraneous default vim mode
 set noshowmode
+let g:ale_sign_error = 'X'
+let g:ale_sign_warning = '!'
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:lightline = {
             \ 'colorscheme': 'wombat',
             \ 'active': {
             \   'left': [ [ 'mode', 'paste', 'spell'],
-            \             [ 'readonly', 'filename', 'modified' ] ],
+            \             [ 'readonly', 'filename', 'modified', 'syntax'] ],
             \ },
             \ 'component': {
             \   'readonly': '%{&readonly?"\ue0a2":""}',
             \   'spell': '%{&spell?"SPELL":""}',
+            \   'syntax': '%{ALEGetStatusLine()}',
             \ },
             \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
             \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
