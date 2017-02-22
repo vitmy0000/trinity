@@ -1,3 +1,13 @@
+" note {{{
+" waiting:
+"   * jedi vim duplicate signature
+"     https://github.com/davidhalter/jedi-vim/pull/349
+" todo:
+"   * keymapping in insert mode mimic emacs ?
+"   * ycm for c-family
+"   * completion may slow down typing, define a way to toggle off
+" }}}
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-plug {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -211,6 +221,12 @@ let g:signify_sign_show_count = 0
 let g:signify_sign_change = '*'
 " }}}
 
+"-- ack -- {{{
+" stop jump to the first result automatically
+cnoreabbrev Ack Ack!
+nnoremap <Leader>a :Ack!<Space>
+" }}}
+
 "-- lightline -- {{{
 " get rid of the extraneous default vim mode
 set noshowmode
@@ -320,7 +336,6 @@ let g:ale_linters = {
             \   'vim'   : ['vint'],
             \}
 let g:formatters_python = ['yapf']
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Extra functionality {{{
