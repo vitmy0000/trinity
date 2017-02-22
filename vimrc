@@ -37,7 +37,6 @@ if !&diff
     Plug 'justinmk/vim-sneak'
     Plug 'terryma/vim-expand-region'
     Plug 'nelstrom/vim-visual-star-search'
-    Plug 'haya14busa/incsearch.vim'
     Plug 'machakann/vim-highlightedyank'
     Plug 'itchyny/lightline.vim'
 endif
@@ -122,6 +121,8 @@ noremap <Leader>t :TagbarToggle<CR>
 noremap <Leader>n :NERDTreeToggle<CR>
 " autoformat
 noremap <Leader>f :Autoformat<CR>
+" esc to turn off search highlight
+nnoremap <silent> <Leader>/ :let @/=''<CR>
 " comment
 let g:tcommentMapLeaderOp1 = '<Leader>c'
 " use tab toggle fold
@@ -190,19 +191,6 @@ let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 " }}}
 
-"-- incsearch.vim -- {{{
-let g:incsearch#auto_nohlsearch = 1
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
-map *  <Plug>(incsearch-nohl-*)
-map #  <Plug>(incsearch-nohl-#)
-map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)
-" }}}
-
 "-- ctrlp -- {{{
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_working_path_mode = 0
@@ -223,8 +211,7 @@ let g:signify_sign_change = '*'
 
 "-- ack -- {{{
 " stop jump to the first result automatically
-cnoreabbrev Ack Ack!
-nnoremap <Leader>a :Ack!<Space>
+cnoreabbrev ack Ack!
 " }}}
 
 "-- lightline -- {{{
