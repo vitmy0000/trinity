@@ -30,6 +30,8 @@ setopt autopushd pushdminus pushdsilent pushdtohome
 zstyle ':completion:*' menu select
 #echo $WORDCHARS *?_-.[]~=/&;!#$%^(){}<>
 export WORDCHARS=''
+# consistent ctrl-u behaviour
+bindkey \^U backward-kill-line
 
 source ~/.zshrc.local
 ##-- alias --##

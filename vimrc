@@ -131,22 +131,22 @@ nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 " star search
 nnoremap * g*
 nnoremap # g#
-" fix meta-keys which generate <Esc>a .. <Esc>z
-let g:m_char='a'
-while g:m_char <=# 'z'
-  exec 'set <M-'.toupper(g:m_char).">=\<ESC>".g:m_char
-  exec "imap \<ESC>".g:m_char.' <M-'.toupper(g:m_char).'>'
-  let g:m_char = nr2char(1 + char2nr(g:m_char))
-endw
-" emacs mapping in insert mode
-noremap! <C-E>  <C-O>$
-noremap! <C-A>  <C-O>0
-noremap! <M-B>  <S-left>
-noremap! <M-F>  <S-right>
-noremap! <C-D>  <C-O>x
-noremap! <M-D>  <C-O>de
-noremap! <C-K>  <C-O>D
-noremap! <C-U>  <C-O>d0
+" emacs key mappings
+inoremap <C-E> <C-O>$
+inoremap <C-A> <C-O>0
+cnoremap <C-E> <C-E>
+cnoremap <C-A> <C-B>
+noremap! <ESC>f <s-right>
+noremap! <ESC>b <s-left>
+noremap! <ESC><BS> <C-W>
+noremap! <C-D> <Del>
+noremap! <C-W> <C-W>
+noremap! <C-U> <C-U>
+" forward delete word and line are not feasible in command-line editing
+" however, they are not very commonly used
+inoremap <ESC>d <C-O>de
+inoremap <C-K> <C-O>D
+noremap! <C-I> <C-K>
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
