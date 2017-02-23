@@ -1,12 +1,3 @@
-" note {{{
-" waiting:
-"   * jedi vim duplicate signature
-"     https://github.com/davidhalter/jedi-vim/pull/349
-" todo:
-"   * ycm for c-family
-"   * completion may slow down typing, define a way to toggle off
-" }}}
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-plug {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -17,27 +8,15 @@
 call plug#begin('~/.vim/plugged')
 
 if !&diff
-    Plug 'Chiel92/vim-autoformat'
-    Plug 'SirVer/ultisnips'
-    Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'ctrlpvim/ctrlp.vim'
-    Plug 'davidhalter/jedi-vim'
-    Plug 'honza/vim-snippets'
     Plug 'itchyny/lightline.vim'
     Plug 'jiangmiao/auto-pairs'
     Plug 'justinmk/vim-sneak'
     Plug 'lifepillar/vim-mucomplete'
     Plug 'machakann/vim-highlightedyank'
-    Plug 'majutsushi/tagbar'
     Plug 'mhinz/vim-signify'
-    Plug 'mileszs/ack.vim'
     Plug 'nelstrom/vim-visual-star-search'
-    Plug 'scrooloose/nerdtree'
-    Plug 'terryma/vim-expand-region'
     Plug 'tomtom/tcomment_vim'
-    Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
-    Plug 'w0rp/ale'
 endif
 Plug 'morhetz/gruvbox'
 Plug 'terryma/vim-smooth-scroll'
@@ -68,11 +47,16 @@ set spell
 set belloff=all
 " wildmenu
 set wildmenu
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+set wildmode=list:longest,full
 " timeout to send CursorHold
 set updatetime=500
 " change dir based on editing file
-set autochdir
+if strlen(@%) == 0 || isdirectory(@%)
+    " dir
+else
+    " file
+    set autochdir
+endif
 " stop auto comment inserting
 augroup disable_auto_comment
     autocmd!
@@ -112,16 +96,12 @@ map Y y$
 cnoreabbrev vh vert h
 " print file context for easy copy
 cnoreabbrev pp w !tee
+" change dir
+cnoreabbrev lcd lcd %:p:h
 " quick save
 noremap <Leader>s :update<CR>
 " quick quit
 noremap <Leader>q :quit<CR>
-" tagbar
-noremap <Leader>t :TagbarToggle<CR>
-" nerdtree
-noremap <Leader>n :NERDTreeToggle<CR>
-" autoformat
-noremap <Leader>f :Autoformat<CR>
 " esc to turn off search highlight
 noremap <Leader>/ :let @/=''<CR>
 " comment
@@ -146,7 +126,6 @@ noremap! <C-U> <C-U>
 " however, they are not very commonly used
 inoremap <ESC>d <C-O>de
 inoremap <C-K> <C-O>D
-noremap! <C-I> <C-K>
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -181,6 +160,8 @@ let g:netrw_banner=0
 set laststatus=2
 " fold
 set foldopen-=search foldopen-=mark
+set foldcolumn=1
+set foldlevel=20
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -206,43 +187,14 @@ set smartcase
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"-- ale -- {{{
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 0
-" }}}
-
-"-- ctrlp -- {{{
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_working_path_mode = 0
-if isdirectory(@%)
-    "dir
-    let g:ctrlp_cmd = 'CtrlP '.getcwd()
-    echom 'OK, set project root: '.getcwd()
-else
-    "file
-    let g:ctrlp_max_depth = 0
-endif
-" }}}
-
 "-- signify -- {{{
 let g:signify_sign_show_count = 0
 let g:signify_sign_change = '*'
 " }}}
 
-"-- ack -- {{{
-" stop jump to the first result automatically
-cnoreabbrev ack Ack!
-" }}}
-
 "-- lightline -- {{{
 " get rid of the extraneous default vim mode
 set noshowmode
-let g:ale_sign_error = 'X'
-let g:ale_sign_warning = '!'
-let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:lightline = {
             \ 'colorscheme': 'wombat',
             \ 'active': {
@@ -252,7 +204,6 @@ let g:lightline = {
             \ 'component': {
             \   'readonly': '%{&readonly?"\ue0a2":""}',
             \   'spell': '%{&spell?"SPELL":""}',
-            \   'syntax': '%{ALEGetStatusLine()}',
             \ },
             \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
             \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
@@ -298,25 +249,11 @@ map y <Plug>(highlightedyank)
 set shortmess+=c
 set complete-=t
 set completeopt=menuone,noinsert
+let g:mucomplete#no_mappings = 1
 let g:mucomplete#enable_auto_at_startup = 1
 " add trigger path
 let g:mucomplete#trigger_auto_pattern = { 'default' : '\k\k$\|[\.\w]/$' }
-let g:mucomplete#chains = {
-            \ 'vim'     : ['file', 'cmd', 'keyn'],
-            \ 'python'  : ['file', 'ulti', 'omni', 'keyn'],
-            \ }
-" }}}
-
-"-- jedi-vim -- {{{
-let g:jedi#show_call_signatures = 2
-" }}}
-
-"-- ultisnips -- {{{
-let g:UltiSnipsExpandTrigger       = '<tab>'
-let g:UltiSnipsJumpForwardTrigger  = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
-let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
-let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+let g:mucomplete#chains = { 'default' : ['file', 'keyn'] }
 " }}}
 
 " }}}
@@ -328,21 +265,14 @@ let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
 augroup file_vim
     autocmd!
     autocmd FileType vim setlocal tabstop=4 shiftwidth=4 softtabstop=4
-    autocmd FileType vim setlocal foldmethod=marker foldcolumn=3 foldlevel=20
+    autocmd FileType vim setlocal foldmethod=marker
 augroup END
 " python
 augroup file_python
     autocmd!
     autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
     autocmd FileType python let python_highlight_all = 1
-    autocmd FileType python let g:ycm_python_binary_path = 'python'
 augroup END
-
-let g:ale_linters = {
-            \   'python': ['pylint'],
-            \   'vim'   : ['vint'],
-            \}
-let g:formatters_python = ['yapf']
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Extra functionality {{{
