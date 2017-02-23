@@ -3,7 +3,6 @@
 "   * jedi vim duplicate signature
 "     https://github.com/davidhalter/jedi-vim/pull/349
 " todo:
-"   * keymapping in insert mode mimic emacs ?
 "   * ycm for c-family
 "   * completion may slow down typing, define a way to toggle off
 " }}}
@@ -18,27 +17,27 @@
 call plug#begin('~/.vim/plugged')
 
 if !&diff
-    Plug 'mhinz/vim-signify'
-    Plug 'lifepillar/vim-mucomplete'
-    Plug 'davidhalter/jedi-vim'
-    Plug 'SirVer/ultisnips'
-    Plug 'honza/vim-snippets'
     Plug 'Chiel92/vim-autoformat'
-    Plug 'majutsushi/tagbar'
-    Plug 'mileszs/ack.vim'
-    Plug 'w0rp/ale'
-    Plug 'ctrlpvim/ctrlp.vim'
-    Plug 'scrooloose/nerdtree'
+    Plug 'SirVer/ultisnips'
     Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'jiangmiao/auto-pairs'
-    Plug 'tomtom/tcomment_vim'
-    Plug 'tpope/vim-surround'
-    Plug 'tpope/vim-repeat'
-    Plug 'justinmk/vim-sneak'
-    Plug 'terryma/vim-expand-region'
-    Plug 'nelstrom/vim-visual-star-search'
-    Plug 'machakann/vim-highlightedyank'
+    Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'davidhalter/jedi-vim'
+    Plug 'honza/vim-snippets'
     Plug 'itchyny/lightline.vim'
+    Plug 'jiangmiao/auto-pairs'
+    Plug 'justinmk/vim-sneak'
+    Plug 'lifepillar/vim-mucomplete'
+    Plug 'machakann/vim-highlightedyank'
+    Plug 'majutsushi/tagbar'
+    Plug 'mhinz/vim-signify'
+    Plug 'mileszs/ack.vim'
+    Plug 'nelstrom/vim-visual-star-search'
+    Plug 'scrooloose/nerdtree'
+    Plug 'terryma/vim-expand-region'
+    Plug 'tomtom/tcomment_vim'
+    Plug 'tpope/vim-repeat'
+    Plug 'tpope/vim-surround'
+    Plug 'w0rp/ale'
 endif
 Plug 'morhetz/gruvbox'
 Plug 'terryma/vim-smooth-scroll'
@@ -111,6 +110,8 @@ nnoremap ` '
 map Y y$
 " vertical help
 cnoreabbrev vh vert h
+" print file context for easy copy
+cnoreabbrev pp w !tee
 " quick save
 noremap <Leader>s :update<CR>
 " quick quit
@@ -122,11 +123,30 @@ noremap <Leader>n :NERDTreeToggle<CR>
 " autoformat
 noremap <Leader>f :Autoformat<CR>
 " esc to turn off search highlight
-nnoremap <silent> <Leader>/ :let @/=''<CR>
+noremap <Leader>/ :let @/=''<CR>
 " comment
 let g:tcommentMapLeaderOp1 = '<Leader>c'
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
+" star search
+nnoremap * g*
+nnoremap # g#
+" fix meta-keys which generate <Esc>a .. <Esc>z
+let g:m_char='a'
+while g:m_char <=# 'z'
+  exec 'set <M-'.toupper(g:m_char).">=\<ESC>".g:m_char
+  exec "imap \<ESC>".g:m_char.' <M-'.toupper(g:m_char).'>'
+  let g:m_char = nr2char(1 + char2nr(g:m_char))
+endw
+" emacs mapping in insert mode
+noremap! <C-E>  <C-O>$
+noremap! <C-A>  <C-O>0
+noremap! <M-B>  <S-left>
+noremap! <M-F>  <S-right>
+noremap! <C-D>  <C-O>x
+noremap! <M-D>  <C-O>de
+noremap! <C-K>  <C-O>D
+noremap! <C-U>  <C-O>d0
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
