@@ -17,6 +17,7 @@ if !&diff
     Plug 'nelstrom/vim-visual-star-search'
     Plug 'tomtom/tcomment_vim'
     Plug 'tpope/vim-surround'
+    Plug 'Vimjas/vim-python-pep8-indent'
 endif
 Plug 'morhetz/gruvbox'
 Plug 'terryma/vim-smooth-scroll'
@@ -99,9 +100,9 @@ cnoreabbrev pp w !tee
 " change dir
 cnoreabbrev lcd lcd %:p:h
 " quick save
-noremap <Leader>s :update<CR>
+noremap <ESC>w :update<CR>
 " quick quit
-noremap <Leader>q :quit<CR>
+noremap <ESC>q :quit<CR>
 " esc to turn off search highlight
 noremap <Leader>/ :let @/=''<CR>
 " comment
@@ -272,6 +273,7 @@ augroup file_python
     autocmd!
     autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
     autocmd FileType python let python_highlight_all = 1
+    autocmd FileType python setlocal nosmartindent
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
