@@ -272,8 +272,9 @@ augroup END
 augroup file_python
     autocmd!
     autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
-    autocmd FileType python let python_highlight_all = 1
+    autocmd FileType python setlocal foldmethod=marker
     autocmd FileType python setlocal nosmartindent
+    autocmd FileType python let python_highlight_all = 1
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
