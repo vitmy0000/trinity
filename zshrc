@@ -28,6 +28,7 @@ export SAVEHIST=500
 export DIRSTACKSIZE=10
 setopt autopushd pushdminus pushdsilent pushdtohome
 zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
 #echo $WORDCHARS *?_-.[]~=/&;!#$%^(){}<>
 export WORDCHARS=''
 # consistent ctrl-u behaviour
