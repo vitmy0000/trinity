@@ -3,7 +3,6 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 " :PlugInstall
-" Automatically executes filetype plugin indent on and syntax enable
 " Make sure you use single quotes
 call plug#begin('~/.vim/plugged')
 
@@ -17,7 +16,6 @@ if !&diff
     Plug 'nelstrom/vim-visual-star-search'
     Plug 'tomtom/tcomment_vim'
     Plug 'tpope/vim-surround'
-    Plug 'Vimjas/vim-python-pep8-indent'
 endif
 Plug 'morhetz/gruvbox'
 Plug 'terryma/vim-smooth-scroll'
@@ -29,6 +27,10 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Better defaults {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" basic
+set nocompatible
+syntax on
+filetype plugin indent on
 " encoding
 set encoding=utf-8
 scriptencoding utf-8
@@ -168,8 +170,7 @@ set foldlevel=20
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Indent and search {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" smart indent
-set smartindent
+" indent
 set autoindent
 " change tab to space, enter Tab by Ctrl-V + Tab
 set expandtab
@@ -188,6 +189,11 @@ set smartcase
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"-- auto-pairs -- {{{
+" turn on this may cause indent problem
+let g:AutoPairsMapCR = 0
+" }}}
+
 "-- signify -- {{{
 let g:signify_sign_show_count = 0
 let g:signify_sign_change = '*'
@@ -253,7 +259,7 @@ set completeopt=menuone,noinsert
 let g:mucomplete#no_mappings = 1
 let g:mucomplete#enable_auto_at_startup = 1
 " add trigger path
-let g:mucomplete#trigger_auto_pattern = { 'default' : '\k\k$\|[\.\w]/$' }
+let g:mucomplete#trigger_auto_pattern = { 'default' : '\k\k$\|[\.\w~]/$' }
 let g:mucomplete#chains = { 'default' : ['file', 'keyn'] }
 " }}}
 
@@ -272,8 +278,11 @@ augroup END
 augroup file_python
     autocmd!
     autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
-    autocmd FileType python setlocal foldmethod=marker
+    autocmd FileType python setlocal foldmethod=indent
     autocmd FileType python let python_highlight_all = 1
+    autocmd FileType python let g:pyindent_open_paren = '&sw'
+    autocmd FileType python let g:pyindent_nested_paren = '&sw'
+    autocmd FileType python let g:pyindent_continue = '&sw'
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
