@@ -89,8 +89,8 @@ nnoremap gj j
 vnoremap < <gv
 vnoremap > >gv
 " Swap implementations of ` and ' jump to markers
-" By default, ' jumps to the marked line, ` jumps to the marked line and
-" column, so swap them
+" By default, ' jumps to the marked line,
+" ` jumps to the marked line and column, so swap them
 nnoremap ' `
 nnoremap ` '
 " y$ -> Y Make Y behave like other capitals
@@ -138,8 +138,6 @@ inoremap <C-K> <C-O>D
 set number
 " use relative line number
 set relativenumber
-" do not wrap line
-set nowrap
 " show line and column number
 set ruler
 " show typing command in status line
