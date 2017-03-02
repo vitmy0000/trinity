@@ -102,9 +102,9 @@ cnoreabbrev pp w !tee
 " change dir
 cnoreabbrev lcd lcd %:p:h
 " quick save
-noremap <ESC>w :update<CR>
+noremap <Leader>w :update<CR>
 " quick quit
-noremap <ESC>q :quit<CR>
+noremap <Leader>q :quit<CR>
 " esc to turn off search highlight
 noremap <Leader>/ :let @/=''<CR>
 " comment
