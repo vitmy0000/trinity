@@ -16,6 +16,7 @@ if !&diff
     Plug 'nelstrom/vim-visual-star-search'
     Plug 'tomtom/tcomment_vim'
     Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-repeat'
 endif
 Plug 'morhetz/gruvbox'
 Plug 'terryma/vim-smooth-scroll'
@@ -273,14 +274,16 @@ augroup file_vim
     autocmd FileType vim setlocal foldmethod=marker
 augroup END
 " python
-augroup file_python
+augroup file_py
     autocmd!
     autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
     autocmd FileType python setlocal foldmethod=indent
-    autocmd FileType python let python_highlight_all = 1
-    autocmd FileType python let g:pyindent_open_paren = '&sw'
-    autocmd FileType python let g:pyindent_nested_paren = '&sw'
-    autocmd FileType python let g:pyindent_continue = '&sw'
+augroup END
+" javascript
+augroup file_js
+    autocmd!
+    autocmd FileType javascript setlocal tabstop=4 shiftwidth=4 softtabstop=4
+    autocmd FileType javascript setlocal foldmethod=indent
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
