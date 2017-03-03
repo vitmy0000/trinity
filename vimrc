@@ -32,8 +32,6 @@ call plug#end()
 set nocompatible
 syntax on
 filetype plugin indent on
-" disable default indent, use simple rule
-filetype indent off
 " encoding
 set encoding=utf-8
 scriptencoding utf-8
@@ -173,6 +171,8 @@ set foldlevel=20
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " indent
 set autoindent
+" disable default indent
+filetype indent off
 " change tab to space, enter Tab by Ctrl-V + Tab
 set expandtab
 set smarttab
@@ -194,12 +194,13 @@ function! MyCR()
         return "\<CR>"
     endif
     let l:prevChar = getline(line('.'))[col('.') - 2]
-    let l:curChar = getline(line('.'))[col('.') - 1]
-    if l:prevChar == '(' && l:curChar == ')'
+    if l:prevChar == ':'
         return "\<CR>\<TAB>"
-    elseif l:prevChar == '[' && l:curChar == ']'
+    elseif l:prevChar == '('
+        return "\<CR>\<TAB>"
+    elseif l:prevChar == '['
         return "\<CR>\<CR>\<UP>\<TAB>"
-    elseif l:prevChar == '{' && l:curChar == '}'
+    elseif l:prevChar == '{'
         return "\<CR>\<CR>\<UP>\<TAB>"
     endif
     return "\<CR>"
