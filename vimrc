@@ -32,6 +32,8 @@ call plug#end()
 set nocompatible
 syntax on
 filetype plugin indent on
+" disable default indent, use simple rule
+filetype indent off
 " encoding
 set encoding=utf-8
 scriptencoding utf-8
@@ -183,6 +185,26 @@ set incsearch
 set ignorecase
 " case sensitive when uppercase letter appear
 set smartcase
+" <CR> inside parentheses
+function! MyCR()
+    if pumvisible()
+        return "\<CR>"
+    endif
+    if col('.') < 2
+        return "\<CR>"
+    endif
+    let l:prevChar = getline(line('.'))[col('.') - 2]
+    let l:curChar = getline(line('.'))[col('.') - 1]
+    if l:prevChar == '(' && l:curChar == ')'
+        return "\<CR>\<TAB>"
+    elseif l:prevChar == '[' && l:curChar == ']'
+        return "\<CR>\<CR>\<UP>\<TAB>"
+    elseif l:prevChar == '{' && l:curChar == '}'
+        return "\<CR>\<CR>\<UP>\<TAB>"
+    endif
+    return "\<CR>"
+endfunction
+inoremap <silent><expr> <CR> MyCR()
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -290,14 +312,12 @@ augroup END
 " => Extra functionality {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " leave insert mode quickly
-if ! has('gui_running')
-    set ttimeoutlen=10
-    augroup FastEscape
-        autocmd!
-        autocmd InsertEnter * set timeoutlen=0
-        autocmd InsertLeave * set timeoutlen=3000
-    augroup END
-endif
+set ttimeoutlen=10
+augroup FastEscape
+    autocmd!
+    autocmd InsertEnter * set timeoutlen=0
+    autocmd InsertLeave * set timeoutlen=3000
+augroup END
 
 " change cursor type based on mode
 let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
