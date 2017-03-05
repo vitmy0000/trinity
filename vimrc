@@ -103,11 +103,9 @@ cnoreabbrev pp w !tee
 " change dir
 cnoreabbrev lcd lcd %:p:h
 " quick save
-noremap <Leader>w :update<CR>
-" quick quit
-noremap <Leader>q :quit<CR>
+noremap s :update<CR>
 " esc to turn off search highlight
-noremap <Leader>/ :let @/=''<CR>
+noremap // :let @/=''<CR>
 " comment
 let g:tcommentMapLeaderOp1 = '<Leader>c'
 " use tab toggle fold
@@ -246,14 +244,14 @@ noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 " }}}
 
+"-- vim-surround -- {{{
+xmap s <Plug>VSurround
+"}}}
+
 "-- vim-sneak -- {{{
 let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
 " resolve sneak surround mangle
-xmap a <Plug>VSurround
-augroup surround_remap_S
-    autocmd VimEnter * xmap S <Plug>SneakLabel_S
-augroup END
 "replace 'f' with 1-char Sneak
 nmap f <Plug>Sneak_f
 nmap F <Plug>Sneak_F
@@ -301,6 +299,12 @@ augroup file_py
     autocmd!
     autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
     autocmd FileType python setlocal foldmethod=indent
+augroup END
+" java
+augroup file_java
+    autocmd!
+    autocmd FileType java setlocal tabstop=2 shiftwidth=2 softtabstop=2
+    autocmd FileType java setlocal foldmethod=indent
 augroup END
 " javascript
 augroup file_js
