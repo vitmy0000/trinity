@@ -15,6 +15,7 @@ if !&diff
     Plug 'mhinz/vim-signify'
     Plug 'nelstrom/vim-visual-star-search'
     Plug 'tomtom/tcomment_vim'
+    Plug 'henrik/vim-indexed-search'
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-repeat'
 endif
@@ -105,7 +106,7 @@ cnoreabbrev lcd lcd %:p:h
 " quick save
 noremap s :update<CR>
 " esc to turn off search highlight
-noremap // :let @/=''<CR>
+noremap <Leader>/ :let @/=''<CR>
 " comment
 let g:tcommentMapLeaderOp1 = '<Leader>c'
 " use tab toggle fold
@@ -169,8 +170,6 @@ set foldlevel=20
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " indent
 set autoindent
-" disable default indent
-filetype indent off
 " change tab to space, enter Tab by Ctrl-V + Tab
 set expandtab
 set smarttab
@@ -192,18 +191,36 @@ function! MyCR()
         return "\<CR>"
     endif
     let l:prevChar = getline(line('.'))[col('.') - 2]
-    if l:prevChar == ':'
-        return "\<CR>\<TAB>"
-    elseif l:prevChar == '('
-        return "\<CR>\<TAB>"
-    elseif l:prevChar == '['
-        return "\<CR>\<CR>\<UP>\<TAB>"
-    elseif l:prevChar == '{'
-        return "\<CR>\<CR>\<UP>\<TAB>"
+    let l:currChar = getline(line('.'))[col('.') - 1]
+    if l:prevChar == '[' && l:currChar == ']'
+        return "\<CR>\<BS>\<C-o>O"
+    elseif l:prevChar == '{' && l:currChar == '}'
+        return "\<CR>\<BS>\<C-o>\O"
     endif
     return "\<CR>"
 endfunction
 inoremap <silent><expr> <CR> MyCR()
+" my simple indent settings {{{
+filetype indent off
+function GetMyIndent(lnum)
+    " Search backwards for the previous non-empty line.
+    let l:plnum = prevnonblank(a:lnum - 1)
+    if l:plnum == 0
+        " This is the first non-empty line, use zero indent.
+        return 0
+    endif
+
+    let l:pline = getline(l:plnum)
+    " if previous line end up with ...
+    if l:pline =~ '[([{:]\s*$'
+        return indent(l:plnum) + &shiftwidth
+    endif
+    return -1
+endfunction
+set indentkeys=o
+set indentexpr=GetMyIndent(v:lnum)
+" }}}
+
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
