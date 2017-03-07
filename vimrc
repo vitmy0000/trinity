@@ -55,13 +55,8 @@ set wildmenu
 set wildmode=list:longest,full
 " timeout to send CursorHold
 set updatetime=500
-" change dir based on editing file
-if strlen(@%) == 0 || isdirectory(@%)
-    " dir
-else
-    " file
-    set autochdir
-endif
+" auto change dir
+set autochdir
 " stop auto comment inserting
 augroup disable_auto_comment
     autocmd!
@@ -99,19 +94,22 @@ nnoremap ` '
 map Y y$
 " vertical help
 cnoreabbrev vh vert h
-" change dir
-cnoreabbrev lcd lcd %:p:h
 " quick save
-noremap S :update<CR>
+noremap b :update<CR>
 " quick leave
 noremap Q :quit<CR>
+" remap U to <C-r> for easier redo
+nnoremap U <C-r>
+" word move
+nnoremap W b
+nnoremap E ge
 " esc to turn off search highlight
 noremap <Leader>/ :let @/=''<CR>
 " comment
 let g:tcommentMapLeaderOp1 = '<Leader>c'
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
-" star search
+" star search for partial word
 nnoremap * g*
 nnoremap # g#
 " emacs key mappings
