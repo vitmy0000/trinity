@@ -99,8 +99,6 @@ nnoremap ` '
 map Y y$
 " vertical help
 cnoreabbrev vh vert h
-" print file context for easy copy
-cnoreabbrev pp w !tee
 " change dir
 cnoreabbrev lcd lcd %:p:h
 " quick save
