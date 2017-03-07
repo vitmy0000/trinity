@@ -104,7 +104,9 @@ cnoreabbrev pp w !tee
 " change dir
 cnoreabbrev lcd lcd %:p:h
 " quick save
-noremap s :update<CR>
+noremap S :update<CR>
+" quick leave
+noremap Q :quit<CR>
 " esc to turn off search highlight
 noremap <Leader>/ :let @/=''<CR>
 " comment
@@ -255,10 +257,8 @@ let g:lightline = {
 " }}}
 
 "-- vim-smooth-scroll -- {{{
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
-noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
-noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+noremap <silent> K :call smooth_scroll#up(&scroll, 0, 1)<CR>
+noremap <silent> J :call smooth_scroll#down(&scroll, 0, 1)<CR>
 " }}}
 
 "-- vim-surround -- {{{
