@@ -95,7 +95,7 @@ map Y y$
 " vertical help
 cnoreabbrev vh vert h
 " quick save
-noremap b :update<CR>
+noremap s :update<CR>
 " quick leave
 noremap Q :quit<CR>
 " remap U to <C-r> for easier redo
@@ -264,21 +264,25 @@ xmap s <Plug>VSurround
 "-- vim-sneak -- {{{
 let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
-" resolve sneak surround mangle
-"replace 'f' with 1-char Sneak
-nmap f <Plug>Sneak_f
-nmap F <Plug>Sneak_F
-xmap f <Plug>Sneak_f
-xmap F <Plug>Sneak_F
-omap f <Plug>Sneak_f
-omap F <Plug>Sneak_F
-"replace 't' with 1-char Sneak
-nmap t <Plug>Sneak_t
-nmap T <Plug>Sneak_T
-xmap t <Plug>Sneak_t
-xmap T <Plug>Sneak_T
-omap t <Plug>Sneak_t
-omap T <Plug>Sneak_T
+" sneak#wrap(op, inputlen, reverse, inclusive, label)
+nnoremap <silent> f :<C-U>call sneak#wrap('',           1, 0, 1, 1)<CR>
+nnoremap <silent> F :<C-U>call sneak#wrap('',           1, 1, 1, 1)<CR>
+xnoremap <silent> f :<C-U>call sneak#wrap(visualmode(), 1, 0, 1, 1)<CR>
+xnoremap <silent> F :<C-U>call sneak#wrap(visualmode(), 1, 1, 1, 1)<CR>
+onoremap <silent> f :<C-U>call sneak#wrap(v:operator,   1, 0, 1, 1)<CR>
+onoremap <silent> F :<C-U>call sneak#wrap(v:operator,   1, 1, 1, 1)<CR>
+nnoremap <silent> t :<C-U>call sneak#wrap('',           1, 0, 0, 1)<CR>
+nnoremap <silent> T :<C-U>call sneak#wrap('',           1, 1, 0, 1)<CR>
+xnoremap <silent> t :<C-U>call sneak#wrap(visualmode(), 1, 0, 0, 1)<CR>
+xnoremap <silent> T :<C-U>call sneak#wrap(visualmode(), 1, 1, 0, 1)<CR>
+onoremap <silent> t :<C-U>call sneak#wrap(v:operator,   1, 0, 0, 1)<CR>
+onoremap <silent> T :<C-U>call sneak#wrap(v:operator,   1, 1, 0, 1)<CR>
+nnoremap <silent> b :<C-U>call sneak#wrap('',           2, 0, 2, 1)<CR>
+nnoremap <silent> B :<C-U>call sneak#wrap('',           2, 1, 2, 1)<CR>
+xnoremap <silent> b :<C-U>call sneak#wrap(visualmode(), 2, 0, 2, 1)<CR>
+xnoremap <silent> B :<C-U>call sneak#wrap(visualmode(), 2, 1, 2, 1)<CR>
+onoremap <silent> b :<C-U>call sneak#wrap(v:operator,   2, 0, 2, 1)<CR>
+onoremap <silent> B :<C-U>call sneak#wrap(v:operator,   2, 1, 2, 1)<CR>
 " }}}
 
 "-- vim-highlightedyank -- {{{
