@@ -95,7 +95,7 @@ map Y y$
 " vertical help
 cnoreabbrev vh vert h
 " quick save
-noremap s :update<CR>
+noremap s :write<CR>
 " quick leave
 noremap Q :quit<CR>
 " remap U to <C-r> for easier redo
