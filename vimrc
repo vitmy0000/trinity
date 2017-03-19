@@ -76,7 +76,7 @@ augroup END
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
 " leader
-let g:mapleader = "\<Space>"
+" let g:mapleader = "\<Space>"
 " treat long lines as break lines (useful when moving around in them)
 nnoremap k gk
 nnoremap gk k
@@ -94,8 +94,8 @@ nnoremap ` '
 map Y y$
 " vertical help
 cnoreabbrev vh vert h
-" quick save
-noremap s :write<CR>
+" quick save, workaround for sneak spell bug
+noremap s :set spell<CR>:write<CR>
 " quick leave
 noremap Q :quit<CR>
 " remap U to <C-r> for easier redo
@@ -104,9 +104,7 @@ nnoremap U <C-r>
 nnoremap W b
 nnoremap E ge
 " esc to turn off search highlight
-noremap <Leader>/ :let @/=''<CR>
-" comment
-let g:tcommentMapLeaderOp1 = '<Leader>c'
+noremap g/ :let @/=''<CR>
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 " star search for partial word
