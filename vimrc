@@ -189,17 +189,20 @@ function! MyCR()
     let l:prevChar = getline(line('.'))[col('.') - 2]
     let l:currChar = getline(line('.'))[col('.') - 1]
     if l:prevChar == '[' && l:currChar == ']'
-        return "\<CR>\<BS>\<C-o>O"
+        return "\<CR>\<BS>\<UP>\<C-o>\o"
     elseif l:prevChar == '{' && l:currChar == '}'
-        return "\<CR>\<BS>\<C-o>\O"
+        return "\<CR>\<BS>\<UP>\<C-o>\o"
     endif
     return "\<CR>"
 endfunction
 inoremap <silent><expr> <CR> MyCR()
 " my simple indent settings {{{
+" indent one more after ( [ { :
+" indent back after )
 filetype indent off
 function GetMyIndent(lnum)
     " Search backwards for the previous non-empty line.
+    " TODO: skip comment lines
     let l:plnum = prevnonblank(a:lnum - 1)
     if l:plnum == 0
         " This is the first non-empty line, use zero indent.
@@ -210,6 +213,9 @@ function GetMyIndent(lnum)
     " if previous line end up with ...
     if l:pline =~ '[([{:]\s*$'
         return indent(l:plnum) + &shiftwidth
+    endif
+    if l:pline =~ '[)]\s*$'
+        return indent(l:plnum) - &shiftwidth
     endif
     return -1
 endfunction
