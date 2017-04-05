@@ -112,7 +112,7 @@ nnoremap * g*
 nnoremap # g#
 " emacs key mappings
 inoremap <C-E> <C-O>$
-inoremap <C-A> <C-O>0
+inoremap <C-A> <C-O>^
 cnoremap <C-E> <C-E>
 cnoremap <C-A> <C-B>
 noremap! <ESC>f <s-right>
@@ -229,6 +229,8 @@ set indentexpr=GetMyIndent(v:lnum)
 " => Plugins {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "-- auto-pairs -- {{{
+" disable multi-line jump close
+let g:AutoPairsMultilineClose = 0
 " turn on this may cause indent problem
 let g:AutoPairsMapCR = 0
 " }}}
@@ -269,18 +271,18 @@ xmap s <Plug>VSurround
 let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
 " sneak#wrap(op, inputlen, reverse, inclusive, label)
-nnoremap <silent> f :<C-U>call sneak#wrap('',           1, 0, 1, 1)<CR>
-nnoremap <silent> F :<C-U>call sneak#wrap('',           1, 1, 1, 1)<CR>
-xnoremap <silent> f :<C-U>call sneak#wrap(visualmode(), 1, 0, 1, 1)<CR>
-xnoremap <silent> F :<C-U>call sneak#wrap(visualmode(), 1, 1, 1, 1)<CR>
-onoremap <silent> f :<C-U>call sneak#wrap(v:operator,   1, 0, 1, 1)<CR>
-onoremap <silent> F :<C-U>call sneak#wrap(v:operator,   1, 1, 1, 1)<CR>
-nnoremap <silent> t :<C-U>call sneak#wrap('',           1, 0, 0, 1)<CR>
-nnoremap <silent> T :<C-U>call sneak#wrap('',           1, 1, 0, 1)<CR>
-xnoremap <silent> t :<C-U>call sneak#wrap(visualmode(), 1, 0, 0, 1)<CR>
-xnoremap <silent> T :<C-U>call sneak#wrap(visualmode(), 1, 1, 0, 1)<CR>
-onoremap <silent> t :<C-U>call sneak#wrap(v:operator,   1, 0, 0, 1)<CR>
-onoremap <silent> T :<C-U>call sneak#wrap(v:operator,   1, 1, 0, 1)<CR>
+nnoremap <silent> f :<C-U>call sneak#wrap('',           1, 0, 1, 0)<CR>
+nnoremap <silent> F :<C-U>call sneak#wrap('',           1, 1, 1, 0)<CR>
+xnoremap <silent> f :<C-U>call sneak#wrap(visualmode(), 1, 0, 1, 0)<CR>
+xnoremap <silent> F :<C-U>call sneak#wrap(visualmode(), 1, 1, 1, 0)<CR>
+onoremap <silent> f :<C-U>call sneak#wrap(v:operator,   1, 0, 1, 0)<CR>
+onoremap <silent> F :<C-U>call sneak#wrap(v:operator,   1, 1, 1, 0)<CR>
+nnoremap <silent> t :<C-U>call sneak#wrap('',           1, 0, 0, 0)<CR>
+nnoremap <silent> T :<C-U>call sneak#wrap('',           1, 1, 0, 0)<CR>
+xnoremap <silent> t :<C-U>call sneak#wrap(visualmode(), 1, 0, 0, 0)<CR>
+xnoremap <silent> T :<C-U>call sneak#wrap(visualmode(), 1, 1, 0, 0)<CR>
+onoremap <silent> t :<C-U>call sneak#wrap(v:operator,   1, 0, 0, 0)<CR>
+onoremap <silent> T :<C-U>call sneak#wrap(v:operator,   1, 1, 0, 0)<CR>
 nnoremap <silent> b :<C-U>call sneak#wrap('',           2, 0, 2, 1)<CR>
 nnoremap <silent> B :<C-U>call sneak#wrap('',           2, 1, 2, 1)<CR>
 xnoremap <silent> b :<C-U>call sneak#wrap(visualmode(), 2, 0, 2, 1)<CR>
