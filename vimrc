@@ -271,18 +271,6 @@ xmap s <Plug>VSurround
 let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
 " sneak#wrap(op, inputlen, reverse, inclusive, label)
-nnoremap <silent> f :<C-U>call sneak#wrap('',           1, 0, 1, 0)<CR>
-nnoremap <silent> F :<C-U>call sneak#wrap('',           1, 1, 1, 0)<CR>
-xnoremap <silent> f :<C-U>call sneak#wrap(visualmode(), 1, 0, 1, 0)<CR>
-xnoremap <silent> F :<C-U>call sneak#wrap(visualmode(), 1, 1, 1, 0)<CR>
-onoremap <silent> f :<C-U>call sneak#wrap(v:operator,   1, 0, 1, 0)<CR>
-onoremap <silent> F :<C-U>call sneak#wrap(v:operator,   1, 1, 1, 0)<CR>
-nnoremap <silent> t :<C-U>call sneak#wrap('',           1, 0, 0, 0)<CR>
-nnoremap <silent> T :<C-U>call sneak#wrap('',           1, 1, 0, 0)<CR>
-xnoremap <silent> t :<C-U>call sneak#wrap(visualmode(), 1, 0, 0, 0)<CR>
-xnoremap <silent> T :<C-U>call sneak#wrap(visualmode(), 1, 1, 0, 0)<CR>
-onoremap <silent> t :<C-U>call sneak#wrap(v:operator,   1, 0, 0, 0)<CR>
-onoremap <silent> T :<C-U>call sneak#wrap(v:operator,   1, 1, 0, 0)<CR>
 nnoremap <silent> b :<C-U>call sneak#wrap('',           2, 0, 2, 1)<CR>
 nnoremap <silent> B :<C-U>call sneak#wrap('',           2, 1, 2, 1)<CR>
 xnoremap <silent> b :<C-U>call sneak#wrap(visualmode(), 2, 0, 2, 1)<CR>
@@ -334,6 +322,12 @@ augroup file_js
     autocmd!
     autocmd FileType javascript setlocal tabstop=4 shiftwidth=4 softtabstop=4
     autocmd FileType javascript setlocal foldmethod=indent
+augroup END
+" shell
+augroup file_sh
+    autocmd!
+    autocmd FileType sh setlocal tabstop=2 shiftwidth=2 softtabstop=2
+    autocmd FileType sh setlocal foldmethod=indent
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
