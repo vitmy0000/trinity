@@ -82,6 +82,8 @@ nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
+inoremap <buffer> <silent> <Up>   <C-o>gk
+inoremap <buffer> <silent> <Down> <C-o>gj
 " stay visual mode after shifting
 vnoremap < <gv
 vnoremap > >gv
