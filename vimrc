@@ -82,8 +82,6 @@ nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
-inoremap <buffer> <silent> <Up>   <C-o>gk
-inoremap <buffer> <silent> <Down> <C-o>gj
 " stay visual mode after shifting
 vnoremap < <gv
 vnoremap > >gv
@@ -103,8 +101,8 @@ noremap Q :quit<CR>
 " remap U to <C-r> for easier redo
 nnoremap U <C-r>
 " word move
-nnoremap W b
-nnoremap E ge
+noremap W b
+noremap E ge
 " esc to turn off search highlight
 noremap g/ :let @/=''<CR>
 " use tab toggle fold
@@ -287,13 +285,9 @@ map y <Plug>(highlightedyank)
 
 "-- mucomplete -- {{{
 set shortmess+=c
-set complete-=t
+set complete-=t "no tag
 set completeopt=menuone,noinsert
-let g:mucomplete#no_mappings = 1
 let g:mucomplete#enable_auto_at_startup = 1
-" add trigger path
-let g:mucomplete#trigger_auto_pattern = { 'default' : '\k\k$\|[\.\w~]/$' }
-let g:mucomplete#chains = { 'default' : ['file', 'keyn'] }
 " }}}
 
 " }}}
