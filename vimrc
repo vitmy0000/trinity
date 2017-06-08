@@ -13,6 +13,7 @@ if !&diff
     Plug 'jiangmiao/auto-pairs'
     Plug 'justinmk/vim-sneak'
     Plug 'lifepillar/vim-mucomplete'
+    " Plug 'maralla/completor.vim'
     Plug 'machakann/vim-highlightedyank'
     Plug 'mhinz/vim-signify'
     Plug 'nelstrom/vim-visual-star-search'
@@ -20,7 +21,6 @@ if !&diff
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
     Plug 'taohex/lightline-buffer'
-    Plug 'tpope/vim-vinegar'
 endif
 Plug 'morhetz/gruvbox'
 Plug 'terryma/vim-smooth-scroll'
@@ -110,6 +110,8 @@ noremap W b
 noremap E ge
 " esc to turn off search highlight
 noremap <leader>/ :let @/=''<CR>
+" quick file explore
+noremap <leader>e :e .<CR>
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 " star search for partial word
@@ -156,8 +158,6 @@ set listchars=tab:▸\ ,eol:¬,space:·
 " theme
 set background=dark
 colorscheme gruvbox
-" no banner for netrw
-let g:netrw_banner=0
 " statusline
 set laststatus=2
 " fold
@@ -263,9 +263,6 @@ let g:lightline = {
             \ },
             \ 'component': {
             \   'readonly': '%{&readonly?"\ue0a2":""}',
-            \   'lineinfo': '%{LightlineLineinfo()}',
-            \   'percent': '%{LightlinePercent()}',
-            \   'spell': '%{LightlineSpell()}',
             \ },
             \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
             \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
@@ -281,6 +278,9 @@ let g:lightline = {
             \ },
             \ 'component_function': {
             \   'pwd': 'LightlinePWD',
+            \   'lineinfo': 'LightlineLineinfo',
+            \   'percent': 'LightlinePercent',
+            \   'spell': 'LightlineSpell',
             \   'fileformat': 'LightlineFileformat',
             \   'filetype': 'LightlineFiletype',
             \   'fileencoding': 'LightlineFileencoding',
@@ -374,13 +374,7 @@ set shortmess+=c
 set complete-=t "no tag
 set completeopt=menuone,noinsert
 let g:mucomplete#enable_auto_at_startup = 1
-let g:mucomplete#can_complete = {
-\   'default' : {
-\   'file': { t -> t =~# '\m\%('.s:pathsep.'\|\~\)\f*$' },
-\   'incl': { t -> t =~# '\m\k\k$' },
-\   'keyn': { t -> t =~# '\m\k\k$' },
-\   }
-\ }
+inoremap <expr>  <cr> mucomplete#popup_exit("\<cr>")
 " }}}
 
 " }}}
