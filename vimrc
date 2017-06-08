@@ -7,13 +7,14 @@
 call plug#begin('~/.vim/plugged')
 
 if !&diff
+    Plug 'scrooloose/nerdtree'
     Plug 'artnez/vim-rename'
     Plug 'henrik/vim-indexed-search'
     Plug 'itchyny/lightline.vim'
     Plug 'jiangmiao/auto-pairs'
     Plug 'justinmk/vim-sneak'
     Plug 'lifepillar/vim-mucomplete'
-    " Plug 'maralla/completor.vim'
+    Plug 'majutsushi/tagbar'
     Plug 'machakann/vim-highlightedyank'
     Plug 'mhinz/vim-signify'
     Plug 'nelstrom/vim-visual-star-search'
@@ -262,6 +263,7 @@ let g:lightline = {
             \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
             \ },
             \ 'component': {
+            \   'pwd': '%<%{LightlinePWD()}',
             \   'readonly': '%{&readonly?"\ue0a2":""}',
             \ },
             \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
@@ -277,7 +279,6 @@ let g:lightline = {
             \   'buffercurrent': 'tabsel',
             \ },
             \ 'component_function': {
-            \   'pwd': 'LightlinePWD',
             \   'lineinfo': 'LightlineLineinfo',
             \   'percent': 'LightlinePercent',
             \   'spell': 'LightlineSpell',
@@ -367,6 +368,15 @@ onoremap <silent> B :<C-U>call sneak#wrap(v:operator,   2, 1, 1, 1)<CR>
 
 "-- vim-highlightedyank -- {{{...
 map y <Plug>(highlightedyank)
+" }}}
+
+"-- nerdtree -- {{{...
+map <leader>n :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" }}}
+
+"-- tagbar -- {{{...
+map <leader>t :TagbarToggle<CR>
 " }}}
 
 "-- mucomplete -- {{{...
