@@ -19,13 +19,14 @@ zplug load #--verbose
 
 ##-- better defaults --##
 setopt PROMPT_SUBST
-PROMPT=$'\n%{\e[47m\e[30m%} %T %{\e[37m\e[45m%} ${$(print -P "%4(c:.../:)%3c")//\\//  } %{\e[35m\e[40m%}%{\e[0m%}\n\$ '
+PROMPT=$'\n%{\e[47m\e[30m%} %T %{\e[37m\e[45m%} ${$(print -P "%4(c:.../:)%3c")//\\//  } %(1j.⚙.) %{\e[35m\e[40m%}%{\e[0m%}\n\$ '
+ssh_prompt=$'\n%{\e[47m\e[30m%} %T %{\e[37m\e[44m%} ${$(print -P "%4(c:.../:)%3c")//\\//  } %(1j.⚙.) %{\e[34m\e[40m%}%{\e[0m%}\n\$ '
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-  PROMPT=$'\n%{\e[47m\e[30m%} %T %{\e[37m\e[44m%} ${$(print -P "%4(c:.../:)%3c")//\\//  } %{\e[34m\e[40m%}%{\e[0m%}\n\$ '
+  PROMPT=ssh_prompt
 # many other tests omitted
 else
   case $(ps -o comm= -p $PPID) in
-    sshd|*/sshd) PROMPT=$'\n%{\e[47m\e[30m%} %T %{\e[37m\e[44m%} ${$(print -P "%4(c:.../:)%3c")//\\//  } %{\e[34m\e[40m%}%{\e[0m%}\n\$ ';;
+    sshd|*/sshd) PROMPT=ssh_prompt
   esac
 fi
 
