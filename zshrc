@@ -43,14 +43,17 @@ zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
 export WORDCHARS=''
 # consistent ctrl-u behaviour
 bindkey \^U backward-kill-line
+# in word completion
+bindkey '^i' expand-or-complete-prefix
 
-source ~/.zshrc.local
 ##-- alias --##
 alias vi="vim"
 alias view="vim -R"
 alias la="ls -la"
 alias ll="ls -lh"
 alias dh="dirs -v"
+alias hs="fc -R"
+source ~/.zshrc.local
 
 ##-- applications --##
 # zsh-history-substring-search
@@ -64,4 +67,3 @@ bindkey '^X^F' fasd-complete-f  # C-x C-f to do fasd-complete-f (only files)
 bindkey '^X^D' fasd-complete-d  # C-x C-d to do fasd-complete-d (only directories)
 bindkey '^X^A' fasd-complete    # C-x C-a to do fasd-complete (files and directories)
 
-bindkey '^i' expand-or-complete-prefix
