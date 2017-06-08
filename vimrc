@@ -1,5 +1,5 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => vim-plug {{{
+" => vim-plug {{{...
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 " :PlugInstall
@@ -7,6 +7,8 @@
 call plug#begin('~/.vim/plugged')
 
 if !&diff
+    Plug 'artnez/vim-rename'
+    Plug 'henrik/vim-indexed-search'
     Plug 'itchyny/lightline.vim'
     Plug 'jiangmiao/auto-pairs'
     Plug 'justinmk/vim-sneak'
@@ -15,9 +17,9 @@ if !&diff
     Plug 'mhinz/vim-signify'
     Plug 'nelstrom/vim-visual-star-search'
     Plug 'tomtom/tcomment_vim'
-    Plug 'henrik/vim-indexed-search'
-    Plug 'tpope/vim-surround'
     Plug 'tpope/vim-repeat'
+    Plug 'tpope/vim-surround'
+    Plug 'taohex/lightline-buffer'
 endif
 Plug 'morhetz/gruvbox'
 Plug 'terryma/vim-smooth-scroll'
@@ -27,7 +29,7 @@ call plug#end()
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Better defaults {{{
+" => Better defaults {{{...
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " basic
 set nocompatible
@@ -70,18 +72,20 @@ augroup END
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Keys  {{{
+" => Keys  {{{...
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " configure backspace so it acts as it should act
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
 " leader
-" let g:mapleader = "\<Space>"
+let g:mapleader = "\<Space>"
 " treat long lines as break lines (useful when moving around in them)
 nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
+inoremap <buffer> <silent> <Up>=pumvisible() ? '\<UP>' : '<C-o>'gk
+inoremap <buffer> <silent> <Down>=pumvisible() ? '\<Down>' : '<C-o>'gj
 " stay visual mode after shifting
 vnoremap < <gv
 vnoremap > >gv
@@ -104,7 +108,7 @@ nnoremap U <C-r>
 noremap W b
 noremap E ge
 " esc to turn off search highlight
-noremap g/ :let @/=''<CR>
+noremap <leader>/ :let @/=''<CR>
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 " star search for partial word
@@ -128,7 +132,7 @@ inoremap <C-K> <C-O>D
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => UI {{{
+" => UI {{{...
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " show line number
 set number
@@ -162,7 +166,7 @@ set foldlevel=20
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Indent and search {{{
+" => Indent and search {{{...
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " indent
 set autoindent
@@ -196,7 +200,7 @@ function! MyCR()
     return "\<CR>"
 endfunction
 inoremap <silent><expr> <CR> MyCR()
-" my simple indent settings {{{
+" my simple indent settings {{{...
 " indent one more after ( [ { :
 " indent back after )
 filetype indent off
@@ -214,9 +218,6 @@ function GetMyIndent(lnum)
     if l:pline =~ '[([{:]\s*$'
         return indent(l:plnum) + &shiftwidth
     endif
-    if l:pline =~ '[)]\s*$'
-        return indent(l:plnum) - &shiftwidth
-    endif
     return -1
 endfunction
 set indentkeys=o
@@ -226,64 +227,148 @@ set indentexpr=GetMyIndent(v:lnum)
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugins {{{
+" => Plugins {{{...
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"-- auto-pairs -- {{{
+"-- auto-pairs -- {{{...
 " disable multi-line jump close
 let g:AutoPairsMultilineClose = 0
 " turn on this may cause indent problem
 let g:AutoPairsMapCR = 0
 " }}}
 
-"-- signify -- {{{
+"-- signify -- {{{...
 let g:signify_sign_show_count = 0
 let g:signify_sign_change = '*'
 " }}}
 
-"-- lightline -- {{{
+"-- tcomment_vim -- {{{...
+let g:tcommentMapLeaderOp1 = '<Leader>c'
+let g:tcommentMapLeaderOp2 = '<Leader>C'
+" }}}
+
+"-- lightline -- {{{...
 " get rid of the extraneous default vim mode
+set hidden  " allow buffer switching without saving
+set showtabline=2  " always show tabline
 set noshowmode
 let g:lightline = {
             \ 'colorscheme': 'wombat',
             \ 'active': {
             \   'left': [ [ 'mode', 'paste', 'spell'],
-            \             [ 'readonly', 'filename', 'modified', 'syntax'] ],
+            \             [ 'readonly', 'pwd'] ],
+            \   'right': [ [ 'lineinfo' ],
+            \              [ 'percent' ],
+            \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
             \ },
             \ 'component': {
             \   'readonly': '%{&readonly?"\ue0a2":""}',
-            \   'spell': '%{&spell?"SPELL":""}',
+            \   'lineinfo': '%{LightlineLineinfo()}',
+            \   'percent': '%{LightlinePercent()}',
+            \   'spell': '%{LightlineSpell()}',
             \ },
             \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-            \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
-            \ }
+            \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
+            \ 'tabline': {
+            \   'left': [ [ 'bufferinfo' ], [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
+            \   'right': [ [ 'close' ], ],
+            \ },
+            \ 'component_expand': {
+            \   'buffercurrent': 'lightline#buffer#buffercurrent2',
+            \ },
+            \ 'component_type': {
+            \   'buffercurrent': 'tabsel',
+            \ },
+            \ 'component_function': {
+            \   'pwd': 'LightlinePWD',
+            \   'fileformat': 'LightlineFileformat',
+            \   'filetype': 'LightlineFiletype',
+            \   'fileencoding': 'LightlineFileencoding',
+            \   'bufferbefore': 'lightline#buffer#bufferbefore',
+            \   'bufferafter': 'lightline#buffer#bufferafter',
+            \   'bufferinfo': 'lightline#buffer#bufferinfo',
+            \ },
+        \ }
+function! LightlinePWD()
+    return "PWD: " . expand('%:p:h')
+endfunction
+function! LightlineSpell()
+    return winwidth(0) > 70 ? (&spell ? 'SPELL' : '') : ''
+endfunction
+function! LightlineFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+function! LightlineFiletype()
+  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+endfunction
+function! LightlineFileencoding()
+  return winwidth(0) > 70 ? (&fileencoding !=# '' ? &fileencoding : &encoding) : ''
+endfunction
+function! LightlinePercent()
+  let byte = line2byte( line( "." ) ) + col( "." ) - 1
+  let size = (line2byte( line( "$" ) + 1 ) - 1)
+  " return byte . " " . size . " " . (byte * 100) / size
+  return winwidth(0) > 70 ? ((byte * 100) / size . '%') : ''
+endfunction
+function! LightlineLineinfo()
+  return winwidth(0) > 70 ? (line(".") . ':' . col(".")) : ''
+endfunction
+
+" lightline-buffer ui settings
+" replace these symbols with ascii characters if your environment does not support unicode
+let g:lightline_buffer_logo = '✭ '
+let g:lightline_buffer_modified_icon = '+'
+let g:lightline_buffer_ellipsis_icon = '..'
+let g:lightline_buffer_expand_left_icon = '◀ '
+let g:lightline_buffer_expand_right_icon = ' ▶'
+let g:lightline_buffer_active_buffer_left_icon = ''
+let g:lightline_buffer_active_buffer_right_icon = ''
+let g:lightline_buffer_separator_icon = ' '
+
+" lightline-buffer function settings
+let g:lightline_buffer_show_bufnr = 1
+let g:lightline_buffer_rotate = 0
+let g:lightline_buffer_fname_mod = ':t'
+let g:lightline_buffer_excludes = ['vimfiler']
+
+let g:lightline_buffer_maxflen = 30
+let g:lightline_buffer_maxfextlen = 3
+let g:lightline_buffer_minflen = 16
+let g:lightline_buffer_minfextlen = 3
+let g:lightline_buffer_reservelen = 20
 " }}}
 
-"-- vim-smooth-scroll -- {{{
+"-- vim-smooth-scroll -- {{{...
 noremap <silent> K :call smooth_scroll#up(&scroll, 0, 1)<CR>
 noremap <silent> J :call smooth_scroll#down(&scroll, 0, 1)<CR>
 " }}}
 
-"-- vim-surround -- {{{
+"-- vim-surround -- {{{...
 xmap s <Plug>VSurround
 "}}}
 
-"-- vim-sneak -- {{{
+"-- vim-sneak -- {{{...
 let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
 " sneak#wrap(op, inputlen, reverse, inclusive, label)
-nnoremap <silent> b :<C-U>call sneak#wrap('',           2, 0, 2, 1)<CR>
-nnoremap <silent> B :<C-U>call sneak#wrap('',           2, 1, 2, 1)<CR>
-xnoremap <silent> b :<C-U>call sneak#wrap(visualmode(), 2, 0, 2, 1)<CR>
-xnoremap <silent> B :<C-U>call sneak#wrap(visualmode(), 2, 1, 2, 1)<CR>
-onoremap <silent> b :<C-U>call sneak#wrap(v:operator,   2, 0, 2, 1)<CR>
-onoremap <silent> B :<C-U>call sneak#wrap(v:operator,   2, 1, 2, 1)<CR>
+nnoremap <silent> f :<C-U>call sneak#wrap('',           1, 0, 1, 1)<CR>
+nnoremap <silent> F :<C-U>call sneak#wrap('',           1, 1, 1, 1)<CR>
+xnoremap <silent> f :<C-U>call sneak#wrap(visualmode(), 1, 0, 1, 1)<CR>
+xnoremap <silent> F :<C-U>call sneak#wrap(visualmode(), 1, 1, 1, 1)<CR>
+onoremap <silent> f :<C-U>call sneak#wrap(v:operator,   1, 0, 1, 1)<CR>
+onoremap <silent> F :<C-U>call sneak#wrap(v:operator,   1, 1, 1, 1)<CR>
+nnoremap <silent> b :<C-U>call sneak#wrap('',           2, 0, 1, 1)<CR>
+nnoremap <silent> B :<C-U>call sneak#wrap('',           2, 1, 1, 1)<CR>
+xnoremap <silent> b :<C-U>call sneak#wrap(visualmode(), 2, 0, 1, 1)<CR>
+xnoremap <silent> B :<C-U>call sneak#wrap(visualmode(), 2, 1, 1, 1)<CR>
+onoremap <silent> b :<C-U>call sneak#wrap(v:operator,   2, 0, 1, 1)<CR>
+onoremap <silent> B :<C-U>call sneak#wrap(v:operator,   2, 1, 1, 1)<CR>
 " }}}
 
-"-- vim-highlightedyank -- {{{
+"-- vim-highlightedyank -- {{{...
 map y <Plug>(highlightedyank)
 " }}}
 
-"-- mucomplete -- {{{
+"-- mucomplete -- {{{...
 set shortmess+=c
 set complete-=t "no tag
 set completeopt=menuone,noinsert
@@ -293,7 +378,7 @@ let g:mucomplete#enable_auto_at_startup = 1
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Lang {{{
+" => Lang {{{...
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim
 augroup file_vim
@@ -326,8 +411,10 @@ augroup file_sh
     autocmd FileType sh setlocal foldmethod=indent
 augroup END
 
+" }}}
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Extra functionality {{{
+" => Extra functionality {{{...
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " leave insert mode quickly
 set ttimeoutlen=10
@@ -364,6 +451,22 @@ inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 augroup last_position
     autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 augroup END
+
+" interactive jump
+function! GotoJump()
+  jumps
+  let j = input("Please select your jump: ")
+  if j != ''
+    let pattern = '\v\c^\+'
+    if j =~ pattern
+      let j = substitute(j, pattern, '', 'g')
+      execute "normal " . j . "\<c-i>"
+    else
+      execute "normal " . j . "\<c-o>"
+    endif
+  endif
+endfunction
+nmap <leader>j :call GotoJump()<CR>
 
 " }}}
 
