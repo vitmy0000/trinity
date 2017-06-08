@@ -20,6 +20,7 @@ if !&diff
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
     Plug 'taohex/lightline-buffer'
+    Plug 'tpope/vim-vinegar'
 endif
 Plug 'morhetz/gruvbox'
 Plug 'terryma/vim-smooth-scroll'
@@ -373,6 +374,13 @@ set shortmess+=c
 set complete-=t "no tag
 set completeopt=menuone,noinsert
 let g:mucomplete#enable_auto_at_startup = 1
+let g:mucomplete#can_complete = {
+\   'default' : {
+\   'file': { t -> t =~# '\m\%('.s:pathsep.'\|\~\)\f*$' },
+\   'incl': { t -> t =~# '\m\k\k$' },
+\   'keyn': { t -> t =~# '\m\k\k$' },
+\   }
+\ }
 " }}}
 
 " }}}
