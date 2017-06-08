@@ -19,7 +19,16 @@ zplug load #--verbose
 
 ##-- better defaults --##
 setopt PROMPT_SUBST
-PROMPT=$'\n%{\e[47m\e[30m%} %T %{\e[37m\e[44m%} ${$(print -P "%4(c:.../:)%3c")//\\//  } %{\e[34m\e[40m%}%{\e[0m%}\n\$ '
+PROMPT=$'\n%{\e[47m\e[30m%} %T %{\e[37m\e[45m%} ${$(print -P "%4(c:.../:)%3c")//\\//  } %{\e[35m\e[40m%}%{\e[0m%}\n\$ '
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+  PROMPT=$'\n%{\e[47m\e[30m%} %T %{\e[37m\e[44m%} ${$(print -P "%4(c:.../:)%3c")//\\//  } %{\e[34m\e[40m%}%{\e[0m%}\n\$ '
+# many other tests omitted
+else
+  case $(ps -o comm= -p $PPID) in
+    sshd|*/sshd) PROMPT=$'\n%{\e[47m\e[30m%} %T %{\e[37m\e[44m%} ${$(print -P "%4(c:.../:)%3c")//\\//  } %{\e[34m\e[40m%}%{\e[0m%}\n\$ ';;
+  esac
+fi
+
 setopt INC_APPEND_HISTORY
 setopt HISTIGNOREDUPS
 export HISTFILE=~/.zsh_history
@@ -54,4 +63,4 @@ bindkey '^X^F' fasd-complete-f  # C-x C-f to do fasd-complete-f (only files)
 bindkey '^X^D' fasd-complete-d  # C-x C-d to do fasd-complete-d (only directories)
 bindkey '^X^A' fasd-complete    # C-x C-a to do fasd-complete (files and directories)
 
-
+bindkey '^i' expand-or-complete-prefix
