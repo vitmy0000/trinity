@@ -106,9 +106,6 @@ noremap s :set spell<CR>:write<CR>
 noremap Q :quit<CR>
 " remap U to <C-r> for easier redo
 nnoremap U <C-r>
-" word move
-noremap W b
-noremap E ge
 " esc to turn off search highlight
 noremap <leader>/ :let @/=''<CR>
 " quick file explore
@@ -201,7 +198,6 @@ function! MyCR()
     endif
     return "\<CR>"
 endfunction
-inoremap <silent><expr> <CR> MyCR()
 " my simple indent settings {{{...
 " indent one more after ( [ { :
 " indent back after )
@@ -358,12 +354,12 @@ xnoremap <silent> f :<C-U>call sneak#wrap(visualmode(), 1, 0, 1, 1)<CR>
 xnoremap <silent> F :<C-U>call sneak#wrap(visualmode(), 1, 1, 1, 1)<CR>
 onoremap <silent> f :<C-U>call sneak#wrap(v:operator,   1, 0, 1, 1)<CR>
 onoremap <silent> F :<C-U>call sneak#wrap(v:operator,   1, 1, 1, 1)<CR>
-nnoremap <silent> b :<C-U>call sneak#wrap('',           2, 0, 1, 1)<CR>
-nnoremap <silent> B :<C-U>call sneak#wrap('',           2, 1, 1, 1)<CR>
-xnoremap <silent> b :<C-U>call sneak#wrap(visualmode(), 2, 0, 1, 1)<CR>
-xnoremap <silent> B :<C-U>call sneak#wrap(visualmode(), 2, 1, 1, 1)<CR>
-onoremap <silent> b :<C-U>call sneak#wrap(v:operator,   2, 0, 1, 1)<CR>
-onoremap <silent> B :<C-U>call sneak#wrap(v:operator,   2, 1, 1, 1)<CR>
+nnoremap <silent> e :<C-U>call sneak#wrap('',           2, 0, 1, 1)<CR>
+nnoremap <silent> E :<C-U>call sneak#wrap('',           2, 1, 1, 1)<CR>
+xnoremap <silent> e :<C-U>call sneak#wrap(visualmode(), 2, 0, 1, 1)<CR>
+xnoremap <silent> E :<C-U>call sneak#wrap(visualmode(), 2, 1, 1, 1)<CR>
+onoremap <silent> e :<C-U>call sneak#wrap(v:operator,   2, 0, 1, 1)<CR>
+onoremap <silent> E :<C-U>call sneak#wrap(v:operator,   2, 1, 1, 1)<CR>
 " }}}
 
 "-- vim-highlightedyank -- {{{...
@@ -384,7 +380,10 @@ set shortmess+=c
 set complete-=t "no tag
 set completeopt=menuone,noinsert
 let g:mucomplete#enable_auto_at_startup = 1
-inoremap <expr>  <cr> mucomplete#popup_exit("\<cr>")
+let g:mucomplete#chains = {
+    \ 'default' : ['path', 'keyn'],
+    \ }
+inoremap <expr> <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
 " }}}
 
 " }}}
@@ -392,6 +391,9 @@ inoremap <expr>  <cr> mucomplete#popup_exit("\<cr>")
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Lang {{{...
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set tabstop=4 shiftwidth=4 softtabstop=4
+set foldmethod=indent
+
 " vim
 augroup file_vim
     autocmd!
@@ -421,6 +423,16 @@ augroup file_sh
     autocmd!
     autocmd FileType sh setlocal tabstop=2 shiftwidth=2 softtabstop=2
     autocmd FileType sh setlocal foldmethod=indent
+augroup END
+augroup file_html
+    autocmd!
+    autocmd FileType html setlocal tabstop=2 shiftwidth=2 softtabstop=2
+    autocmd FileType html setlocal foldmethod=indent
+augroup END
+augroup file_json
+    autocmd!
+    autocmd FileType json setlocal tabstop=2 shiftwidth=2 softtabstop=2
+    autocmd FileType json setlocal foldmethod=indent
 augroup END
 
 " }}}
