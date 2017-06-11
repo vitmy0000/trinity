@@ -100,10 +100,22 @@ nnoremap ` '
 map Y y$
 " vertical help
 cnoreabbrev vh vert h
+" window layout
+cnoreabbrev wh windo wincmd H
+cnoreabbrev wv windo wincmd K
+" full window help page
+cnoreabbrev hh tab help
 " quick save, workaround for sneak spell bug
 noremap s :set spell<CR>:write<CR>
+noremap S :wa<CR>
+" eol
+set virtualedit=onemore
+noremap $ $l
+" quick new line
+noremap <CR> o<ESC>
 " quick leave
 noremap Q :quit<CR>
+noremap Z :bd<CR>
 " remap U to <C-r> for easier redo
 nnoremap U <C-r>
 " esc to turn off search highlight
@@ -213,8 +225,14 @@ function GetMyIndent(lnum)
 
     let l:pline = getline(l:plnum)
     " if previous line end up with ...
-    if l:pline =~ '[([{:]\s*$'
+    if l:pline =~ '[[{:]\s*$'
         return indent(l:plnum) + &shiftwidth
+    elseif l:pline =~ '(\s*$'
+        if (&filetype == 'python')
+            return indent(l:plnum) + &shiftwidth
+        elseif (&filetype == 'cpp' || &filetype == 'java')
+            return indent(l:plnum) + &shiftwidth + &shiftwidth
+        endif
     endif
     return -1
 endfunction
@@ -254,11 +272,17 @@ let g:lightline = {
             \ 'active': {
             \   'left': [ [ 'mode', 'paste', 'spell'],
             \             [ 'readonly', 'pwd'] ],
-            \   'right': [ [ 'lineinfo' ],
+            \   'right': [ [ 'lineinfo', 'winnr' ],
             \              [ 'percent' ],
             \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
             \ },
+            \ "inactive" : {
+		    \   'left': [ [ 'filename' ] ],
+		    \   'right': [ [ 'lineinfo', 'winnr' ],
+		    \              [ 'percent' ] ]
+            \ },
             \ 'component': {
+            \   'winnr': '%{"❐ " . winnr()}',
             \   'pwd': '%<%{LightlinePWD()}',
             \   'readonly': '%{&readonly?"\ue0a2":""}',
             \ },
@@ -491,6 +515,16 @@ function! GotoJump()
   endif
 endfunction
 nmap <leader>j :call GotoJump()<CR>
+
+" interactive registers
+function! MyReg()
+  registers
+  let j = input("Please select your jump: ")
+  if j != ''
+    execute "normal \"" . j . "p"
+  endif
+endfunction
+nmap <leader>r :call MyReg()<CR>
 
 " }}}
 
