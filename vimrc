@@ -61,8 +61,6 @@ set wildmode=list:longest,full
 set updatetime=500
 " auto change dir
 set autochdir
-" take underscore as word separator
-set iskeyword-=_
 " stop auto comment inserting
 augroup disable_auto_comment
     autocmd!
@@ -328,10 +326,7 @@ function! LightlineFileencoding()
   return winwidth(0) > 70 ? (&fileencoding !=# '' ? &fileencoding : &encoding) : ''
 endfunction
 function! LightlinePercent()
-  let byte = line2byte( line( "." ) ) + col( "." ) - 1
-  let size = (line2byte( line( "$" ) + 1 ) - 1)
-  " return byte . " " . size . " " . (byte * 100) / size
-  return winwidth(0) > 70 ? ((byte * 100) / size . '%') : ''
+  return winwidth(0) > 70 ? ((line(".") * 100) / line("$")) . '%' : ''
 endfunction
 function! LightlineLineinfo()
   return winwidth(0) > 70 ? (line(".") . ':' . col(".")) : ''
