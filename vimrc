@@ -61,6 +61,8 @@ set wildmode=list:longest,full
 set updatetime=500
 " auto change dir
 set autochdir
+" take underscore as word separator
+set iskeyword-=_
 " stop auto comment inserting
 augroup disable_auto_comment
     autocmd!
