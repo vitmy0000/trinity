@@ -7,6 +7,7 @@
 call plug#begin('~/.vim/plugged')
 
 if !&diff
+    Plug 'szw/vim-maximizer'
     Plug 'scrooloose/nerdtree'
     Plug 'artnez/vim-rename'
     Plug 'itchyny/lightline.vim'
@@ -239,6 +240,8 @@ set indentkeys=o
 set indentexpr=GetMyIndent(v:lnum)
 " grep
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>:cclose<CR>
+autocmd BufReadPost quickfix nnoremap <buffer> J :cn<CR><C-w>p
+autocmd BufReadPost quickfix nnoremap <buffer> K :cp<CR><C-w>p
 autocmd BufReadPost quickfix setlocal nocursorline
 command! -nargs=+ Grep execute 'grep! <args>' | copen
 
@@ -398,6 +401,10 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 "-- tagbar -- {{{...
 map <leader>t :TagbarToggle<CR>
+" }}}
+
+"-- szw/vim-maximizer -- {{{...
+nnoremap <silent> <leader><space> :MaximizerToggle<CR>
 " }}}
 
 "-- mucomplete -- {{{...
