@@ -125,6 +125,8 @@ nnoremap # g#
 nnoremap + :bn<CR>
 nnoremap _ :bp<CR>
 nnoremap - :bd<CR>
+" yank line to clipboard
+noremap <C-u> :.w ! cat <bar> tr -d '\n' <bar> pbcopy<CR><CR><C-z>
 " emacs key mappings
 inoremap <C-E> <C-O>$
 inoremap <C-A> <C-O>^
@@ -535,6 +537,7 @@ function! MyReg()
   endif
 endfunction
 nmap <leader>r :call MyReg()<CR>
+
 
 " }}}
 
