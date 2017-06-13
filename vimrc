@@ -21,6 +21,7 @@ if !&diff
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
     Plug 'taohex/lightline-buffer'
+    Plug 'haya14busa/incsearch.vim'
 endif
 Plug 'morhetz/gruvbox'
 Plug 'terryma/vim-smooth-scroll'
@@ -406,6 +407,17 @@ let g:mucomplete#chains = {
     \ 'default' : ['path', 'keyn'],
     \ }
 inoremap <expr> <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
+" }}}
+
+"-- incsearch -- {{{...
+map /  <Plug>(incsearch-forward)
+let g:incsearch#auto_nohlsearch = 1
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+map *  <Plug>(incsearch-nohl-*)
+map #  <Plug>(incsearch-nohl-#)
+map g* <Plug>(incsearch-nohl-g*)
+map g# <Plug>(incsearch-nohl-g#)
 " }}}
 
 " }}}
