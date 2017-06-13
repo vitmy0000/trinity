@@ -9,7 +9,6 @@ call plug#begin('~/.vim/plugged')
 if !&diff
     Plug 'scrooloose/nerdtree'
     Plug 'artnez/vim-rename'
-    Plug 'henrik/vim-indexed-search'
     Plug 'itchyny/lightline.vim'
     Plug 'jiangmiao/auto-pairs'
     Plug 'justinmk/vim-sneak'
@@ -98,13 +97,12 @@ nnoremap ' `
 nnoremap ` '
 " y$ -> Y Make Y behave like other capitals
 map Y y$
-" vertical help
+" help
 cnoreabbrev vh vert h
-" window layout
+nnoremap ? :tab help<Space>
+" change window layout
 cnoreabbrev wh windo wincmd H
 cnoreabbrev wv windo wincmd K
-" full window help page
-cnoreabbrev hh tab help
 " quick save, workaround for sneak spell bug
 noremap s :set spell<CR>:write<CR>
 noremap S :wa<CR>
@@ -237,7 +235,7 @@ endfunction
 set indentkeys=o
 set indentexpr=GetMyIndent(v:lnum)
 " grep
-autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>:cclose<CR>
 autocmd BufReadPost quickfix setlocal nocursorline
 command! -nargs=+ Grep execute 'grep! <args>' | copen
 
