@@ -238,6 +238,11 @@ function GetMyIndent(lnum)
 endfunction
 set indentkeys=o
 set indentexpr=GetMyIndent(v:lnum)
+" grep
+autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+autocmd BufReadPost quickfix setlocal nocursorline
+command! -nargs=+ Grep execute 'grep! <args>' | copen
+
 " }}}
 
 " }}}
