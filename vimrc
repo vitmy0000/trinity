@@ -111,22 +111,21 @@ noremap S :wa<CR>
 " eol
 set virtualedit=onemore
 noremap $ $l
-" quick new line
-noremap <CR> o<ESC>
 " quick leave
 noremap Q :quit<CR>
-noremap Z :bd<CR>
 " remap U to <C-r> for easier redo
 nnoremap U <C-r>
 " esc to turn off search highlight
 noremap <leader>/ :let @/=''<CR>
-" quick file explore
-noremap <leader>e :e .<CR>
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 " star search for partial word
 nnoremap * g*
 nnoremap # g#
+" buffer
+nnoremap + :bn<CR>
+nnoremap _ :bp<CR>
+nnoremap - :bd<CR>
 " emacs key mappings
 inoremap <C-E> <C-O>$
 inoremap <C-A> <C-O>^
@@ -222,7 +221,6 @@ function GetMyIndent(lnum)
         " This is the first non-empty line, use zero indent.
         return 0
     endif
-
     let l:pline = getline(l:plnum)
     " if previous line end up with ...
     if l:pline =~ '[[{:]\s*$'
@@ -393,7 +391,7 @@ map y <Plug>(highlightedyank)
 " }}}
 
 "-- nerdtree -- {{{...
-map <leader>n :NERDTreeToggle<CR>
+map <leader>e :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " }}}
 
