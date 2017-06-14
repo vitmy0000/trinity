@@ -100,8 +100,7 @@ nnoremap ` '
 " y$ -> Y Make Y behave like other capitals
 map Y y$
 " help
-cnoreabbrev vh vert h
-nnoremap ? :tab help<Space>
+nnoremap ? :vert help<Space>
 " change window layout
 cnoreabbrev wh windo wincmd H
 cnoreabbrev wv windo wincmd K
@@ -129,7 +128,8 @@ nnoremap + :bn<CR>
 nnoremap _ :bp<CR>
 nnoremap - :bd<CR>
 " yank line to clipboard
-noremap <C-u> :.w ! cat <bar> tr -d '\n' <bar> pbcopy<CR><CR><C-z>
+nnoremap <C-u> :.w ! cat <bar> tr -d '\n' <bar> pbcopy<CR><CR><C-z>
+vnoremap <C-u> "uy:enew<CR>"up:w ! cat <bar> tr -d '\n' <bar> pbcopy<CR><CR>u:bde<CR>
 " emacs key mappings
 inoremap <C-E> <C-O>$
 inoremap <C-A> <C-O>^
@@ -241,22 +241,25 @@ endfunction
 set indentkeys=o
 set indentexpr=GetMyIndent(v:lnum)
 " grep
+highlight GrepHighlight ctermbg=Green ctermfg=Black
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>:cclose<CR>:let @/=''<CR>
 autocmd BufReadPost quickfix nnoremap <buffer> J :cn<CR><C-w>p
 autocmd BufReadPost quickfix nnoremap <buffer> K :cp<CR><C-w>p
-autocmd BufReadPost quickfix nnoremap <buffer> // /<C-r>"<CR>
+autocmd BufReadPost quickfix nnoremap <buffer> // :windo call matchadd("GrepHighlight", "<C-r>g")<CR>
+autocmd BufReadPost quickfix nnoremap <buffer> <leader>/ :windo call clearmatches()<CR>
 autocmd BufReadPost quickfix setlocal nocursorline
 function! GrepOperator(type)
     if a:type ==# 'v'
-        normal! `<v`>y
+        normal! `<v`>"gy
     elseif a:type ==# 'char'
-        normal! `[v`]y
+        normal! `[v`]"gy
     else
         return
     endif
-    execute "silent grep -R --exclude-dir={.git,.hg} " . shellescape(@@) . " ."
+    execute "silent grep -R --exclude-dir={.git,.hg} " . shellescape(@g) . " ."
     copen
     execute "redraw!"
+    execute "windo call matchadd(\"GrepHighlight\", " . shellescape(@g) . ")"
 endfunction
 vnoremap <leader>g :<c-u>call GrepOperator(visualmode())<cr>
 nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
@@ -406,6 +409,7 @@ onoremap <silent> E :<C-U>call sneak#wrap(v:operator,   2, 1, 1, 1)<CR>
 " }}}
 
 "-- vim-highlightedyank -- {{{...
+hi HighlightedyankRegion ctermfg=Black ctermbg=Yellow
 map y <Plug>(highlightedyank)
 " }}}
 
@@ -552,14 +556,14 @@ endfunction
 nmap <leader>j :call GotoJump()<CR>
 
 " interactive registers
-function! MyReg()
+function! MyRegPaste()
   registers
   let j = input("Please select your jump: ")
   if j != ''
     execute "normal \"" . j . "p"
   endif
 endfunction
-nmap <leader>p :call MyReg()<CR>
+nmap <leader>p :call MyRegPaste()<CR>
 
 " auto close quickfix window
 aug QFClose
@@ -568,4 +572,3 @@ aug QFClose
 aug END
 
 " }}}
-
