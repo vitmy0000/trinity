@@ -117,7 +117,7 @@ noremap $ $l
 noremap Q :quit<CR>
 " remap U to <C-r> for easier redo
 nnoremap U <C-r>
-" esc to turn off search highlight
+" turn off search highlight
 noremap <leader>/ :let @/=''<CR>
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
@@ -256,7 +256,6 @@ function! GrepOperator(type)
     endif
     execute "silent grep -R --exclude-dir={.git,.hg} " . shellescape(@@) . " ."
     copen
-    execute "normal! /\<C-r>\"\<cr>"
     execute "redraw!"
 endfunction
 vnoremap <leader>g :<c-u>call GrepOperator(visualmode())<cr>
@@ -421,6 +420,7 @@ map <leader>t :TagbarToggle<CR>
 
 "-- szw/vim-maximizer -- {{{...
 nnoremap <silent> <leader><space> :MaximizerToggle<CR>
+nnoremap <silent> <leader>o <C-w>o
 " }}}
 
 "-- mucomplete -- {{{...
@@ -569,9 +569,3 @@ aug END
 
 " }}}
 
-function! Test()
-    execute "silent grep XXXX *"
-    copen
-    execute "normal! /XXXX\<cr>"
-    execute "redraw!"
-endfunction
