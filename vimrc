@@ -105,6 +105,8 @@ nnoremap ? :tab help<Space>
 " change window layout
 cnoreabbrev wh windo wincmd H
 cnoreabbrev wv windo wincmd K
+" force write
+cnoreabbrev fw w ! sudo tee %
 " quick save, workaround for sneak spell bug
 noremap s :set spell<CR>:write<CR>
 noremap S :wa<CR>
@@ -239,12 +241,24 @@ endfunction
 set indentkeys=o
 set indentexpr=GetMyIndent(v:lnum)
 " grep
-autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>:cclose<CR>
+autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>:cclose<CR>:let @/=''<CR>
 autocmd BufReadPost quickfix nnoremap <buffer> J :cn<CR><C-w>p
 autocmd BufReadPost quickfix nnoremap <buffer> K :cp<CR><C-w>p
+autocmd BufReadPost quickfix nnoremap <buffer> // /<C-r>"<CR>
 autocmd BufReadPost quickfix setlocal nocursorline
-command! -nargs=+ Grep execute 'grep! <args>' | copen
-
+function! GrepOperator(type)
+    if a:type ==# 'v'
+        normal! `<v`>y
+    elseif a:type ==# 'char'
+        normal! `[v`]y
+    else
+        return
+    endif
+    execute "grep -R --exclude-dir={.git,.hg} " . shellescape(@@) . " ."
+    copen
+endfunction
+vnoremap <leader>g :<c-u>call GrepOperator(visualmode())<cr>
+nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
 " }}}
 
 " }}}
@@ -543,8 +557,13 @@ function! MyReg()
     execute "normal \"" . j . "p"
   endif
 endfunction
-nmap <leader>r :call MyReg()<CR>
+nmap <leader>p :call MyReg()<CR>
 
+" auto close quickfix window
+aug QFClose
+  au!
+  au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
+aug END
 
 " }}}
 
