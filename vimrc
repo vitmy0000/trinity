@@ -7,10 +7,12 @@
 call plug#begin('~/.vim/plugged')
 
 if !&diff
-  Plug 'szw/vim-maximizer'
   Plug 'scrooloose/nerdtree'
-  Plug 'artnez/vim-rename'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'itchyny/lightline.vim'
+  Plug 'taohex/lightline-buffer'
+  Plug 'artnez/vim-rename'
+  Plug 'szw/vim-maximizer'
   Plug 'jiangmiao/auto-pairs'
   Plug 'justinmk/vim-sneak'
   Plug 'lifepillar/vim-mucomplete'
@@ -21,7 +23,6 @@ if !&diff
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-surround'
-  Plug 'taohex/lightline-buffer'
   Plug 'haya14busa/incsearch.vim'
 endif
 Plug 'morhetz/gruvbox'
