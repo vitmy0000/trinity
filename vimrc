@@ -409,7 +409,7 @@ onoremap <silent> E :<C-U>call sneak#wrap(v:operator,   2, 1, 1, 1)<CR>
 " }}}
 
 "-- vim-highlightedyank -- {{{...
-hi HighlightedyankRegion ctermfg=Black ctermbg=Yellow
+hi HighlightedyankRegion ctermfg=Black ctermbg=Blue
 map y <Plug>(highlightedyank)
 " }}}
 
@@ -439,6 +439,7 @@ inoremap <expr> <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
 " }}}
 
 "-- incsearch -- {{{...
+hi Search ctermfg=Yellow ctermbg=Black
 map /  <Plug>(incsearch-forward)
 let g:incsearch#auto_nohlsearch = 1
 map n  <Plug>(incsearch-nohl-n)
@@ -447,6 +448,19 @@ map *  <Plug>(incsearch-nohl-*)
 map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
+augroup incsearch-keymap
+    autocmd!
+    autocmd VimEnter * call s:incsearch_keymap()
+augroup END
+function! s:incsearch_keymap()
+    if exists('g:loaded_incsearch')
+        IncSearchNoreMap <CR> <Over>(incsearch-next)
+        IncSearchNoreMap ⇧⏎ <Over>(incsearch-prev)
+        IncSearchNoreMap <Esc> <CR>
+    endif
+endfunction
+" range search
+vnoremap / <Esc>/\%><C-R>=line("'<")-1<CR>l\%<<C-R>=line("'>")+1<CR>l
 " }}}
 
 " }}}
