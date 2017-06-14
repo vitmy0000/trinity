@@ -7,22 +7,22 @@
 call plug#begin('~/.vim/plugged')
 
 if !&diff
-    Plug 'szw/vim-maximizer'
-    Plug 'scrooloose/nerdtree'
-    Plug 'artnez/vim-rename'
-    Plug 'itchyny/lightline.vim'
-    Plug 'jiangmiao/auto-pairs'
-    Plug 'justinmk/vim-sneak'
-    Plug 'lifepillar/vim-mucomplete'
-    Plug 'majutsushi/tagbar'
-    Plug 'machakann/vim-highlightedyank'
-    Plug 'mhinz/vim-signify'
-    Plug 'nelstrom/vim-visual-star-search'
-    Plug 'tomtom/tcomment_vim'
-    Plug 'tpope/vim-repeat'
-    Plug 'tpope/vim-surround'
-    Plug 'taohex/lightline-buffer'
-    Plug 'haya14busa/incsearch.vim'
+  Plug 'szw/vim-maximizer'
+  Plug 'scrooloose/nerdtree'
+  Plug 'artnez/vim-rename'
+  Plug 'itchyny/lightline.vim'
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'justinmk/vim-sneak'
+  Plug 'lifepillar/vim-mucomplete'
+  Plug 'majutsushi/tagbar'
+  Plug 'machakann/vim-highlightedyank'
+  Plug 'mhinz/vim-signify'
+  Plug 'nelstrom/vim-visual-star-search'
+  Plug 'tomtom/tcomment_vim'
+  Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-surround'
+  Plug 'taohex/lightline-buffer'
+  Plug 'haya14busa/incsearch.vim'
 endif
 Plug 'morhetz/gruvbox'
 Plug 'terryma/vim-smooth-scroll'
@@ -64,13 +64,13 @@ set updatetime=500
 set autochdir
 " stop auto comment inserting
 augroup disable_auto_comment
-    autocmd!
-    autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+  autocmd!
+  autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 augroup END
 " remove trailing space when saving buffer
 augroup remove_trailing_space
-    autocmd!
-    autocmd BufWritePre * %s/\s\+$//e
+  autocmd!
+  autocmd BufWritePre * %s/\s\+$//e
 augroup END
 " }}}
 
@@ -198,45 +198,45 @@ set ignorecase
 set smartcase
 " <CR> inside parentheses
 function! MyCR()
-    if pumvisible()
-        return "\<CR>"
-    endif
-    if col('.') < 2
-        return "\<CR>"
-    endif
-    let l:prevChar = getline(line('.'))[col('.') - 2]
-    let l:currChar = getline(line('.'))[col('.') - 1]
-    if l:prevChar == '[' && l:currChar == ']'
-        return "\<CR>\<BS>\<UP>\<C-o>\o"
-    elseif l:prevChar == '{' && l:currChar == '}'
-        return "\<CR>\<BS>\<UP>\<C-o>\o"
-    endif
+  if pumvisible()
     return "\<CR>"
+  endif
+  if col('.') < 2
+    return "\<CR>"
+  endif
+  let l:prevChar = getline(line('.'))[col('.') - 2]
+  let l:currChar = getline(line('.'))[col('.') - 1]
+  if l:prevChar == '[' && l:currChar == ']'
+    return "\<CR>\<BS>\<UP>\<C-o>\o"
+  elseif l:prevChar == '{' && l:currChar == '}'
+    return "\<CR>\<BS>\<UP>\<C-o>\o"
+  endif
+  return "\<CR>"
 endfunction
 " my simple indent settings {{{...
 " indent one more after ( [ { :
-" indent back after )
+  " indent back after )
 filetype indent off
 function GetMyIndent(lnum)
-    " Search backwards for the previous non-empty line.
-    " TODO: skip comment lines
-    let l:plnum = prevnonblank(a:lnum - 1)
-    if l:plnum == 0
-        " This is the first non-empty line, use zero indent.
-        return 0
+  " Search backwards for the previous non-empty line.
+  " TODO: skip comment lines
+  let l:plnum = prevnonblank(a:lnum - 1)
+  if l:plnum == 0
+    " This is the first non-empty line, use zero indent.
+    return 0
+  endif
+  let l:pline = getline(l:plnum)
+  " if previous line end up with ...
+  if l:pline =~ '[[{:]\s*$'
+    return indent(l:plnum) + &shiftwidth
+  elseif l:pline =~ '(\s*$'
+    if (&filetype == 'python')
+      return indent(l:plnum) + &shiftwidth
+    elseif (&filetype == 'cpp' || &filetype == 'java')
+      return indent(l:plnum) + &shiftwidth + &shiftwidth
     endif
-    let l:pline = getline(l:plnum)
-    " if previous line end up with ...
-    if l:pline =~ '[[{:]\s*$'
-        return indent(l:plnum) + &shiftwidth
-    elseif l:pline =~ '(\s*$'
-        if (&filetype == 'python')
-            return indent(l:plnum) + &shiftwidth
-        elseif (&filetype == 'cpp' || &filetype == 'java')
-            return indent(l:plnum) + &shiftwidth + &shiftwidth
-        endif
-    endif
-    return -1
+  endif
+  return -1
 endfunction
 set indentkeys=o
 set indentexpr=GetMyIndent(v:lnum)
@@ -249,17 +249,17 @@ autocmd BufReadPost quickfix nnoremap <buffer> // :windo call matchadd("GrepHigh
 autocmd BufReadPost quickfix nnoremap <buffer> <leader>/ :windo call clearmatches()<CR>
 autocmd BufReadPost quickfix setlocal nocursorline
 function! GrepOperator(type)
-    if a:type ==# 'v'
-        normal! `<v`>"gy
-    elseif a:type ==# 'char'
-        normal! `[v`]"gy
-    else
-        return
-    endif
-    execute "silent grep -R --exclude-dir={.git,.hg} " . shellescape(@g) . " ."
-    copen
-    execute "redraw!"
-    execute "windo call matchadd(\"GrepHighlight\", " . shellescape(@g) . ")"
+  if a:type ==# 'v'
+    normal! `<v`>"gy
+  elseif a:type ==# 'char'
+    normal! `[v`]"gy
+  else
+    return
+  endif
+  execute "silent grep -R --exclude-dir={.git,.hg} " . shellescape(@g) . " ."
+  copen
+  execute "redraw!"
+  execute "windo call matchadd(\"GrepHighlight\", " . shellescape(@g) . ")"
 endfunction
 vnoremap <leader>g :<c-u>call GrepOperator(visualmode())<cr>
 nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
@@ -293,53 +293,53 @@ set hidden  " allow buffer switching without saving
 set showtabline=2  " always show tabline
 set noshowmode
 let g:lightline = {
-            \ 'colorscheme': 'wombat',
-            \ 'active': {
-            \   'left': [ [ 'mode', 'paste', 'spell'],
-            \             [ 'readonly', 'pwd'] ],
-            \   'right': [ [ 'lineinfo', 'winnr' ],
-            \              [ 'percent' ],
-            \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
-            \ },
-            \ "inactive" : {
-		    \   'left': [ [ 'filename' ] ],
-		    \   'right': [ [ 'lineinfo', 'winnr' ],
-		    \              [ 'percent' ] ]
-            \ },
-            \ 'component': {
-            \   'winnr': '%{"❐ " . winnr()}',
-            \   'pwd': '%<%{LightlinePWD()}',
-            \   'readonly': '%{&readonly?"\ue0a2":""}',
-            \ },
-            \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-            \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
-            \ 'tabline': {
-            \   'left': [ [ 'bufferinfo' ], [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
-            \   'right': [ [ 'close' ], ],
-            \ },
-            \ 'component_expand': {
-            \   'buffercurrent': 'lightline#buffer#buffercurrent2',
-            \ },
-            \ 'component_type': {
-            \   'buffercurrent': 'tabsel',
-            \ },
-            \ 'component_function': {
-            \   'lineinfo': 'LightlineLineinfo',
-            \   'percent': 'LightlinePercent',
-            \   'spell': 'LightlineSpell',
-            \   'fileformat': 'LightlineFileformat',
-            \   'filetype': 'LightlineFiletype',
-            \   'fileencoding': 'LightlineFileencoding',
-            \   'bufferbefore': 'lightline#buffer#bufferbefore',
-            \   'bufferafter': 'lightline#buffer#bufferafter',
-            \   'bufferinfo': 'lightline#buffer#bufferinfo',
-            \ },
-        \ }
+  \ 'colorscheme': 'wombat',
+  \ 'active': {
+  \   'left': [ [ 'mode', 'paste', 'spell'],
+  \             [ 'readonly', 'pwd'] ],
+  \   'right': [ [ 'lineinfo', 'winnr' ],
+  \              [ 'percent' ],
+  \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+  \ },
+  \ "inactive" : {
+  \   'left': [ [ 'filename' ] ],
+  \   'right': [ [ 'lineinfo', 'winnr' ],
+  \              [ 'percent' ] ]
+  \ },
+  \ 'component': {
+  \   'winnr': '%{"❐ " . winnr()}',
+  \   'pwd': '%<%{LightlinePWD()}',
+  \   'readonly': '%{&readonly?"\ue0a2":""}',
+  \ },
+  \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+  \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
+  \ 'tabline': {
+  \   'left': [ [ 'bufferinfo' ], [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
+  \   'right': [ [ 'close' ], ],
+  \ },
+  \ 'component_expand': {
+  \   'buffercurrent': 'lightline#buffer#buffercurrent2',
+  \ },
+  \ 'component_type': {
+  \   'buffercurrent': 'tabsel',
+  \ },
+  \ 'component_function': {
+  \   'lineinfo': 'LightlineLineinfo',
+  \   'percent': 'LightlinePercent',
+  \   'spell': 'LightlineSpell',
+  \   'fileformat': 'LightlineFileformat',
+  \   'filetype': 'LightlineFiletype',
+  \   'fileencoding': 'LightlineFileencoding',
+  \   'bufferbefore': 'lightline#buffer#bufferbefore',
+  \   'bufferafter': 'lightline#buffer#bufferafter',
+  \   'bufferinfo': 'lightline#buffer#bufferinfo',
+  \ },
+\ }
 function! LightlinePWD()
-    return "PWD: " . expand('%:p:h')
+  return "PWD: " . expand('%:p:h')
 endfunction
 function! LightlineSpell()
-    return winwidth(0) > 70 ? (&spell ? 'SPELL' : '') : ''
+  return winwidth(0) > 70 ? (&spell ? 'SPELL' : '') : ''
 endfunction
 function! LightlineFileformat()
   return winwidth(0) > 70 ? &fileformat : ''
@@ -433,8 +433,8 @@ set complete-=t "no tag
 set completeopt=menuone,noinsert
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#chains = {
-    \ 'default' : ['path', 'keyn'],
-    \ }
+  \ 'default' : ['path', 'keyn'],
+\ }
 inoremap <expr> <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
 " }}}
 
@@ -449,15 +449,15 @@ map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
 augroup incsearch-keymap
-    autocmd!
-    autocmd VimEnter * call s:incsearch_keymap()
+  autocmd!
+  autocmd VimEnter * call s:incsearch_keymap()
 augroup END
 function! s:incsearch_keymap()
-    if exists('g:loaded_incsearch')
-        IncSearchNoreMap <CR> <Over>(incsearch-next)
-        IncSearchNoreMap ⇧⏎ <Over>(incsearch-prev)
-        IncSearchNoreMap <Esc> <CR>
-    endif
+  if exists('g:loaded_incsearch')
+    IncSearchNoreMap <CR> <Over>(incsearch-next)
+    IncSearchNoreMap ⇧⏎ <Over>(incsearch-prev)
+    IncSearchNoreMap <Esc> <CR>
+  endif
 endfunction
 " range search
 vnoremap / <Esc>/\%><C-R>=line("'<")-1<CR>l\%<<C-R>=line("'>")+1<CR>l
@@ -468,48 +468,20 @@ vnoremap / <Esc>/\%><C-R>=line("'<")-1<CR>l\%<<C-R>=line("'>")+1<CR>l
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Lang {{{...
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set tabstop=4 shiftwidth=4 softtabstop=4
+set tabstop=2 shiftwidth=2 softtabstop=2
 set foldmethod=indent
 
 " vim
 augroup file_vim
-    autocmd!
-    autocmd FileType vim setlocal tabstop=4 shiftwidth=4 softtabstop=4
-    autocmd FileType vim setlocal foldmethod=marker
+  autocmd!
+  autocmd FileType vim setlocal tabstop=2 shiftwidth=2 softtabstop=2
+  autocmd FileType vim setlocal foldmethod=marker
 augroup END
 " python
 augroup file_py
-    autocmd!
-    autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
-    autocmd FileType python setlocal foldmethod=indent
-augroup END
-" java
-augroup file_java
-    autocmd!
-    autocmd FileType java setlocal tabstop=2 shiftwidth=2 softtabstop=2
-    autocmd FileType java setlocal foldmethod=indent
-augroup END
-" javascript
-augroup file_js
-    autocmd!
-    autocmd FileType javascript setlocal tabstop=4 shiftwidth=4 softtabstop=4
-    autocmd FileType javascript setlocal foldmethod=indent
-augroup END
-" shell
-augroup file_sh
-    autocmd!
-    autocmd FileType sh setlocal tabstop=2 shiftwidth=2 softtabstop=2
-    autocmd FileType sh setlocal foldmethod=indent
-augroup END
-augroup file_html
-    autocmd!
-    autocmd FileType html setlocal tabstop=2 shiftwidth=2 softtabstop=2
-    autocmd FileType html setlocal foldmethod=indent
-augroup END
-augroup file_json
-    autocmd!
-    autocmd FileType json setlocal tabstop=2 shiftwidth=2 softtabstop=2
-    autocmd FileType json setlocal foldmethod=indent
+  autocmd!
+  autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType python setlocal foldmethod=indent
 augroup END
 
 " }}}
@@ -520,9 +492,9 @@ augroup END
 " leave insert mode quickly
 set ttimeoutlen=10
 augroup FastEscape
-    autocmd!
-    autocmd InsertEnter * set timeoutlen=0
-    autocmd InsertLeave * set timeoutlen=3000
+  autocmd!
+  autocmd InsertEnter * set timeoutlen=0
+  autocmd InsertLeave * set timeoutlen=3000
 augroup END
 
 " change cursor type based on mode
@@ -532,25 +504,25 @@ let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 
 " auto set paste
 function! WrapForTmux(s)
-    if !exists('$TMUX')
-        return a:s
-    endif
-    let l:tmux_start = "\<Esc>Ptmux;"
-    let l:tmux_end = "\<Esc>\\"
-    return l:tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . l:tmux_end
+  if !exists('$TMUX')
+    return a:s
+  endif
+  let l:tmux_start = "\<Esc>Ptmux;"
+  let l:tmux_end = "\<Esc>\\"
+  return l:tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . l:tmux_end
 endfunction
 let &t_SI .= WrapForTmux("\<Esc>[?2004h")
 let &t_EI .= WrapForTmux("\<Esc>[?2004l")
 function! XTermPasteBegin()
-    set pastetoggle=<Esc>[201~
-    set paste
-    return ''
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ''
 endfunction
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 " jump to last postion when reopen
 augroup last_position
-    autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+  autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 augroup END
 
 " interactive jump
