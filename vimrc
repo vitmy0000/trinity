@@ -214,8 +214,7 @@ function! MyCR()
   return "\<CR>"
 endfunction
 " my simple indent settings {{{...
-" indent one more after ( [ { :
-  " indent back after )
+" indent one more after ( [ { : and indent back after )
 filetype indent off
 function GetMyIndent(lnum)
   " Search backwards for the previous non-empty line.
