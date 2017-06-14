@@ -254,8 +254,10 @@ function! GrepOperator(type)
     else
         return
     endif
-    execute "grep -R --exclude-dir={.git,.hg} " . shellescape(@@) . " ."
+    execute "silent grep -R --exclude-dir={.git,.hg} " . shellescape(@@) . " ."
     copen
+    execute "normal! /\<C-r>\"\<cr>"
+    execute "redraw!"
 endfunction
 vnoremap <leader>g :<c-u>call GrepOperator(visualmode())<cr>
 nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
@@ -567,3 +569,9 @@ aug END
 
 " }}}
 
+function! Test()
+    execute "silent grep XXXX *"
+    copen
+    execute "normal! /XXXX\<cr>"
+    execute "redraw!"
+endfunction
