@@ -9,6 +9,7 @@ call plug#begin('~/.vim/plugged')
 if !&diff
   Plug 'scrooloose/nerdtree'
   Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'unkiwii/vim-nerdtree-sync'
   Plug 'itchyny/lightline.vim'
   Plug 'taohex/lightline-buffer'
   Plug 'artnez/vim-rename'
@@ -61,8 +62,6 @@ set wildmenu
 set wildmode=list:longest,full
 " timeout to send CursorHold
 set updatetime=500
-" auto change dir
-set autochdir
 " stop auto comment inserting
 augroup disable_auto_comment
   autocmd!
@@ -128,9 +127,6 @@ nnoremap # g#
 nnoremap + :bn<CR>
 nnoremap _ :bp<CR>
 nnoremap - :bd<CR>
-" yank line to clipboard
-nnoremap <C-u> :.w ! cat <bar> tr -d '\n' <bar> pbcopy<CR><CR><C-z>
-vnoremap <C-u> "uy:enew<CR>"up:w ! cat <bar> tr -d '\n' <bar> pbcopy<CR><CR>u:bde<CR>
 " emacs key mappings
 inoremap <C-E> <C-O>$
 inoremap <C-A> <C-O>^
@@ -242,12 +238,16 @@ set indentkeys=o
 set indentexpr=GetMyIndent(v:lnum)
 " grep
 highlight GrepHighlight ctermbg=Green ctermfg=Black
-autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>:cclose<CR>:let @/=''<CR>
-autocmd BufReadPost quickfix nnoremap <buffer> J :cn<CR><C-w>p
-autocmd BufReadPost quickfix nnoremap <buffer> K :cp<CR><C-w>p
-autocmd BufReadPost quickfix nnoremap <buffer> // :windo call matchadd("GrepHighlight", "<C-r>g")<CR>
-autocmd BufReadPost quickfix nnoremap <buffer> <leader>/ :windo call clearmatches()<CR>
-autocmd BufReadPost quickfix setlocal nocursorline
+augroup grep_cmd
+  autocmd!
+  autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>:cclose<CR>:windo call clearmatches()<CR>
+  autocmd BufReadPost quickfix nnoremap <buffer> J :cn<CR>:copen<CR>
+  autocmd BufReadPost quickfix nnoremap <buffer> K :cp<CR>:copen<CR>
+  autocmd BufReadPost quickfix nnoremap <buffer> // :windo call matchadd("GrepHighlight", "<C-r>g")<CR>
+  autocmd BufReadPost quickfix nnoremap <buffer> <leader>/ :windo call clearmatches()<CR>
+  autocmd BufReadPost quickfix setlocal nocursorline
+  autocmd BufReadPost quickfix :let g:quickfix_window_number = winnr()
+augroup END
 function! GrepOperator(type)
   if a:type ==# 'v'
     normal! `<v`>"gy
@@ -256,7 +256,7 @@ function! GrepOperator(type)
   else
     return
   endif
-  execute "silent grep -R --exclude-dir={.git,.hg} " . shellescape(@g) . " ."
+  execute "silent grep -R --exclude-dir={.git,.hg} " . shellescape(@g) . " " . g:entry_dir
   copen
   execute "redraw!"
   execute "windo call matchadd(\"GrepHighlight\", " . shellescape(@g) . ")"
@@ -413,11 +413,6 @@ hi HighlightedyankRegion ctermfg=Black ctermbg=Blue
 map y <Plug>(highlightedyank)
 " }}}
 
-"-- nerdtree -- {{{...
-map <leader>e :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" }}}
-
 "-- tagbar -- {{{...
 map <leader>t :TagbarToggle<CR>
 " }}}
@@ -462,6 +457,19 @@ endfunction
 " range search
 vnoremap / <Esc>/\%><C-R>=line("'<")-1<CR>l\%<<C-R>=line("'>")+1<CR>l
 " }}}
+
+"-- nerdtree -- {{{...
+map <leader>e :NERDTreeToggle<CR>
+augroup nerdtree
+  autocmd!
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+  autocmd VimEnter * let g:entry_dir = getcwd()
+  autocmd BufEnter * silent! lcd %:p:h
+augroup END
+"}}}
 
 " }}}
 
@@ -557,4 +565,9 @@ aug QFClose
   au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
 aug END
 
+if has("osx")
+  " yank line to clipboard
+  nnoremap <C-u> :.w ! cat <bar> tr -d '\n' <bar> pbcopy<CR><CR><C-z>
+  vnoremap <C-u> "uy:enew<CR>"up:w ! cat <bar> tr -d '\n' <bar> pbcopy<CR><CR>u:bde<CR>
+endif
 " }}}
