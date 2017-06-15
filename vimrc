@@ -581,9 +581,10 @@ function! s:VSetSearch(cmdtype)
 endfunction
 xnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
 
-if has("osx")
-  " yank line to clipboard
-  nnoremap <C-u> :.w ! cat <bar> tr -d '\n' <bar> pbcopy<CR><CR><C-z>
-  vnoremap <C-u> "uy:enew<CR>"up:w ! cat <bar> tr -d '\n' <bar> pbcopy<CR><CR>u:bde<CR>
-endif
+" if has("osx")
+"   " yank line to clipboard
+"   nnoremap <C-u> :.w ! cat <bar> tr -d '\n' <bar> pbcopy<CR><CR><C-z>
+"   vnoremap <C-u> "uy:enew<CR>"up:w ! cat <bar> tr -d '\n' <bar> pbcopy<CR><CR>u:bde<CR>
+" endif
+
 " }}}
