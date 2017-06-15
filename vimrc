@@ -117,7 +117,7 @@ noremap Q :quit<CR>
 " remap U to <C-r> for easier redo
 nnoremap U <C-r>
 " turn off search highlight
-noremap <leader>/ :let @/=''<CR>
+noremap <leader>/ :let @/=''<CR>:windo call clearmatches()<CR>
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 " star search for partial word
@@ -256,6 +256,7 @@ function! GrepOperator(type)
   else
     return
   endif
+  mark G
   execute "silent grep -R --exclude-dir={.git,.hg} " . shellescape(@g) . " " . g:entry_dir
   copen
   execute "redraw!"
