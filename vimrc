@@ -79,6 +79,13 @@ augroup END
 " configure backspace so it acts as it should act
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
+" timeout
+set timeout timeoutlen=3000 ttimeoutlen=30
+augroup FastEscape
+  autocmd!
+  autocmd InsertEnter * set timeoutlen=10
+  autocmd InsertLeave * set timeoutlen=3000
+augroup END
 " leader
 let g:mapleader = "\<Space>"
 " treat long lines as break lines (useful when moving around in them)
@@ -100,6 +107,7 @@ nnoremap ` '
 map Y y$
 " help
 nnoremap ? :vert help<Space>
+cnoreabbrev vh vert help
 " change window layout
 cnoreabbrev wh windo wincmd H
 cnoreabbrev wv windo wincmd K
@@ -127,20 +135,25 @@ nnoremap + :bn<CR>
 nnoremap _ :bp<CR>
 nnoremap - :bd<CR>
 " emacs key mappings
-inoremap <C-E> <C-O>$
-inoremap <C-A> <C-O>^
-cnoremap <C-E> <C-E>
-cnoremap <C-A> <C-B>
-noremap! <ESC>f <s-right>
-noremap! <ESC>b <s-left>
-noremap! <ESC><BS> <C-W>
-noremap! <C-D> <Del>
-noremap! <C-W> <C-W>
-noremap! <C-U> <C-U>
+inoremap <C-e> <C-o>$
+inoremap <C-a> <C-o>^
+cnoremap <C-e> <C-e>
+cnoremap <C-a> <C-b>
+set <M-f>=f
+noremap! <M-f> <s-right>
+set <M-b>=b
+noremap! <M-b> <s-left>
+" <M-BS> not available, <M-\> as a workaround
+set <M-\>=
+noremap! <M-\> <C-w>
+noremap! <C-d> <Del>
+noremap! <C-w> <C-w>
+noremap! <C-u> <C-u>
 " forward delete word and line are not feasible in command-line editing
 " however, they are not very commonly used
-inoremap <ESC>d <C-O>de
-inoremap <C-K> <C-O>D
+set <M-d>=d
+inoremap <M-d> <C-o>de
+inoremap <C-k> <C-o>D
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -275,6 +288,8 @@ nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
 let g:AutoPairsMultilineClose = 0
 " turn on this may cause indent problem
 let g:AutoPairsMapCR = 0
+" allow <M-b> to work as word back move
+let g:AutoPairsShortcutBackInsert = ''
 " }}}
 
 "-- signify -- {{{...
@@ -419,7 +434,7 @@ map <leader>t :TagbarToggle<CR>
 
 "-- szw/vim-maximizer -- {{{...
 nnoremap <silent> <leader><space> :MaximizerToggle<CR>
-nnoremap <silent> <leader>o <C-w>o
+nnoremap <silent> <leader>w <C-w>o
 " }}}
 
 "-- mucomplete -- {{{...
@@ -455,7 +470,7 @@ function! s:incsearch_keymap()
   endif
 endfunction
 " range search
-vnoremap / <Esc>/\%><C-R>=line("'<")-1<CR>l\%<<C-R>=line("'>")+1<CR>l
+vmap / <Esc>/\%V
 " }}}
 
 "-- nerdtree -- {{{...
@@ -497,14 +512,6 @@ augroup END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Extra functionality {{{...
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" leave insert mode quickly
-set ttimeoutlen=10
-augroup FastEscape
-  autocmd!
-  autocmd InsertEnter * set timeoutlen=0
-  autocmd InsertLeave * set timeoutlen=3000
-augroup END
-
 " change cursor type based on mode
 let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
@@ -547,7 +554,7 @@ function! GotoJump()
     endif
   endif
 endfunction
-nmap <leader>j :call GotoJump()<CR>
+nmap <leader>o :call GotoJump()<CR>
 
 " interactive registers
 function! MyRegPaste()
