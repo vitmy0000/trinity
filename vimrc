@@ -458,17 +458,17 @@ map *  <Plug>(incsearch-nohl-*)
 map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
-augroup incsearch-keymap
-  autocmd!
-  autocmd VimEnter * call s:incsearch_keymap()
-augroup END
-function! s:incsearch_keymap()
-  if exists('g:loaded_incsearch')
-    IncSearchNoreMap <CR> <Over>(incsearch-next)
-    IncSearchNoreMap ⇧⏎ <Over>(incsearch-prev)
-    IncSearchNoreMap <Esc> <CR>
-  endif
-endfunction
+" augroup incsearch-keymap
+"   autocmd!
+"   autocmd VimEnter * call s:incsearch_keymap()
+" augroup END
+" function! s:incsearch_keymap()
+"   if exists('g:loaded_incsearch')
+"     IncSearchNoreMap <CR> <Over>(incsearch-next)
+"     IncSearchNoreMap ⇧⏎ <Over>(incsearch-prev)
+"     IncSearchNoreMap <Esc> <CR>
+"   endif
+" endfunction
 " range search
 vmap / <Esc>/\%V
 " }}}
