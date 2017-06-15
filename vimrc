@@ -20,7 +20,6 @@ if !&diff
   Plug 'majutsushi/tagbar'
   Plug 'machakann/vim-highlightedyank'
   Plug 'mhinz/vim-signify'
-  Plug 'nelstrom/vim-visual-star-search'
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-surround'
@@ -565,6 +564,15 @@ aug QFClose
   au!
   au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
 aug END
+
+" visual star search
+function! s:VSetSearch(cmdtype)
+  let temp = @s
+  norm! gv"sy
+  let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
+  let @s = temp
+endfunction
+xnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
 
 if has("osx")
   " yank line to clipboard
