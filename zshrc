@@ -46,13 +46,13 @@ bindkey \^U backward-kill-line
 bindkey '^i' expand-or-complete-prefix
 
 ##-- alias --##
+source ~/.zshrc.local
 alias vi="vim"
 alias view="vim -R"
 alias la="ls -la"
 alias ll="ls -lh"
 alias dh="dirs -v"
 alias hs="fc -R"
-source ~/.zshrc.local
 
 ##-- applications --##
 # zsh-history-substring-search
@@ -66,3 +66,5 @@ bindkey '^X^F' fasd-complete-f  # C-x C-f to do fasd-complete-f (only files)
 bindkey '^X^D' fasd-complete-d  # C-x C-d to do fasd-complete-d (only directories)
 bindkey '^X^A' fasd-complete    # C-x C-a to do fasd-complete (files and directories)
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
