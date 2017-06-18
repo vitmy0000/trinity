@@ -16,11 +16,11 @@ if !&diff
   Plug 'jiangmiao/auto-pairs'
   Plug 'justinmk/vim-sneak'
   Plug 'lifepillar/vim-mucomplete'
-  Plug 'machakann/vim-highlightedyank'
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-surround'
   Plug 'vim-scripts/mru.vim'
+  Plug 'svermeulen/vim-easyclip'
   " external tool dependent {{{...
   Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'majutsushi/tagbar'
@@ -34,6 +34,8 @@ endif
 Plug 'morhetz/gruvbox'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'haya14busa/incsearch.vim'
+Plug 'haya14busa/vim-asterisk'
+Plug 'osyo-manga/vim-anzu'
 
 " Initialize plugin system
 call plug#end()
@@ -127,7 +129,7 @@ noremap s :set spell<CR>:write<CR>
 noremap S :wa<CR>
 " eol
 set virtualedit=onemore
-noremap $ $l
+nnoremap $ $l
 " quick leave
 noremap Q :quit<CR>
 " remap U to <C-r> for easier redo
@@ -429,11 +431,6 @@ onoremap <silent> e :<C-U>call sneak#wrap(v:operator,   2, 0, 1, 1)<CR>
 onoremap <silent> E :<C-U>call sneak#wrap(v:operator,   2, 1, 1, 1)<CR>
 " }}}
 
-"-- machakann/vim-highlightedyank -- {{{...
-hi HighlightedyankRegion ctermfg=Black ctermbg=Blue
-map y <Plug>(highlightedyank)
-" }}}
-
 "-- szw/vim-maximizer -- {{{...
 nnoremap <silent> <leader><space> :MaximizerToggle<CR>
 nnoremap <silent> <leader>w <C-w>o
@@ -623,16 +620,6 @@ aug QFClose
   au!
   au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
 aug END
-" }}}
-
-" visual star search {{{...
-function! s:VSetSearch(cmdtype)
-  let temp = @s
-  norm! gv"sy
-  let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
-  let @s = temp
-endfunction
-vnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
 " }}}
 
 " }}}
