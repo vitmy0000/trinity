@@ -21,6 +21,8 @@ if !&diff
   Plug 'tpope/vim-surround'
   Plug 'vim-scripts/mru.vim'
   Plug 'svermeulen/vim-easyclip'
+  Plug 'kana/vim-operator-user'
+  Plug 'haya14busa/vim-operator-flashy'
   " external tool dependent {{{...
   Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'majutsushi/tagbar'
@@ -451,12 +453,20 @@ inoremap <expr> <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
 hi Search ctermfg=Yellow ctermbg=Black
 map /  <Plug>(incsearch-forward)
 let g:incsearch#auto_nohlsearch = 1
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
-map *  <Plug>(incsearch-nohl-*)
-map #  <Plug>(incsearch-nohl-#)
-map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)
+map n <Plug>(incsearch-nohl)<Plug>(anzu-n-with-echo)
+map N <Plug>(incsearch-nohl)<Plug>(anzu-N-with-echo)
+map *  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)
+map g* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
+map #  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)
+map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
+" }}}
+
+"-- haya14busa/vim-operator-flashy -- {{{...
+map y <Plug>(operator-flashy)
+nmap Y <Plug>(operator-flashy)$
+hi HighlightedyankRegion ctermfg=Black ctermbg=Blue
+let g:operator#flashy#group = "HighlightedyankRegion"
+let g:operator#flashy#flash_time = 500
 " }}}
 
 "-- scrooloose/nerdtree -- {{{...
