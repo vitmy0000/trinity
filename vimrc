@@ -26,6 +26,7 @@ if !&diff
   Plug 'majutsushi/tagbar'
   Plug 'mhinz/vim-signify'
   Plug 'w0rp/ale'
+  Plug 'Chiel92/vim-autoformat'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
   " }}}
@@ -494,8 +495,10 @@ let g:signify_sign_change = '*'
 noremap <leader>t :TagbarToggle<CR>
 " }}}
 
-"-- majutsushi/tagbar -- {{{...
-noremap <leader>t :TagbarToggle<CR>
+"-- Chiel92/vim-autoformat -- {{{...
+noremap <leader>= :Autoformat<CR>
+let g:formatdef_autopep8 = "'yapf --line ' . a:firstline . '-' . a:lastline "
+let g:formatters_python = ['yapf']
 " }}}
 
 "-- w0rp/ale -- {{{...
