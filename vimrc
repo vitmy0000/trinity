@@ -6,6 +6,7 @@
 " Make sure you use single quotes
 call plug#begin('~/.vim/plugged')
 
+let g:completor = 'ycm'
 if !&diff
   Plug 'scrooloose/nerdtree'
   Plug 'unkiwii/vim-nerdtree-sync'
@@ -15,7 +16,6 @@ if !&diff
   Plug 'szw/vim-maximizer'
   Plug 'jiangmiao/auto-pairs'
   Plug 'justinmk/vim-sneak'
-  Plug 'lifepillar/vim-mucomplete'
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-surround'
@@ -23,6 +23,9 @@ if !&diff
   Plug 'svermeulen/vim-easyclip'
   Plug 'kana/vim-operator-user'
   Plug 'haya14busa/vim-operator-flashy'
+  if (g:completor == 'mu')
+    Plug 'lifepillar/vim-mucomplete'
+  endif
   " external tool dependent {{{...
   Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'majutsushi/tagbar'
@@ -31,6 +34,9 @@ if !&diff
   Plug 'Chiel92/vim-autoformat'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
+  if (g:completor == 'ycm')
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+  endif
   " }}}
 endif
 Plug 'morhetz/gruvbox'
@@ -440,14 +446,16 @@ nnoremap <silent> <leader>w <C-w>o
 " }}}
 
 "-- lifepillar/vim-mucomplete -- {{{...
-set shortmess+=c
-set complete-=t "no tag
-set completeopt=menuone,noinsert
-let g:mucomplete#enable_auto_at_startup = 1
-let g:mucomplete#chains = {
-  \ 'default' : ['path', 'keyn'],
-\ }
-inoremap <expr> <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
+if (g:completor == 'mu')
+  set shortmess+=c
+  set complete-=t "no tag
+  set completeopt=menuone,noinsert
+  let g:mucomplete#enable_auto_at_startup = 1
+  let g:mucomplete#chains = {
+    \ 'default' : ['path', 'keyn'],
+  \ }
+  inoremap <expr> <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
+endif
 " }}}
 
 "-- haya14busa/incsearch.vim -- {{{...
@@ -620,14 +628,22 @@ nmap <leader>j :call GotoJump()<CR>
 " }}}
 
 " interactive registers {{{...
-function! MyRegPaste()
+function! MyRegp()
   registers
-  let j = input("Please select your register: ")
-  if j != ''
-    execute "normal \"" . j . "p"
+  let l:reg = input("Please select your register: ")
+  if l:reg != ''
+    execute "normal \"" . l:reg . "p"
   endif
 endfunction
-nmap <leader>p :call MyRegPaste()<CR>
+function! MyRegP()
+  registers
+  let l:reg = input("Please select your register: ")
+  if l:reg != ''
+    execute "normal \"" . l:reg . "P"
+  endif
+endfunction
+nmap <leader>p :call MyRegp()<CR>
+nmap <leader>P :call MyRegP()<CR>
 " }}}
 
 " auto close quickfix window {{{...
