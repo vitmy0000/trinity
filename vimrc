@@ -25,6 +25,8 @@ if !&diff
   " Plug 'Xuyuanp/nerdtree-git-plugin'
   " Plug 'majutsushi/tagbar'
   " Plug 'mhinz/vim-signify'
+  " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+  " Plug 'junegunn/fzf.vim'
   " }}}
 endif
 Plug 'morhetz/gruvbox'
@@ -457,7 +459,7 @@ map g# <Plug>(incsearch-nohl-g#)
 " }}}
 
 "-- scrooloose/nerdtree -- {{{...
-map <leader>e :NERDTreeToggle<CR>
+noremap <leader>e :NERDTreeToggle<CR>
 augroup nerdtree
   autocmd!
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -470,7 +472,13 @@ augroup END
 "}}}
 
 "-- vim-scripts/mru.vim -- {{{...
-map <leader>r :MRU<CR>
+noremap <leader>r :MRU<CR>
+" }}}
+
+"-- junegunn/fzf.vim -- {{{...
+noremap <leader>f :Files<CR>
+noremap <leader>l :BLines<CR>
+noremap <leader>k :BTags<CR>
 " }}}
 
 "-- mhinz/vim-signify -- {{{...
@@ -479,7 +487,7 @@ let g:signify_sign_change = '*'
 " }}}
 
 "-- majutsushi/tagbar -- {{{...
-map <leader>t :TagbarToggle<CR>
+noremap <leader>t :TagbarToggle<CR>
 " }}}
 
 " }}}
