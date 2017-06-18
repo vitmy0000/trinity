@@ -20,10 +20,11 @@ if !&diff
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-surround'
+  Plug 'vim-scripts/mru.vim'
   " external tool dependent {{{...
-  Plug 'Xuyuanp/nerdtree-git-plugin'
-  Plug 'majutsushi/tagbar'
-  Plug 'mhinz/vim-signify'
+  " Plug 'Xuyuanp/nerdtree-git-plugin'
+  " Plug 'majutsushi/tagbar'
+  " Plug 'mhinz/vim-signify'
   " }}}
 endif
 Plug 'morhetz/gruvbox'
@@ -467,6 +468,10 @@ augroup nerdtree
   autocmd BufEnter * silent! lcd %:p:h
 augroup END
 "}}}
+
+"-- vim-scripts/mru.vim -- {{{...
+map <leader>r :MRU<CR>
+" }}}
 
 "-- mhinz/vim-signify -- {{{...
 let g:signify_sign_show_count = 0
