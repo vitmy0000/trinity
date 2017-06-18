@@ -6,7 +6,7 @@
 " Make sure you use single quotes
 call plug#begin('~/.vim/plugged')
 
-let g:completor = 'ycm'
+let g:completor = 'mu'
 if !&diff
   Plug 'scrooloose/nerdtree'
   Plug 'unkiwii/vim-nerdtree-sync'
@@ -23,6 +23,7 @@ if !&diff
   Plug 'svermeulen/vim-easyclip'
   Plug 'kana/vim-operator-user'
   Plug 'haya14busa/vim-operator-flashy'
+  Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
   if (g:completor == 'mu')
     Plug 'lifepillar/vim-mucomplete'
   endif
@@ -120,6 +121,13 @@ vnoremap > >gv
 " ` jumps to the marked line and column, so swap them
 nnoremap ' `
 nnoremap ` '
+" avoid select trailing space of text object
+onoremap a' 2i'
+vnoremap a' 2i'
+onoremap a" 2i"
+vnoremap a" 2i"
+onoremap a` 2i`
+vnoremap a` 2i`
 " y$ -> Y Make Y behave like other capitals
 map Y y$
 " help
@@ -143,6 +151,8 @@ noremap Q :quit<CR>
 nnoremap U <C-r>
 " turn off search highlight
 noremap <leader>/ :let @/=''<CR>:windo call clearmatches()<CR>
+" select all
+noremap <leader>s ggVG
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 " star search for partial word
@@ -449,13 +459,22 @@ nnoremap <silent> <leader>w <C-w>o
 if (g:completor == 'mu')
   set shortmess+=c
   set complete-=t "no tag
-  set completeopt=menuone,noinsert
+  set completeopt=menuone,noselect,noinsert
+  let g:mucomplete#no_mappings = 1
   let g:mucomplete#enable_auto_at_startup = 1
   let g:mucomplete#chains = {
-    \ 'default' : ['path', 'keyn'],
+    \ 'default' : ['ulti', 'path', 'keyn'],
   \ }
-  inoremap <expr> <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
+  inoremap <expr> <c-e> mucomplete#popup_exit("\<c-e>")
+  inoremap <expr> <c-y> mucomplete#popup_exit("\<c-y>")
+  inoremap <expr>  <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
+  inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<down>"
+  inoremap <expr> <up> pumvisible() ? "\<c-p>" : "\<up>"
 endif
+" }}}
+
+"-- SirVer/ultisnips -- {{{...
+let g:UltiSnipsExpandTrigger="<Tab>"
 " }}}
 
 "-- haya14busa/incsearch.vim -- {{{...
