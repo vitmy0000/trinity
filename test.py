@@ -1,5 +1,5 @@
 
-
-def fOO():
-    x = 1
-    return x;
+def get_name():
+    """Demo function"""
+    name = 1
+    return name

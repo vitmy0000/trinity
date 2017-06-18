@@ -22,11 +22,12 @@ if !&diff
   Plug 'tpope/vim-surround'
   Plug 'vim-scripts/mru.vim'
   " external tool dependent {{{...
-  " Plug 'Xuyuanp/nerdtree-git-plugin'
-  " Plug 'majutsushi/tagbar'
-  " Plug 'mhinz/vim-signify'
-  " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-  " Plug 'junegunn/fzf.vim'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'majutsushi/tagbar'
+  Plug 'mhinz/vim-signify'
+  Plug 'w0rp/ale'
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+  Plug 'junegunn/fzf.vim'
   " }}}
 endif
 Plug 'morhetz/gruvbox'
@@ -312,8 +313,9 @@ set noshowmode
 let g:lightline = {
   \ 'colorscheme': 'wombat',
   \ 'active': {
-  \   'left': [ [ 'mode', 'paste', 'spell'],
-  \             [ 'readonly', 'pwd'] ],
+  \   'left': [ [ 'mode', 'paste', 'spell' ],
+  \             [ 'readonly', 'pwd' ],
+  \             [ 'lint'] ],
   \   'right': [ [ 'lineinfo', 'winnr' ],
   \              [ 'percent' ],
   \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
@@ -327,6 +329,7 @@ let g:lightline = {
   \   'winnr': '%{"❐ " . winnr()}',
   \   'pwd': '%<%{LightlinePWD()}',
   \   'readonly': '%{&readonly?"\ue0a2":""}',
+  \   'lint': '%{LinterStatus()}',
   \ },
   \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
   \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
@@ -479,6 +482,7 @@ noremap <leader>r :MRU<CR>
 noremap <leader>f :Files<CR>
 noremap <leader>l :BLines<CR>
 noremap <leader>k :BTags<CR>
+noremap <leader>b :Buffers<CR>
 " }}}
 
 "-- mhinz/vim-signify -- {{{...
@@ -488,6 +492,42 @@ let g:signify_sign_change = '*'
 
 "-- majutsushi/tagbar -- {{{...
 noremap <leader>t :TagbarToggle<CR>
+" }}}
+
+"-- majutsushi/tagbar -- {{{...
+noremap <leader>t :TagbarToggle<CR>
+" }}}
+
+"-- w0rp/ale -- {{{...
+let g:ale_linters = {
+\   'vim': ['vint'],
+\   'python': ['pylint'],
+\}
+let g:ale_python_pylint_options = '-E'
+function! LinterStatus() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  if (g:ale_enabled == 0)
+    return 'off'
+  endif
+  return l:counts.total == 0 ? 'OK' : printf(
+  \   '%dW %dE',
+  \   all_non_errors,
+  \   all_errors
+  \)
+endfunction
+" echo message
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+" mapping
+nmap <silent> ( <Plug>(ale_previous_wrap)
+nmap <silent> ) <Plug>(ale_next_wrap)
+" run linters only when save files
+let g:ale_lint_on_text_changed = 'never'
+" toggle
+noremap <leader>a :ALEToggle<CR>
 " }}}
 
 " }}}
@@ -561,7 +601,7 @@ function! GotoJump()
     endif
   endif
 endfunction
-nmap <leader>o :call GotoJump()<CR>
+nmap <leader>j :call GotoJump()<CR>
 " }}}
 
 " interactive registers {{{...
@@ -589,7 +629,7 @@ function! s:VSetSearch(cmdtype)
   let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
   let @s = temp
 endfunction
-xnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
+vnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
 " }}}
 
 " }}}
