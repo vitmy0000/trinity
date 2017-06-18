@@ -8,7 +8,6 @@ call plug#begin('~/.vim/plugged')
 
 if !&diff
   Plug 'scrooloose/nerdtree'
-  Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'unkiwii/vim-nerdtree-sync'
   Plug 'itchyny/lightline.vim'
   Plug 'taohex/lightline-buffer'
@@ -17,16 +16,19 @@ if !&diff
   Plug 'jiangmiao/auto-pairs'
   Plug 'justinmk/vim-sneak'
   Plug 'lifepillar/vim-mucomplete'
-  Plug 'majutsushi/tagbar'
   Plug 'machakann/vim-highlightedyank'
-  Plug 'mhinz/vim-signify'
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-surround'
-  Plug 'haya14busa/incsearch.vim'
+  " external tool dependent {{{...
+  Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'majutsushi/tagbar'
+  Plug 'mhinz/vim-signify'
+  " }}}
 endif
 Plug 'morhetz/gruvbox'
 Plug 'terryma/vim-smooth-scroll'
+Plug 'haya14busa/incsearch.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -108,6 +110,8 @@ map Y y$
 " help
 nnoremap ? :vert help<Space>
 cnoreabbrev vh vert help
+" range search
+vmap / <Esc>/\%V
 " change window layout
 cnoreabbrev wh windo wincmd H
 cnoreabbrev wv windo wincmd K
@@ -283,7 +287,7 @@ nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins {{{...
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"-- auto-pairs -- {{{...
+"-- jiangmiao/auto-pairs -- {{{...
 " disable multi-line jump close
 let g:AutoPairsMultilineClose = 0
 " turn on this may cause indent problem
@@ -292,17 +296,12 @@ let g:AutoPairsMapCR = 0
 let g:AutoPairsShortcutBackInsert = ''
 " }}}
 
-"-- signify -- {{{...
-let g:signify_sign_show_count = 0
-let g:signify_sign_change = '*'
-" }}}
-
-"-- tcomment_vim -- {{{...
+"-- tomtom/tcomment_vim -- {{{...
 let g:tcommentMapLeaderOp1 = '<Leader>c'
 let g:tcommentMapLeaderOp2 = '<Leader>C'
 " }}}
 
-"-- lightline -- {{{...
+"-- itchyny/lightline.vim -- {{{...
 " get rid of the extraneous default vim mode
 set hidden  " allow buffer switching without saving
 set showtabline=2  " always show tabline
@@ -396,16 +395,16 @@ let g:lightline_buffer_minfextlen = 3
 let g:lightline_buffer_reservelen = 20
 " }}}
 
-"-- vim-smooth-scroll -- {{{...
+"-- terryma/vim-smooth-scroll -- {{{...
 noremap <silent> K :call smooth_scroll#up(&scroll, 0, 1)<CR>
 noremap <silent> J :call smooth_scroll#down(&scroll, 0, 1)<CR>
 " }}}
 
-"-- vim-surround -- {{{...
+"-- tpope/vim-surround -- {{{...
 xmap s <Plug>VSurround
 "}}}
 
-"-- vim-sneak -- {{{...
+"-- justinmk/vim-sneak -- {{{...
 let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
 " sneak#wrap(op, inputlen, reverse, inclusive, label)
@@ -423,13 +422,9 @@ onoremap <silent> e :<C-U>call sneak#wrap(v:operator,   2, 0, 1, 1)<CR>
 onoremap <silent> E :<C-U>call sneak#wrap(v:operator,   2, 1, 1, 1)<CR>
 " }}}
 
-"-- vim-highlightedyank -- {{{...
+"-- machakann/vim-highlightedyank -- {{{...
 hi HighlightedyankRegion ctermfg=Black ctermbg=Blue
 map y <Plug>(highlightedyank)
-" }}}
-
-"-- tagbar -- {{{...
-map <leader>t :TagbarToggle<CR>
 " }}}
 
 "-- szw/vim-maximizer -- {{{...
@@ -437,7 +432,7 @@ nnoremap <silent> <leader><space> :MaximizerToggle<CR>
 nnoremap <silent> <leader>w <C-w>o
 " }}}
 
-"-- mucomplete -- {{{...
+"-- lifepillar/vim-mucomplete -- {{{...
 set shortmess+=c
 set complete-=t "no tag
 set completeopt=menuone,noinsert
@@ -448,7 +443,7 @@ let g:mucomplete#chains = {
 inoremap <expr> <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
 " }}}
 
-"-- incsearch -- {{{...
+"-- haya14busa/incsearch.vim -- {{{...
 hi Search ctermfg=Yellow ctermbg=Black
 map /  <Plug>(incsearch-forward)
 let g:incsearch#auto_nohlsearch = 1
@@ -458,22 +453,9 @@ map *  <Plug>(incsearch-nohl-*)
 map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
-" augroup incsearch-keymap
-"   autocmd!
-"   autocmd VimEnter * call s:incsearch_keymap()
-" augroup END
-" function! s:incsearch_keymap()
-"   if exists('g:loaded_incsearch')
-"     IncSearchNoreMap <CR> <Over>(incsearch-next)
-"     IncSearchNoreMap ⇧⏎ <Over>(incsearch-prev)
-"     IncSearchNoreMap <Esc> <CR>
-"   endif
-" endfunction
-" range search
-vmap / <Esc>/\%V
 " }}}
 
-"-- nerdtree -- {{{...
+"-- scrooloose/nerdtree -- {{{...
 map <leader>e :NERDTreeToggle<CR>
 augroup nerdtree
   autocmd!
@@ -485,6 +467,15 @@ augroup nerdtree
   autocmd BufEnter * silent! lcd %:p:h
 augroup END
 "}}}
+
+"-- mhinz/vim-signify -- {{{...
+let g:signify_sign_show_count = 0
+let g:signify_sign_change = '*'
+" }}}
+
+"-- majutsushi/tagbar -- {{{...
+map <leader>t :TagbarToggle<CR>
+" }}}
 
 " }}}
 
@@ -512,12 +503,13 @@ augroup END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Extra functionality {{{...
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" change cursor type based on mode
+" change cursor type based on mode {{{...
 let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
 let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+" }}}
 
-" auto set paste
+" auto set paste {{{...
 function! WrapForTmux(s)
   if !exists('$TMUX')
     return a:s
@@ -534,13 +526,15 @@ function! XTermPasteBegin()
   return ''
 endfunction
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+" }}}
 
-" jump to last postion when reopen
+" jump to last postion when reopen {{{...
 augroup last_position
   autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 augroup END
+" }}}
 
-" interactive jump
+" interactive jump {{{...
 function! GotoJump()
   jumps
   let j = input("Please select your jump: ")
@@ -555,24 +549,27 @@ function! GotoJump()
   endif
 endfunction
 nmap <leader>o :call GotoJump()<CR>
+" }}}
 
-" interactive registers
+" interactive registers {{{...
 function! MyRegPaste()
   registers
-  let j = input("Please select your jump: ")
+  let j = input("Please select your register: ")
   if j != ''
     execute "normal \"" . j . "p"
   endif
 endfunction
 nmap <leader>p :call MyRegPaste()<CR>
+" }}}
 
-" auto close quickfix window
+" auto close quickfix window {{{...
 aug QFClose
   au!
   au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
 aug END
+" }}}
 
-" visual star search
+" visual star search {{{...
 function! s:VSetSearch(cmdtype)
   let temp = @s
   norm! gv"sy
@@ -580,11 +577,6 @@ function! s:VSetSearch(cmdtype)
   let @s = temp
 endfunction
 xnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
-
-" if has("osx")
-"   " yank line to clipboard
-"   nnoremap <C-u> :.w ! cat <bar> tr -d '\n' <bar> pbcopy<CR><CR><C-z>
-"   vnoremap <C-u> "uy:enew<CR>"up:w ! cat <bar> tr -d '\n' <bar> pbcopy<CR><CR>u:bde<CR>
-" endif
+" }}}
 
 " }}}
