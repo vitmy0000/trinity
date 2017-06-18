@@ -126,12 +126,11 @@ cnoreabbrev wh windo wincmd H
 cnoreabbrev wv windo wincmd K
 " force write
 cnoreabbrev fw w ! sudo tee %
-" quick save, workaround for sneak spell bug
-noremap s :set spell<CR>:write<CR>
-noremap S :wa<CR>
 " eol
 set virtualedit=onemore
 nnoremap $ $l
+" quick save, workaround for sneak spell bug
+noremap S :set spell<CR>:write<CR>
 " quick leave
 noremap Q :quit<CR>
 " remap U to <C-r> for easier redo
@@ -431,6 +430,8 @@ xnoremap <silent> e :<C-U>call sneak#wrap(visualmode(), 2, 0, 1, 1)<CR>
 xnoremap <silent> E :<C-U>call sneak#wrap(visualmode(), 2, 1, 1, 1)<CR>
 onoremap <silent> e :<C-U>call sneak#wrap(v:operator,   2, 0, 1, 1)<CR>
 onoremap <silent> E :<C-U>call sneak#wrap(v:operator,   2, 1, 1, 1)<CR>
+nmap e <Plug>Sneak_s
+nmap E <Plug>Sneak_S
 " }}}
 
 "-- szw/vim-maximizer -- {{{...
@@ -460,6 +461,10 @@ map g* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
 map #  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)
 map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
 " }}}
+
+"-- svermeulen/vim-easyclip -- {{{...
+let g:EasyClipUseSubstituteDefaults = 1
+"}}}
 
 "-- haya14busa/vim-operator-flashy -- {{{...
 map y <Plug>(operator-flashy)
