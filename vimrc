@@ -23,6 +23,7 @@ if !&diff
   Plug 'svermeulen/vim-easyclip'
   Plug 'kana/vim-operator-user'
   Plug 'haya14busa/vim-operator-flashy'
+  Plug 'tpope/tpope-vim-abolish'
   Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
   if (g:completor == 'mu')
     Plug 'lifepillar/vim-mucomplete'
@@ -41,7 +42,6 @@ if !&diff
   " }}}
 endif
 Plug 'morhetz/gruvbox'
-Plug 'terryma/vim-smooth-scroll'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/vim-asterisk'
 Plug 'osyo-manga/vim-anzu'
@@ -111,8 +111,6 @@ nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
-inoremap <buffer> <silent> <Up>=pumvisible() ? '\<UP>' : '<C-o>'gk
-inoremap <buffer> <silent> <Down>=pumvisible() ? '\<Down>' : '<C-o>'gj
 " stay visual mode after shifting
 vnoremap < <gv
 vnoremap > >gv
@@ -142,7 +140,10 @@ cnoreabbrev wv windo wincmd K
 cnoreabbrev fw w ! sudo tee %
 " eol
 set virtualedit=onemore
-nnoremap $ $l
+" HML
+nnoremap L $l
+nnoremap H ^
+nmap M <Plug>MoveMotionEndOfLinePlug
 " quick save, workaround for sneak spell bug
 noremap S :set spell<CR>:write<CR>
 " quick leave
@@ -155,9 +156,6 @@ noremap <leader>/ :let @/=''<CR>:windo call clearmatches()<CR>
 noremap <leader>s ggVG
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
-" star search for partial word
-nnoremap * g*
-nnoremap # g#
 " buffer
 nnoremap + :bn<CR>
 nnoremap _ :bp<CR>
@@ -422,8 +420,12 @@ let g:lightline_buffer_reservelen = 20
 " }}}
 
 "-- terryma/vim-smooth-scroll -- {{{...
-noremap <silent> K :call smooth_scroll#up(&scroll, 0, 1)<CR>
-noremap <silent> J :call smooth_scroll#down(&scroll, 0, 1)<CR>
+let g:smooth_scroll_steps = &scroll
+let g:smooth_scroll_speed = 1
+noremap <silent> K :call SmoothScroll('u', 'm', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
+noremap <silent> J :call SmoothScroll('d', 'm', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
+noremap <silent> <C-e> :call SmoothScroll('u', 'f', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
+noremap <silent> <C-y> :call SmoothScroll('d', 'f', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
 " }}}
 
 "-- tpope/vim-surround -- {{{...
@@ -466,8 +468,8 @@ if (g:completor == 'mu')
     \ 'default' : ['ulti', 'path', 'keyn'],
   \ }
   inoremap <expr>  <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
-  inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<down>"
-  inoremap <expr> <up> pumvisible() ? "\<c-p>" : "\<up>"
+  inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<c-o>gj"
+  inoremap <expr> <up> pumvisible() ? "\<c-p>" : "\<c-o>gk"
 endif
 " }}}
 
@@ -489,6 +491,7 @@ map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
 
 "-- svermeulen/vim-easyclip -- {{{...
 let g:EasyClipUseSubstituteDefaults = 1
+nnoremap gm m
 "}}}
 
 "-- haya14busa/vim-operator-flashy -- {{{...
@@ -669,5 +672,26 @@ aug QFClose
   au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
 aug END
 " }}}
+
+function! SmoothScroll(dir, cursor, dist, speed)
+  for i in range(a:dist/a:speed)
+    let start = reltime()
+    " scroll down and cursor move
+    if a:dir ==# 'd' && a:cursor ==# 'm'
+      exec "normal! ".a:speed."\<C-e>".a:speed."j"
+    " scroll up and cursor move
+    elseif a:dir ==# 'u' && a:cursor ==# 'm'
+      exec "normal! ".a:speed."\<C-y>".a:speed."k"
+    " scroll down and cursor fix
+    elseif a:dir ==# 'd' && a:cursor ==# 'f'
+      exec "normal! ".a:speed."\<C-y>"
+    " scroll up and cursor fix
+    elseif a:dir ==# 'u' && a:cursor ==# 'f'
+      exec "normal! ".a:speed."\<C-e>"
+    endif
+    redraw
+  endfor
+endfunction
+
 
 " }}}
