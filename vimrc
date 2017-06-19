@@ -24,6 +24,7 @@ if !&diff
   Plug 'kana/vim-operator-user'
   Plug 'haya14busa/vim-operator-flashy'
   Plug 'tpope/tpope-vim-abolish'
+  Plug 'kshenoy/vim-signature'
   Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
   if (g:completor == 'mu')
     Plug 'lifepillar/vim-mucomplete'
