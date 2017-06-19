@@ -499,6 +499,7 @@ nnoremap gm m
 "-- haya14busa/vim-operator-flashy -- {{{...
 map y <Plug>(operator-flashy)
 nmap Y <Plug>(operator-flashy)$
+nmap yy <Plug>YankLinePreserveCursorPosition<Plug>(operator-flashy)y
 hi HighlightedyankRegion ctermfg=Black ctermbg=Blue
 let g:operator#flashy#group = "HighlightedyankRegion"
 let g:operator#flashy#flash_time = 500
