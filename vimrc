@@ -522,6 +522,32 @@ augroup END
 noremap <leader>r :MRU<CR>
 " }}}
 
+"-- kshenoy/vim-signature -- {{{...
+let g:SignatureMap = {
+  \ 'Leader'             :  "m",
+  \ 'PlaceNextMark'      :  "m,",
+  \ 'ToggleMarkAtLine'   :  "m.",
+  \ 'PurgeMarksAtLine'   :  "m-",
+  \ 'DeleteMark'         :  "dm",
+  \ 'PurgeMarks'         :  "m<Space>",
+  \ 'PurgeMarkers'       :  "",
+  \ 'GotoNextLineAlpha'  :  "",
+  \ 'GotoPrevLineAlpha'  :  "",
+  \ 'GotoNextSpotAlpha'  :  "",
+  \ 'GotoPrevSpotAlpha'  :  "",
+  \ 'GotoNextLineByPos'  :  "",
+  \ 'GotoPrevLineByPos'  :  "",
+  \ 'GotoNextSpotByPos'  :  "]'",
+  \ 'GotoPrevSpotByPos'  :  "['",
+  \ 'GotoNextMarker'     :  "",
+  \ 'GotoPrevMarker'     :  "",
+  \ 'GotoNextMarkerAny'  :  "",
+  \ 'GotoPrevMarkerAny'  :  "",
+  \ 'ListBufferMarks'    :  "m/",
+  \ 'ListBufferMarkers'  :  ""
+  \ }
+" }}}
+
 "-- junegunn/fzf.vim -- {{{...
 noremap <leader>f :Files<CR>
 noremap <leader>l :BLines<CR>
