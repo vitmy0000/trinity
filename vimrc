@@ -7,6 +7,7 @@
 call plug#begin('~/.vim/plugged')
 
 let g:completor = 'mu'
+let g:install_external_dependent_plugin = 0
 if !&diff
   Plug 'scrooloose/nerdtree'
   Plug 'unkiwii/vim-nerdtree-sync'
@@ -29,18 +30,18 @@ if !&diff
   if (g:completor == 'mu')
     Plug 'lifepillar/vim-mucomplete'
   endif
-  " external tool dependent {{{...
-  Plug 'Xuyuanp/nerdtree-git-plugin'
-  Plug 'majutsushi/tagbar'
-  Plug 'mhinz/vim-signify'
-  Plug 'w0rp/ale'
-  Plug 'Chiel92/vim-autoformat'
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-  Plug 'junegunn/fzf.vim'
-  if (g:completor == 'ycm')
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+  if (g:install_external_dependent_plugin == 1)
+    Plug 'Xuyuanp/nerdtree-git-plugin'
+    Plug 'majutsushi/tagbar'
+    Plug 'mhinz/vim-signify'
+    Plug 'w0rp/ale'
+    Plug 'Chiel92/vim-autoformat'
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf.vim'
+    if (g:completor == 'ycm')
+      Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+    endif
   endif
-  " }}}
 endif
 Plug 'morhetz/gruvbox'
 Plug 'haya14busa/incsearch.vim'
@@ -549,12 +550,12 @@ let g:ale_linters = {
 \}
 let g:ale_python_pylint_options = '-E'
 function! LinterStatus() abort
+  if (g:install_external_dependent_plugin == 0 || g:ale_enabled == 0)
+    return 'off'
+  endif
   let l:counts = ale#statusline#Count(bufnr(''))
   let l:all_errors = l:counts.error + l:counts.style_error
   let l:all_non_errors = l:counts.total - l:all_errors
-  if (g:ale_enabled == 0)
-    return 'off'
-  endif
   return l:counts.total == 0 ? 'OK' : printf(
   \   '%dW %dE',
   \   all_non_errors,
