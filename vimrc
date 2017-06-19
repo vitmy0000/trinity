@@ -465,8 +465,6 @@ if (g:completor == 'mu')
   let g:mucomplete#chains = {
     \ 'default' : ['ulti', 'path', 'keyn'],
   \ }
-  inoremap <expr> <c-e> mucomplete#popup_exit("\<c-e>")
-  inoremap <expr> <c-y> mucomplete#popup_exit("\<c-y>")
   inoremap <expr>  <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
   inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<down>"
   inoremap <expr> <up> pumvisible() ? "\<c-p>" : "\<up>"
