@@ -465,6 +465,10 @@ if (g:completor == 'mu')
   let g:mucomplete#chains = {
     \ 'default' : ['ulti', 'path', 'keyn'],
   \ }
+  inoremap <silent> <plug>(MUcompleteFwdKey) <right>
+  imap <right> <plug>(MUcompleteCycFwd)
+  inoremap <silent> <plug>(MUcompleteBwdKey) <left>
+  imap <left> <plug>(MUcompleteCycBwd)
   inoremap <expr>  <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
   inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<c-o>gj"
   inoremap <expr> <up> pumvisible() ? "\<c-p>" : "\<c-o>gk"
@@ -598,6 +602,7 @@ noremap <leader>l :BLines<CR>
 noremap <leader>k :BTags<CR>
 noremap <leader>b :Buffers<CR>
 noremap <leader>s :Snippets<CR>
+noremap <leader>h :Helptags<CR>
 noremap <leader>gg :Ag<CR>
 " }}}
 
