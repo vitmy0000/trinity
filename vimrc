@@ -593,6 +593,7 @@ noremap <leader>f :Files<CR>
 noremap <leader>l :BLines<CR>
 noremap <leader>k :BTags<CR>
 noremap <leader>b :Buffers<CR>
+noremap <leader>gg :Ag<CR>
 " }}}
 
 "-- mhinz/vim-signify -- {{{...
