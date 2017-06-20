@@ -473,6 +473,12 @@ endif
 
 "-- SirVer/ultisnips -- {{{...
 let g:UltiSnipsExpandTrigger="<Tab>"
+let g:UltiSnipsJumpForwardTrigger="<Tab>"
+let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
+let g:UltiSnipsSnippetsDir = '~/trinity/UltiSnips'
+nnoremap <leader>u :UltiSnipsEdit<CR>
 " }}}
 
 "-- haya14busa/incsearch.vim -- {{{...
