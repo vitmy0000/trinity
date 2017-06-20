@@ -22,8 +22,6 @@ if !&diff
   Plug 'tpope/vim-surround'
   Plug 'vim-scripts/mru.vim'
   Plug 'svermeulen/vim-easyclip'
-  Plug 'kana/vim-operator-user'
-  Plug 'haya14busa/vim-operator-flashy'
   Plug 'tpope/tpope-vim-abolish'
   Plug 'kshenoy/vim-signature'
   Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -494,17 +492,58 @@ map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
 "-- svermeulen/vim-easyclip -- {{{...
 let g:EasyClipUseSubstituteDefaults = 1
 nnoremap gm m
-"}}}
-
-"-- haya14busa/vim-operator-flashy -- {{{...
+" integrate yank highlight
 hi HighlightedyankRegion ctermfg=Black ctermbg=Blue
-let g:operator#flashy#group = "HighlightedyankRegion"
-let g:operator#flashy#flash_time = 500
-map y <Plug>(operator-flashy)
-nmap Y :EasyClipBeforeYank<cr>y$:EasyClipOnYanksChanged<cr><Plug>(operator-flashy)$
-nmap yy <Plug>YankLinePreserveCursorPosition<Plug>(operator-flashy)y
-xmap y <Plug>VisualModeYank
-" }}}
+function! s:sallowsleep(ms) abort
+  let t = reltime()
+  while !getchar(1) && a:ms - str2float(reltimestr(reltime(t))) * 1000.0 > 0
+  endwhile
+endfunction
+function! HighlightYankedLine()
+  let l:curline = line('.')
+  call matchaddpos("HighlightedyankRegion", [l:curline])
+  redraw
+  call s:sallowsleep(500)
+  call clearmatches()
+endfunction
+function! HighlightYankedEOL()
+  let l:curline = line(".")
+  let l:curcol = virtcol(".")
+  let l:eofcol = virtcol("$")
+  call matchaddpos("HighlightedyankRegion", [[l:curline, l:curcol, l:eofcol - l:curcol]])
+  redraw
+  call s:sallowsleep(500)
+  call clearmatches()
+endfunction
+function! EasyClipYankMotionHighlithWrapper(type)
+  call EasyClip#Yank#YankMotion(a:type)
+  let l:startline = line("'[")
+  let l:startcol = virtcol("'[")
+  let l:endline = line("']")
+  let l:endcol = virtcol("']")
+  if a:type ==# 'char' && l:startline == l:endline
+    call matchaddpos("HighlightedyankRegion", [[l:startline, l:startcol, l:endcol - l:startcol + 1]])
+  elseif a:type ==# 'char' && l:startline != l:endline
+    execute "normal! '["
+    let l:firstlineEndcol = virtcol("$")
+    call matchaddpos("HighlightedyankRegion", [[l:startline, l:startcol, l:firstlineEndcol - l:startcol]])
+    for l:line in range(l:startline + 1, l:endline - 1)
+      call matchaddpos("HighlightedyankRegion", [l:line])
+    endfor
+    call matchaddpos("HighlightedyankRegion", [[l:endline, 0, l:endcol]])
+  elseif a:type ==# 'line'
+    for l:line in range(l:startline, l:endline)
+      call matchaddpos("HighlightedyankRegion", [l:line])
+    endfor
+  endif
+  redraw
+  call s:sallowsleep(500)
+  call clearmatches()
+endfunction
+nnoremap <silent> yy :<c-u>call EasyClip#Yank#PreYankMotion()<cr>:call EasyClip#Yank#YankLine()<cr>:<c-u>call HighlightYankedLine()<cr>
+nnoremap <silent> <expr> Y ":<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opfunc=EasyClip#Yank#YankMotion<cr>" . (v:count > 0 ? v:count : '') . "g@$:<c-u>call HighlightYankedEOL()<cr>"
+nnoremap <silent> <expr> y ":<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opfunc=EasyClipYankMotionHighlithWrapper<cr>" . (v:count > 0 ? v:count : '') . "g@"
+"}}}
 
 "-- scrooloose/nerdtree -- {{{...
 noremap <leader>e :NERDTreeToggle<CR>
