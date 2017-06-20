@@ -152,8 +152,6 @@ noremap Q :quit<CR>
 nnoremap U <C-r>
 " turn off search highlight
 noremap <leader>/ :let @/=''<CR>:windo call clearmatches()<CR>
-" select all
-noremap <leader>s ggVG
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 " buffer
@@ -593,6 +591,7 @@ noremap <leader>f :Files<CR>
 noremap <leader>l :BLines<CR>
 noremap <leader>k :BTags<CR>
 noremap <leader>b :Buffers<CR>
+noremap <leader>s :Snippets<CR>
 noremap <leader>gg :Ag<CR>
 " }}}
 
