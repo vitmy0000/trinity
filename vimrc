@@ -617,7 +617,9 @@ noremap <leader>t :TagbarToggle<CR>
 
 "-- Chiel92/vim-autoformat -- {{{...
 noremap <leader>= :Autoformat<CR>
-let g:formatdef_autopep8 = "'yapf --line ' . a:firstline . '-' . a:lastline "
+" let g:autoformat_verbosemode=1
+let g:formatter_yapf_style = 'pep8'
+let g:formatdef_yapf = "'yapf --line ' . a:firstline . '-' . a:lastline "
 let g:formatters_python = ['yapf']
 " }}}
 
