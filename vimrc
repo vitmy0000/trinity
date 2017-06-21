@@ -142,7 +142,8 @@ cnoreabbrev fw w ! sudo tee %
 set virtualedit=onemore
 " HML
 nnoremap L $l
-nnoremap H ^
+vnoremap L $h
+noremap H ^
 nmap M <Plug>MoveMotionEndOfLinePlug
 " quick save, workaround for sneak spell bug
 noremap S :set spell<CR>:write<CR>
@@ -247,7 +248,6 @@ function! MyCR()
   return "\<CR>"
 endfunction
 " my simple indent settings {{{...
-" indent one more after ( [ { : and indent back after )
 filetype indent off
 function GetMyIndent(lnum)
   " Search backwards for the previous non-empty line.
@@ -259,15 +259,25 @@ function GetMyIndent(lnum)
   endif
   let l:pline = getline(l:plnum)
   " if previous line end up with ...
-  if l:pline =~ '[[{:]\s*$'
-    return indent(l:plnum) + &shiftwidth
-  elseif l:pline =~ '(\s*$'
-    if (&filetype == 'python')
+  if &filetype == 'python'
+    if l:pline =~ '[[{]\s*$'
       return indent(l:plnum) + &shiftwidth
-    elseif (&filetype == 'cpp' || &filetype == 'java')
-      return indent(l:plnum) + &shiftwidth + &shiftwidth
+    endif
+  elseif &filetype == 'cpp'
+    if l:pline =~ '[[{]\s*$'
+      return indent(l:plnum) + &shiftwidth
     endif
   endif
+  " if l:pline =~ '[[{:]\s*$'
+  " if l:pline =~ '[[{:]\s*$'
+  "   return indent(l:plnum) + &shiftwidth
+  " elseif l:pline =~ '(\s*$'
+  "   if (&filetype == 'python')
+  "     return indent(l:plnum) + &shiftwidth
+  "   elseif (&filetype == 'cpp' || &filetype == 'java')
+  "     return indent(l:plnum) + &shiftwidth + &shiftwidth
+  "   endif
+  " endif
   return -1
 endfunction
 set indentkeys=o
@@ -420,10 +430,10 @@ let g:lightline_buffer_reservelen = 20
 "-- terryma/vim-smooth-scroll -- {{{...
 let g:smooth_scroll_steps = &scroll
 let g:smooth_scroll_speed = 1
-noremap <silent> K :call SmoothScroll('u', 'm', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
-noremap <silent> J :call SmoothScroll('d', 'm', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
-noremap <silent> <C-e> :call SmoothScroll('u', 'f', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
-noremap <silent> <C-y> :call SmoothScroll('d', 'f', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
+nnoremap <silent> K :call SmoothScroll('u', 'm', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
+nnoremap <silent> J :call SmoothScroll('d', 'm', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
+nnoremap <silent> <C-e> :call SmoothScroll('u', 'f', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
+nnoremap <silent> <C-y> :call SmoothScroll('d', 'f', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
 " }}}
 
 "-- tpope/vim-surround -- {{{...
@@ -469,6 +479,8 @@ if (g:completor == 'mu')
   imap <right> <plug>(MUcompleteCycFwd)
   inoremap <silent> <plug>(MUcompleteBwdKey) <left>
   imap <left> <plug>(MUcompleteCycBwd)
+  inoremap <expr> <c-e> pumvisible() ? mucomplete#popup_exit("\<c-e>") : "\<c-o>$"
+  inoremap <expr> <c-y> pumvisible() ? mucomplete#popup_exit("\<c-y>") : "\<c-y>"
   inoremap <expr>  <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
   inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<c-o>gj"
   inoremap <expr> <up> pumvisible() ? "\<c-p>" : "\<c-o>gk"
@@ -604,6 +616,10 @@ noremap <leader>b :Buffers<CR>
 noremap <leader>s :Snippets<CR>
 noremap <leader>h :Helptags<CR>
 noremap <leader>gg :Ag<CR>
+map <leader>mn :call fzf#vim#maps('n', 0)<CR>
+map <leader>mi :call fzf#vim#maps('i', 0)<CR>
+map <leader>mx :call fzf#vim#maps('x', 0)<CR>
+map <leader>mo :call fzf#vim#maps('o', 0)<CR>
 " }}}
 
 "-- mhinz/vim-signify -- {{{...
@@ -774,6 +790,5 @@ function! SmoothScroll(dir, cursor, dist, speed)
     redraw
   endfor
 endfunction
-
 
 " }}}
