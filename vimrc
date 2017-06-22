@@ -301,11 +301,11 @@ function! GetMyIndent(lnum)
       return indent(l:plnum) - &shiftwidth
     endif
   elseif &filetype == 'cpp'
-    if l:pline =~# '[[{]\s*\(#.*\)\?\s*$'
+    if l:pline =~# '[[{]\s*\(\/\/.*\)\?\s*$'
       return indent(l:plnum) + &shiftwidth
     endif
   else "other filetypes
-    if l:pline =~# '[[{]\s*\(#.*\)\?\s*$'
+    if l:pline =~# '[[{]\s*$'
       return indent(l:plnum) + &shiftwidth
     endif
   endif
