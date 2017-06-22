@@ -635,12 +635,12 @@ let g:SignatureMap = {
 " }}}
 
 "-- junegunn/fzf.vim -- {{{...
-noremap <leader>f :Files<CR>
-noremap <leader>l :BLines<CR>
-noremap <leader>k :BTags<CR>
-noremap <leader>b :Buffers<CR>
-noremap <leader>s :Snippets<CR>
-noremap <leader>h :Helptags<CR>
+noremap <leader>ff :Files<CR>
+noremap <leader>fl :BLines<CR>
+noremap <leader>fk :BTags<CR>
+noremap <leader>fb :Buffers<CR>
+noremap <leader>fs :Snippets<CR>
+noremap <leader>fh :Helptags<CR>
 noremap <leader>gg :Ag<CR>
 map <leader>mn :call fzf#vim#maps('n', 0)<CR>
 map <leader>mi :call fzf#vim#maps('i', 0)<CR>
