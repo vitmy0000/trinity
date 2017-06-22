@@ -454,8 +454,8 @@ let g:smooth_scroll_steps = &scroll
 let g:smooth_scroll_speed = 1
 nnoremap <silent> K :call SmoothScroll('u', 'm', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
 nnoremap <silent> J :call SmoothScroll('d', 'm', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
-nnoremap <silent> <C-e> :call SmoothScroll('u', 'f', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
-nnoremap <silent> <C-y> :call SmoothScroll('d', 'f', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
+nnoremap <silent> <C-e> :call SmoothScroll('u', 'f', 5, g:smooth_scroll_speed)<CR>
+nnoremap <silent> <C-y> :call SmoothScroll('d', 'f', 5, g:smooth_scroll_speed)<CR>
 " }}}
 
 "-- tpope/vim-surround -- {{{...
@@ -716,6 +716,7 @@ augroup file_py
   autocmd!
   autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
   autocmd FileType python setlocal foldmethod=indent
+  autocmd FileType python let b:delimitMate_nesting_quotes = ['"']
 augroup END
 
 " }}}
