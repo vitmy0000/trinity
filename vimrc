@@ -112,8 +112,8 @@ nnoremap gk k
 nnoremap j gj
 nnoremap gj j
 " stay visual mode after shifting
-vnoremap < <gv
-vnoremap > >gv
+xnoremap < <gv
+xnoremap > >gv
 " Swap implementations of ` and ' jump to markers
 " By default, ' jumps to the marked line,
 " ` jumps to the marked line and column, so swap them
@@ -121,18 +121,18 @@ nnoremap ' `
 nnoremap ` '
 " avoid select trailing space of text object
 onoremap a' 2i'
-vnoremap a' 2i'
+xnoremap a' 2i'
 onoremap a" 2i"
-vnoremap a" 2i"
+xnoremap a" 2i"
 onoremap a` 2i`
-vnoremap a` 2i`
+xnoremap a` 2i`
 " y$ -> Y Make Y behave like other capitals
 map Y y$
 " help
 nnoremap ? :vert help<Space>
 cnoreabbrev vh vert help
 " range search
-vmap / <Esc>/\%V
+xmap / <Esc>/\%V
 " change window layout
 cnoreabbrev wh windo wincmd H
 cnoreabbrev wv windo wincmd K
@@ -142,7 +142,7 @@ cnoreabbrev fw w ! sudo tee %
 set virtualedit=onemore
 " HML
 nnoremap L $l
-vnoremap L $h
+xnoremap L $h
 noremap H ^
 nmap M <Plug>MoveMotionEndOfLinePlug
 " quick save, workaround for sneak spell bug
@@ -335,7 +335,7 @@ function! GrepOperator(type)
   execute "redraw!"
   execute "windo call matchadd(\"GrepHighlight\", " . shellescape(@g) . ")"
 endfunction
-vnoremap <leader>g :<c-u>call GrepOperator(visualmode())<cr>
+xnoremap <leader>g :<c-u>call GrepOperator(visualmode())<cr>
 nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
 " }}}
 
@@ -465,6 +465,11 @@ nnoremap <silent> <C-y> :call SmoothScroll('d', 'f', g:smooth_scroll_steps, g:sm
 
 "-- tpope/vim-surround -- {{{...
 xmap s <Plug>VSurround
+xmap ( <Plug>VSurround)
+xmap { <Plug>VSurround}
+xmap " <Plug>VSurround"
+xmap ' <Plug>VSurround'
+xmap ` <Plug>VSurround`
 "}}}
 
 "-- justinmk/vim-sneak -- {{{...
