@@ -249,7 +249,10 @@ function! MyCR()
 endfunction
 " my simple indent settings {{{...
 filetype indent off
-function GetMyIndent(lnum)
+function! NumCharInStr(char, str)
+  return strlen(substitute(a:str, "[^".a:char."]", "","g"))
+endfunction
+function! GetMyIndent(lnum)
   " Search backwards for the previous non-empty line.
   " TODO: skip comment lines
   let l:plnum = prevnonblank(a:lnum - 1)
@@ -260,24 +263,43 @@ function GetMyIndent(lnum)
   let l:pline = getline(l:plnum)
   " if previous line end up with ...
   if &filetype == 'python'
-    if l:pline =~ '[[{]\s*$'
+    if NumCharInStr('(', l:pline) > NumCharInStr(')', l:pline)
+      if l:pline =~# '(\s*$'
+        if l:pline =~# '^\s*\(def\|while\|for\|with\|elif\).*(\s*$'
+          return indent(l:plnum) + &shiftwidth + &shiftwidth
+        else
+          return indent(l:plnum) + &shiftwidth
+        endif
+      else
+        if l:pline =~# '^if.*$'
+          return indent(l:plnum) + &shiftwidth + &shiftwidth
+        else
+          return strridx(l:pline, '(') + 1
+        endif
+      endif
+    elseif NumCharInStr(')', l:pline) > NumCharInStr('(', l:pline)
+      let l:check_linenum = l:plnum - 1
+      while l:check_linenum > l:plnum - 10 && l:check_linenum > 0
+        let l:check_line = getline(l:check_linenum)
+        if NumCharInStr(')', l:pline) + NumCharInStr(')', l:check_line)
+            \ == NumCharInStr('(', l:pline) + NumCharInStr('(', l:check_line)
+          echom l:check_line
+          if l:check_line =~# '^\s*\(if\|elif\|def\|while\|for\|with\).*$'
+            return indent(l:check_linenum) + &shiftwidth
+          else
+            return indent(l:check_linenum)
+          endif
+        endif
+        let l:check_linenum -= 1
+      endwhile
+    elseif l:pline =~# '[[{:]\s*$'
       return indent(l:plnum) + &shiftwidth
     endif
   elseif &filetype == 'cpp'
-    if l:pline =~ '[[{]\s*$'
+    if l:pline =~# '[[{]\s*$'
       return indent(l:plnum) + &shiftwidth
     endif
   endif
-  " if l:pline =~ '[[{:]\s*$'
-  " if l:pline =~ '[[{:]\s*$'
-  "   return indent(l:plnum) + &shiftwidth
-  " elseif l:pline =~ '(\s*$'
-  "   if (&filetype == 'python')
-  "     return indent(l:plnum) + &shiftwidth
-  "   elseif (&filetype == 'cpp' || &filetype == 'java')
-  "     return indent(l:plnum) + &shiftwidth + &shiftwidth
-  "   endif
-  " endif
   return -1
 endfunction
 set indentkeys=o
