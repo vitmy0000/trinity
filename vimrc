@@ -264,14 +264,14 @@ function! GetMyIndent(lnum)
   " if previous line end up with ...
   if &filetype == 'python'
     if NumCharInStr('(', l:pline) > NumCharInStr(')', l:pline)
-      if l:pline =~# '(\s*$'
-        if l:pline =~# '^\s*\(def\|while\|for\|with\|elif\).*(\s*$'
+      if l:pline =~# '(\s*\(#.*\)\?\s*$'
+        if l:pline =~# '^\s*\(def\|while\|for\|with\|elif\).*(\s*\(#.*\)\?\s*$'
           return indent(l:plnum) + &shiftwidth + &shiftwidth
         else
           return indent(l:plnum) + &shiftwidth
         endif
       else
-        if l:pline =~# '^if.*$'
+        if l:pline =~# '^if'
           return indent(l:plnum) + &shiftwidth + &shiftwidth
         else
           return strridx(l:pline, '(') + 1
@@ -286,7 +286,7 @@ function! GetMyIndent(lnum)
         let l:left_cnt += NumCharInStr('(', l:check_line)
         let l:right_cnt += NumCharInStr(')', l:check_line)
         if l:left_cnt == l:right_cnt
-          if l:check_line =~# '^\s*\(if\|elif\|def\|while\|for\|with\).*$'
+          if l:check_line =~# '^\s*\(if\|elif\|def\|while\|for\|with\)'
             return indent(l:check_linenum) + &shiftwidth
           else
             return indent(l:check_linenum)
@@ -294,13 +294,13 @@ function! GetMyIndent(lnum)
         endif
         let l:check_linenum -= 1
       endwhile
-    elseif l:pline =~# '[[{:]\s*$' || l:pline =~# '[[{:]\s*#.*\s*$'
+    elseif l:pline =~# '[[{:]\s*\(#.*\)\?\s*$'
       return indent(l:plnum) + &shiftwidth
-    elseif l:pline =~# '^\s*return.*$'
+    elseif l:pline =~# '^\s*return'
       return indent(l:plnum) - &shiftwidth
     endif
   elseif &filetype == 'cpp'
-    if l:pline =~# '[[{]\s*$'
+    if l:pline =~# '[[{]\s*\(#.*\)\?\s*$'
       return indent(l:plnum) + &shiftwidth
     endif
   endif
