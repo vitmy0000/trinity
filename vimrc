@@ -146,7 +146,8 @@ vnoremap L $h
 noremap H ^
 nmap M <Plug>MoveMotionEndOfLinePlug
 " quick save, workaround for sneak spell bug
-noremap R :set spell<CR>:write<CR>
+noremap s :set spell<CR>:write<CR>
+noremap S :set spell<CR>:wa<CR>
 " quick leave
 noremap Q :quit<CR>
 " remap U to <C-r> for easier redo
@@ -536,7 +537,6 @@ map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
 " }}}
 
 "-- svermeulen/vim-easyclip -- {{{...
-let g:EasyClipUseSubstituteDefaults = 1
 nnoremap gm m
 " integrate yank highlight
 hi HighlightedyankRegion ctermfg=Black ctermbg=Blue
