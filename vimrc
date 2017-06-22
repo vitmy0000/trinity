@@ -7,7 +7,7 @@
 call plug#begin('~/.vim/plugged')
 
 let g:completor = 'mu'
-let g:install_external_dependent_plugin = 0
+let g:install_external_dependent_plugin = 1
 if !&diff
   Plug 'scrooloose/nerdtree'
   Plug 'unkiwii/vim-nerdtree-sync'
@@ -497,10 +497,10 @@ if (g:completor == 'mu')
   let g:mucomplete#chains = {
     \ 'default' : ['ulti', 'path', 'keyn'],
   \ }
-  inoremap <silent> <plug>(MUcompleteFwdKey) <right>
-  imap <right> <plug>(MUcompleteCycFwd)
-  inoremap <silent> <plug>(MUcompleteBwdKey) <left>
-  imap <left> <plug>(MUcompleteCycBwd)
+  inoremap <silent> <plug>(MUcompleteFwdKey) <s-right>
+  imap <s-right> <plug>(MUcompleteCycFwd)
+  inoremap <silent> <plug>(MUcompleteBwdKey) <s-left>
+  imap <s-left> <plug>(MUcompleteCycBwd)
   inoremap <expr> <c-e> pumvisible() ? mucomplete#popup_exit("\<c-e>") : "\<c-o>$"
   inoremap <expr> <c-y> pumvisible() ? mucomplete#popup_exit("\<c-y>") : "\<c-y>"
   inoremap <expr>  <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
