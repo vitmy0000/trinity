@@ -15,7 +15,7 @@ if !&diff
   Plug 'taohex/lightline-buffer'
   Plug 'artnez/vim-rename'
   Plug 'szw/vim-maximizer'
-  Plug 'jiangmiao/auto-pairs'
+  Plug 'Raimondi/delimitMate'
   Plug 'justinmk/vim-sneak'
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-repeat'
@@ -304,6 +304,10 @@ function! GetMyIndent(lnum)
     if l:pline =~# '[[{]\s*\(#.*\)\?\s*$'
       return indent(l:plnum) + &shiftwidth
     endif
+  else "other filetypes
+    if l:pline =~# '[[{]\s*\(#.*\)\?\s*$'
+      return indent(l:plnum) + &shiftwidth
+    endif
   endif
   return -1
 endfunction
@@ -344,15 +348,6 @@ nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins {{{...
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"-- jiangmiao/auto-pairs -- {{{...
-" disable multi-line jump close
-let g:AutoPairsMultilineClose = 0
-" turn on this may cause indent problem
-let g:AutoPairsMapCR = 0
-" allow <M-b> to work as word back move
-let g:AutoPairsShortcutBackInsert = ''
-" }}}
-
 "-- tomtom/tcomment_vim -- {{{...
 let g:tcommentMapLeaderOp1 = '<Leader>c'
 let g:tcommentMapLeaderOp2 = '<Leader>C'
