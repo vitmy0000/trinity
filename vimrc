@@ -7,7 +7,7 @@
 call plug#begin('~/.vim/plugged')
 
 let g:completor = 'mu'
-let g:install_external_dependent_plugin = 1
+let g:install_external_dependent_plugin = 0
 if !&diff
   Plug 'scrooloose/nerdtree'
   Plug 'unkiwii/vim-nerdtree-sync'
@@ -279,11 +279,13 @@ function! GetMyIndent(lnum)
       endif
     elseif NumCharInStr(')', l:pline) > NumCharInStr('(', l:pline)
       let l:check_linenum = l:plnum - 1
+      let l:left_cnt = NumCharInStr('(', l:pline)
+      let l:right_cnt = NumCharInStr(')', l:pline)
       while l:check_linenum > l:plnum - 10 && l:check_linenum > 0
         let l:check_line = getline(l:check_linenum)
-        if NumCharInStr(')', l:pline) + NumCharInStr(')', l:check_line)
-            \ == NumCharInStr('(', l:pline) + NumCharInStr('(', l:check_line)
-          echom l:check_line
+        let l:left_cnt += NumCharInStr('(', l:check_line)
+        let l:right_cnt += NumCharInStr(')', l:check_line)
+        if l:left_cnt == l:right_cnt
           if l:check_line =~# '^\s*\(if\|elif\|def\|while\|for\|with\).*$'
             return indent(l:check_linenum) + &shiftwidth
           else
@@ -292,8 +294,10 @@ function! GetMyIndent(lnum)
         endif
         let l:check_linenum -= 1
       endwhile
-    elseif l:pline =~# '[[{:]\s*$'
+    elseif l:pline =~# '[[{:]\s*$' || l:pline =~# '[[{:]\s*#.*\s*$'
       return indent(l:plnum) + &shiftwidth
+    elseif l:pline =~# '^\s*return.*$'
+      return indent(l:plnum) - &shiftwidth
     endif
   elseif &filetype == 'cpp'
     if l:pline =~# '[[{]\s*$'
