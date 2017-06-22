@@ -146,7 +146,7 @@ vnoremap L $h
 noremap H ^
 nmap M <Plug>MoveMotionEndOfLinePlug
 " quick save, workaround for sneak spell bug
-noremap S :set spell<CR>:write<CR>
+noremap R :set spell<CR>:write<CR>
 " quick leave
 noremap Q :quit<CR>
 " remap U to <C-r> for easier redo
