@@ -152,6 +152,8 @@ noremap S :set spell<CR>:wa<CR>
 noremap Q :quit<CR>
 " remap U to <C-r> for easier redo
 nnoremap U <C-r>
+" enter to join
+nnoremap <CR> J
 " turn off search highlight
 noremap <leader>/ :let @/=''<CR>:windo call clearmatches()<CR>
 " use tab toggle fold
@@ -272,10 +274,11 @@ function! GetMyIndent(lnum)
           return indent(l:plnum) + &shiftwidth
         endif
       else
-        if l:pline =~# '^if'
+        if l:pline =~# '^\s*if'
           return indent(l:plnum) + &shiftwidth + &shiftwidth
         else
-          return strridx(l:pline, '(') + 1
+          execute 'normal! f)%'
+          return col('.')
         endif
       endif
     elseif NumCharInStr(')', l:pline) > NumCharInStr('(', l:pline)
