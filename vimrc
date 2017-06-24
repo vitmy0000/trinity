@@ -468,7 +468,9 @@ nnoremap <silent> <C-y> :call SmoothScroll('d', 'f', 5, g:smooth_scroll_speed)<C
 
 "-- tpope/vim-surround -- {{{...
 xmap s <Plug>VSurround
+xmap < <Plug>VSurround>
 xmap ( <Plug>VSurround)
+xmap [ <Plug>VSurround]
 xmap { <Plug>VSurround}
 xmap " <Plug>VSurround"
 xmap ' <Plug>VSurround'
