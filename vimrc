@@ -149,7 +149,12 @@ nmap M <Plug>MoveMotionEndOfLinePlug
 noremap s :set spell<CR>:write<CR>
 noremap S :set spell<CR>:wa<CR>
 " quick leave
-noremap Q :quit<CR>
+noremap q :quit<CR>
+noremap Q q
+" tab to shift, force covert UtilSnips mapping
+autocmd VimEnter * xnoremap <Tab> >gv
+xnoremap <S-Tab> <gv
+" S-tab to toggle all folds
 " remap U to <C-r> for easier redo
 nnoremap U <C-r>
 " enter to join
@@ -820,5 +825,17 @@ function! SmoothScroll(dir, cursor, dist, speed)
     redraw
   endfor
 endfunction
+
+let s:my_unrol_flat = 1
+function! MyUnrolToggle()
+if s:my_unrol_flat == 0
+    :exe "normal zR"
+    let s:my_unrol_flat = 1
+else
+    :exe "normal zM"
+    let s:my_unrol_flat = 0
+endif
+endfunction
+nnoremap <S-tab> :call MyUnrolToggle()<CR>
 
 " }}}
