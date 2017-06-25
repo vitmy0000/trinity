@@ -23,6 +23,7 @@ if !&diff
   Plug 'vim-scripts/mru.vim'
   Plug 'svermeulen/vim-easyclip'
   Plug 'tpope/tpope-vim-abolish'
+  Plug 'wellle/targets.vim'
   Plug 'kshenoy/vim-signature'
   Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
   if (g:completor == 'mu')
@@ -119,13 +120,6 @@ xnoremap > >gv
 " ` jumps to the marked line and column, so swap them
 nnoremap ' `
 nnoremap ` '
-" avoid select trailing space of text object
-onoremap a' 2i'
-xnoremap a' 2i'
-onoremap a" 2i"
-xnoremap a" 2i"
-onoremap a` 2i`
-xnoremap a` 2i`
 " y$ -> Y Make Y behave like other capitals
 map Y y$
 " help
