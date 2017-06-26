@@ -276,7 +276,7 @@ function! GetMyIndent(lnum)
         if l:pline =~# '^\s*if'
           return indent(l:plnum) + &shiftwidth + &shiftwidth
         else
-          execute 'normal! k$F('
+          execute 'normal! [('
           return col('.')
         endif
       endif
