@@ -7,7 +7,7 @@
 call plug#begin('~/.vim/plugged')
 
 let g:completor = 'mu'
-let g:install_external_dependent_plugin = 1
+let g:install_external_dependent_plugin = 0
 if !&diff
   Plug 'scrooloose/nerdtree'
   Plug 'unkiwii/vim-nerdtree-sync'
