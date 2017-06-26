@@ -7,7 +7,7 @@
 call plug#begin('~/.vim/plugged')
 
 let g:completor = 'mu'
-let g:install_external_dependent_plugin = 0
+let g:install_external_dependent_plugin = 1
 if !&diff
   Plug 'scrooloose/nerdtree'
   Plug 'unkiwii/vim-nerdtree-sync'
@@ -276,7 +276,7 @@ function! GetMyIndent(lnum)
         if l:pline =~# '^\s*if'
           return indent(l:plnum) + &shiftwidth + &shiftwidth
         else
-          execute 'normal! f)%'
+          execute 'normal! k$F('
           return col('.')
         endif
       endif
