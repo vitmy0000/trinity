@@ -347,6 +347,19 @@ function! MyGrepOperator(type)
 endfunction
 xnoremap <leader>g :<c-u>call MyGrepOperator(visualmode())<cr>
 nnoremap <leader>g :set operatorfunc=MyGrepOperator<cr>g@
+" substitute
+function! MySubstituteOperator(type)
+  if a:type ==# 'v'
+    normal! `<v`>"sy
+  elseif a:type ==# 'char'
+    normal! `[v`]"sy
+  else
+    return
+  endif
+  call feedkeys(":%s/\<C-r>s/\<C-r>s/gc\<left>\<left>\<left>")
+endfunction
+xnoremap <leader>s :<c-u>call MySubstituteOperator(visualmode())<cr>
+nnoremap <leader>s :set operatorfunc=MySubstituteOperator<cr>g@
 " }}}
 
 " }}}
