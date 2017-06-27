@@ -331,7 +331,7 @@ augroup grep_cmd
   autocmd BufReadPost quickfix setlocal nocursorline
   autocmd BufReadPost quickfix :let g:quickfix_window_number = winnr()
 augroup END
-function! GrepOperator(type)
+function! MyGrepOperator(type)
   if a:type ==# 'v'
     normal! `<v`>"gy
   elseif a:type ==# 'char'
@@ -345,8 +345,8 @@ function! GrepOperator(type)
   execute "redraw!"
   execute "windo call matchadd(\"GrepHighlight\", " . shellescape(@g) . ")"
 endfunction
-xnoremap <leader>g :<c-u>call GrepOperator(visualmode())<cr>
-nnoremap <leader>g :set operatorfunc=GrepOperator<cr>g@
+xnoremap <leader>g :<c-u>call MyGrepOperator(visualmode())<cr>
+nnoremap <leader>g :set operatorfunc=MyGrepOperator<cr>g@
 " }}}
 
 " }}}
