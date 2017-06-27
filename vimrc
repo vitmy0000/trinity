@@ -155,6 +155,10 @@ nnoremap U <C-r>
 nnoremap <CR> J
 " turn off search highlight
 noremap <leader>/ :let @/=''<CR>:windo call clearmatches()<CR>
+" toggle line wrap
+noremap <leader>k :set wrap!<CR>
+" toggle invisible character
+noremap <leader>l :set list!<CR>
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 " buffer
