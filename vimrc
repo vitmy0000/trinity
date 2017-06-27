@@ -647,8 +647,12 @@ noremap <leader>ff :Files<CR>
 noremap <leader>fl :BLines<CR>
 noremap <leader>fk :BTags<CR>
 noremap <leader>fb :Buffers<CR>
-noremap <leader>fs :Snippets<CR>
+noremap <leader>fu :Snippets<CR>
 noremap <leader>fh :Helptags<CR>
+noremap <leader>fc :Commands<CR>
+noremap <leader>fr :History<CR>
+noremap <leader>f: :History:<CR>
+noremap <leader>f/ :History/<CR>
 noremap <leader>gg :Ag<CR>
 map <leader>mn :call fzf#vim#maps('n', 0)<CR>
 map <leader>mi :call fzf#vim#maps('i', 0)<CR>
