@@ -680,6 +680,7 @@ let g:signify_sign_change = '*'
 
 "-- majutsushi/tagbar -- {{{...
 noremap <leader>t :TagbarToggle<CR>
+let g:tagbar_map_closefold = "_"
 " }}}
 
 "-- Chiel92/vim-autoformat -- {{{...
