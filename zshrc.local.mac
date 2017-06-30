@@ -8,9 +8,6 @@ alias c="tr -d '\n' | pbcopy"
 alias cs="vim -R ~/trinity/cheat.txt"
 alias sl="echo $SHLVL"
 
-alias vim="ln -svhF ~/.my_vim.d ~/.vim && ln -svhf ~/.my_vimrc ~/.vimrc; \vim"
-alias space-vim="ln -svhF ~/.space-vim.d ~/.vim && ln -svhf ~/.space-vim/init.vim ~/.vimrc; \vim"
-
 alias emacs="ln -svhF ~/.my_emacs.d ~/.emacs.d"
 alias spacemacs="ln -svhF ~/.spacemacs.d ~/.emacs.d"
 

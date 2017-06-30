@@ -797,6 +797,17 @@ endfunction
 nmap <leader>j :call GotoJump()<CR>
 " }}}
 
+" interactive buffer {{{...
+function! GotoBuffer()
+  ls
+  let l:buf = input("Please select your buffer: ")
+  if l:buf != ''
+    execute "buffer" . l:buf
+  endif
+endfunction
+nmap <leader>b :call GotoBuffer()<CR>
+" }}}
+
 " interactive registers {{{...
 function! MyRegp()
   registers
@@ -823,6 +834,7 @@ aug QFClose
 aug END
 " }}}
 
+" SmoothScroll
 function! SmoothScroll(dir, cursor, dist, speed)
   for i in range(a:dist/a:speed)
     let start = reltime()
@@ -843,6 +855,7 @@ function! SmoothScroll(dir, cursor, dist, speed)
   endfor
 endfunction
 
+" Toggle all folds
 let s:my_unrol_flat = 1
 function! MyUnrolToggle()
 if s:my_unrol_flat == 0
