@@ -155,10 +155,6 @@ nnoremap U <C-r>
 nnoremap <CR> J
 " turn off search highlight
 noremap <leader>/ :let @/=''<CR>:windo call clearmatches()<CR>
-" toggle line wrap
-noremap <leader>k :set wrap!<CR>
-" toggle invisible character
-noremap <leader>l :set list!<CR>
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 " buffer
@@ -511,6 +507,7 @@ nmap E <Plug>Sneak_S
 "-- szw/vim-maximizer -- {{{...
 nnoremap <silent> <leader>W :MaximizerToggle<CR>
 nnoremap <silent> <leader>w <C-w>o
+nnoremap <silent> <leader><leader> <C-w><C-w>
 " }}}
 
 "-- lifepillar/vim-mucomplete -- {{{...
@@ -542,7 +539,6 @@ let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
 let g:UltiSnipsSnippetsDir = '~/trinity/UltiSnips'
-nnoremap <leader>u :UltiSnipsEdit<CR>
 " }}}
 
 "-- haya14busa/incsearch.vim -- {{{...
@@ -659,6 +655,7 @@ let g:SignatureMap = {
 noremap <leader>ff :Files<CR>
 noremap <leader>fl :BLines<CR>
 noremap <leader>fk :BTags<CR>
+noremap <leader>fg :Ag<CR>
 noremap <leader>fb :Buffers<CR>
 noremap <leader>fu :Snippets<CR>
 noremap <leader>fh :Helptags<CR>
@@ -666,7 +663,6 @@ noremap <leader>fc :Commands<CR>
 noremap <leader>fr :History<CR>
 noremap <leader>f: :History:<CR>
 noremap <leader>f/ :History/<CR>
-noremap <leader>fg :Ag<CR>
 map <leader>mn :call fzf#vim#maps('n', 0)<CR>
 map <leader>mi :call fzf#vim#maps('i', 0)<CR>
 map <leader>mx :call fzf#vim#maps('x', 0)<CR>
@@ -719,8 +715,6 @@ nmap <silent> ( <Plug>(ale_previous_wrap)
 nmap <silent> ) <Plug>(ale_next_wrap)
 " run linters only when save files
 let g:ale_lint_on_text_changed = 'never'
-" toggle
-noremap <leader>a :ALEToggle<CR>
 " }}}
 
 " }}}
@@ -779,34 +773,6 @@ inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 augroup last_position
   autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 augroup END
-" }}}
-
-" interactive jump {{{...
-function! GotoJump()
-  jumps
-  let j = input("Please select your jump: ")
-  if j != ''
-    let pattern = '\v\c^\+'
-    if j =~ pattern
-      let j = substitute(j, pattern, '', 'g')
-      execute "normal " . j . "\<c-i>"
-    else
-      execute "normal " . j . "\<c-o>"
-    endif
-  endif
-endfunction
-nmap <leader>j :call GotoJump()<CR>
-" }}}
-
-" interactive buffer {{{...
-function! GotoBuffer()
-  ls
-  let l:buf = input("Please select your buffer: ")
-  if l:buf != ''
-    execute "buffer" . l:buf
-  endif
-endfunction
-nmap <leader>b :call GotoBuffer()<CR>
 " }}}
 
 " interactive registers {{{...
