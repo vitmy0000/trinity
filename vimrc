@@ -158,10 +158,10 @@ xnoremap <S-Tab> <gv
 " S-tab to toggle all folds
 " remap U to <C-r> for easier redo
 nnoremap U <C-r>
-" enter to join
-nnoremap <CR> J
 " turn off search highlight
 noremap <leader>/ :let @/=''<CR>:windo call clearmatches()<CR>
+" join
+noremap <leader>j :join<CR>
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 " buffer
