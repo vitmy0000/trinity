@@ -139,6 +139,13 @@ nnoremap L $l
 xnoremap L $h
 noremap H ^
 nmap M <Plug>MoveMotionEndOfLinePlug
+nnoremap gh H
+nnoremap gl L
+nnoremap gm M
+" jump
+xnoremap gy y']
+nnoremap gp p']
+nnoremap gP P']
 " quick save, workaround for sneak spell bug
 noremap s :set spell<CR>:write<CR>
 noremap S :set spell<CR>:wa<CR>
@@ -335,7 +342,6 @@ function! MyGrepOperator(type)
   else
     return
   endif
-  mark G
   execute "silent grep -R --exclude-dir={.git,.hg} " . shellescape(@g) . " " . g:entry_dir
   copen
   execute "redraw!"
@@ -554,7 +560,6 @@ map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
 " }}}
 
 "-- svermeulen/vim-easyclip -- {{{...
-nnoremap gm m
 " integrate yank highlight
 hi HighlightedyankRegion ctermfg=Black ctermbg=Blue
 function! s:sallowsleep(ms) abort
