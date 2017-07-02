@@ -147,11 +147,11 @@ xnoremap gy y']
 nnoremap gp p']
 nnoremap gP P']
 " quick save, workaround for sneak spell bug
-noremap s :set spell<CR>:write<CR>
-noremap S :set spell<CR>:wa<CR>
+nnoremap s :set spell<CR>:write<CR>
+nnoremap S :set spell<CR>:wa<CR>
 " quick leave
-noremap q :quit<CR>
-noremap Q q
+nnoremap q :quit<CR>
+nnoremap Q q
 " tab to shift, force covert UtilSnips mapping
 autocmd VimEnter * xnoremap <Tab> >gv
 xnoremap <S-Tab> <gv
@@ -481,13 +481,7 @@ nnoremap <silent> <C-y> :call SmoothScroll('d', 'f', 5, g:smooth_scroll_speed)<C
 
 "-- tpope/vim-surround -- {{{...
 xmap s <Plug>VSurround
-xmap < <Plug>VSurround>
-xmap ( <Plug>VSurround)
-xmap [ <Plug>VSurround]
-xmap { <Plug>VSurround}
-xmap " <Plug>VSurround"
-xmap ' <Plug>VSurround'
-xmap ` <Plug>VSurround`
+xmap S <Plug>VgSurround
 "}}}
 
 "-- justinmk/vim-sneak -- {{{...
@@ -506,8 +500,8 @@ xnoremap <silent> e :<C-U>call sneak#wrap(visualmode(), 2, 0, 1, 1)<CR>
 xnoremap <silent> E :<C-U>call sneak#wrap(visualmode(), 2, 1, 1, 1)<CR>
 onoremap <silent> e :<C-U>call sneak#wrap(v:operator,   2, 0, 1, 1)<CR>
 onoremap <silent> E :<C-U>call sneak#wrap(v:operator,   2, 1, 1, 1)<CR>
-nmap e <Plug>Sneak_s
-nmap E <Plug>Sneak_S
+map e <Plug>Sneak_s
+map E <Plug>Sneak_S
 " }}}
 
 "-- szw/vim-maximizer -- {{{...
