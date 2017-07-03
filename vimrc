@@ -334,21 +334,30 @@ augroup grep_cmd
   autocmd BufReadPost quickfix setlocal nocursorline
   autocmd BufReadPost quickfix :let g:quickfix_window_number = winnr()
 augroup END
-function! MyGrepOperator(type)
-  if a:type ==# 'v'
-    normal! `<v`>"gy
-  elseif a:type ==# 'char'
-    normal! `[v`]"gy
+function! MyGrepOperator(type, ...)
+  let l:search_term = ''
+  if a:0 == 0
+    if a:type ==# 'v'
+      normal! `<v`>"gy
+    elseif a:type ==# 'char'
+      normal! `[v`]"gy
+    else
+      return
+    endif
+    let l:search_term = shellescape(@g)
+  elseif a:0 == 1
+    let l:search_term = shellescape(a:1)
   else
     return
   endif
-  execute "silent grep -Irn --exclude-dir={.git,.hg} " . shellescape(@g) . " " . g:entry_dir
+  execute "silent grep -Irn --exclude-dir={.git,.hg} " . l:search_term . " ."
   copen
   execute "redraw!"
-  execute "windo call matchadd(\"GrepHighlight\", " . shellescape(@g) . ")"
+  execute "windo call matchadd(\"GrepHighlight\", " . l:search_term . ")"
 endfunction
 xnoremap <leader>g :<c-u>call MyGrepOperator(visualmode())<cr>
 nnoremap <leader>g :set operatorfunc=MyGrepOperator<cr>g@
+nnoremap <leader>gg :call MyGrepOperator(mode(), input("grep: "))<cr>
 " substitute
 function! MySubstituteOperator(type)
   if a:type ==# 'v'
@@ -615,7 +624,6 @@ augroup nerdtree
   autocmd StdinReadPre * let s:std_in=1
   autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
   autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-  autocmd VimEnter * let g:entry_dir = getcwd()
   autocmd BufEnter * silent! lcd %:p:h
 augroup END
 "}}}
