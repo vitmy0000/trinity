@@ -131,7 +131,7 @@ xmap / <Esc>/\%V
 cnoreabbrev wh windo wincmd H
 cnoreabbrev wv windo wincmd K
 " force write
-cnoreabbrev fw w ! sudo tee %
+cnoreabbrev ww w ! sudo tee %
 " eol
 set virtualedit=onemore
 " HML
@@ -204,7 +204,7 @@ set showcmd
 " enable parentheses match
 set showmatch
 " scrolloff
-set scrolloff=3
+set scrolloff=5
 " highlight current line
 set cursorline
 " highlight column at 80
@@ -342,7 +342,7 @@ function! MyGrepOperator(type)
   else
     return
   endif
-  execute "silent grep -R --exclude-dir={.git,.hg} " . shellescape(@g) . " " . g:entry_dir
+  execute "silent grep -Irn --exclude-dir={.git,.hg} " . shellescape(@g) . " " . g:entry_dir
   copen
   execute "redraw!"
   execute "windo call matchadd(\"GrepHighlight\", " . shellescape(@g) . ")"
@@ -425,7 +425,7 @@ let g:lightline = {
   \ },
 \ }
 function! LightlinePWD()
-  return "PWD: " . expand('%:p:h')
+  return "Dir: " . expand('%:p:h')
 endfunction
 function! LightlineSpell()
   return winwidth(0) > 70 ? (&spell ? 'SPELL' : '') : ''
@@ -472,7 +472,7 @@ let g:lightline_buffer_reservelen = 20
 
 "-- terryma/vim-smooth-scroll -- {{{...
 let g:smooth_scroll_steps = &scroll
-let g:smooth_scroll_speed = 1
+let g:smooth_scroll_speed = 2
 nnoremap <silent> K :call SmoothScroll('u', 'm', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
 nnoremap <silent> J :call SmoothScroll('d', 'm', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
 nnoremap <silent> <C-e> :call SmoothScroll('u', 'f', 5, g:smooth_scroll_speed)<CR>
