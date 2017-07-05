@@ -40,7 +40,8 @@ if !&diff
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     if (g:completor == 'ycm')
-      Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+      Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang --system-boost' }
+      Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
     endif
   endif
 endif
@@ -784,7 +785,6 @@ augroup END
 augroup file_py
   autocmd!
   autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
-  autocmd FileType python setlocal foldmethod=indent
   autocmd FileType python let b:delimitMate_nesting_quotes = ['"']
   autocmd FileType python let NERDTreeIgnore = ['\.pyc$']
 augroup END
@@ -792,8 +792,14 @@ augroup END
 augroup file_cpp
   autocmd!
   autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 softtabstop=2
-  autocmd FileType cpp setlocal foldmethod=indent
   autocmd FileType cpp let NERDTreeIgnore = ['\.o$']
+augroup END
+" make
+augroup file_make
+  autocmd!
+  autocmd FileType make setlocal tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType make setlocal noexpandtab
+  autocmd FileType make let NERDTreeIgnore = ['\.o$']
 augroup END
 
 " }}}
