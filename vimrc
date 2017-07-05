@@ -311,7 +311,32 @@ function! GetMyIndent(lnum)
       return indent(l:plnum) - &shiftwidth
     endif
   elseif &filetype == 'cpp'
-    if l:pline =~# '[[{]\s*\(\/\/.*\)\?\s*$'
+    if NumCharInStr('(', l:pline) > NumCharInStr(')', l:pline)
+      if l:pline =~# '(\s*\(#.*\)\?\s*$'
+        return indent(l:plnum) + &shiftwidth + &shiftwidth
+      else
+        execute 'normal! [('
+        return col('.')
+      endif
+    elseif NumCharInStr(')', l:pline) > NumCharInStr('(', l:pline)
+      let l:check_linenum = l:plnum - 1
+      let l:left_cnt = NumCharInStr('(', l:pline)
+      let l:right_cnt = NumCharInStr(')', l:pline)
+      while l:check_linenum > l:plnum - 10 && l:check_linenum > 0
+        let l:check_line = getline(l:check_linenum)
+        let l:left_cnt += NumCharInStr('(', l:check_line)
+        let l:right_cnt += NumCharInStr(')', l:check_line)
+        if l:left_cnt == l:right_cnt
+          echom "equal"
+          if l:pline =~# '[[{]\s*\(\/\/.*\)\?\s*$'
+            return indent(l:check_linenum) + &shiftwidth
+          else
+            return indent(l:check_linenum)
+          endif
+        endif
+        let l:check_linenum -= 1
+      endwhile
+    elseif l:pline =~# '[[{]\s*\(\/\/.*\)\?\s*$'
       return indent(l:plnum) + &shiftwidth
     endif
   else "other filetypes
@@ -528,7 +553,7 @@ if (g:completor == 'mu')
   let g:mucomplete#no_mappings = 1
   let g:mucomplete#enable_auto_at_startup = 1
   let g:mucomplete#chains = {
-    \ 'default' : ['ulti', 'path', 'keyn'],
+    \ 'default' : ['ulti', 'path', 'keyn', 'c-n'],
   \ }
   inoremap <silent> <plug>(MUcompleteFwdKey) <s-right>
   imap <s-right> <plug>(MUcompleteCycFwd)
@@ -745,6 +770,14 @@ augroup file_py
   autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
   autocmd FileType python setlocal foldmethod=indent
   autocmd FileType python let b:delimitMate_nesting_quotes = ['"']
+  autocmd FileType python let NERDTreeIgnore = ['\.pyc$']
+augroup END
+" cpp
+augroup file_cpp
+  autocmd!
+  autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 softtabstop=2
+  autocmd FileType cpp setlocal foldmethod=indent
+  autocmd FileType cpp let NERDTreeIgnore = ['\.o$']
 augroup END
 
 " }}}
