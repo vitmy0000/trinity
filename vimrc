@@ -6,6 +6,7 @@
 " Make sure you use single quotes
 call plug#begin('~/.vim/plugged')
 
+" let g:completor = 'ycm'
 let g:completor = 'mu'
 let g:install_external_dependent_plugin = 0
 if !&diff
@@ -712,18 +713,33 @@ noremap <leader>t :TagbarToggle<CR>
 let g:tagbar_map_closefold = "_"
 " }}}
 
+"-- Valloric/YouCompleteMe -- {{{...
+if (g:completor == 'ycm')
+  let g:ycm_show_diagnostics_ui = 0
+  let g:ycm_key_list_select_completion = ['<Down>']
+  let g:ycm_key_list_previous_completion = ['<Up>']
+  let g:ycm_complete_in_comments = 1
+  let g:ycm_complete_in_strings = 1
+  let g:ycm_use_ultisnips_completer = 1
+  let g:ycm_seed_identifiers_with_syntax=1
+endif
+"}}}
+
 "-- Chiel92/vim-autoformat -- {{{...
 noremap <leader>= :Autoformat<CR>
 " let g:autoformat_verbosemode=1
 let g:formatter_yapf_style = 'pep8'
 let g:formatdef_yapf = "'yapf --line ' . a:firstline . '-' . a:lastline "
 let g:formatters_python = ['yapf']
+let g:formatdef_my_custom_cpp = "'clang-format -style=\"{BasedOnStyle: google}\" -lines=' . a:firstline . ':' . a:lastline "
+let g:formatters_cpp = ['my_custom_cpp']
 " }}}
 
 "-- w0rp/ale -- {{{...
 let g:ale_linters = {
 \   'vim': ['vint'],
 \   'python': ['pylint'],
+\   'cpp': ['clang'],
 \}
 let g:ale_python_pylint_options = '-E'
 function! LinterStatus() abort
