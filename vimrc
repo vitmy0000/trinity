@@ -27,7 +27,7 @@ if !&diff
   Plug 'wellle/targets.vim'
   Plug 'kshenoy/vim-signature'
   Plug 'octol/vim-cpp-enhanced-highlight'
-  Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+  Plug 'SirVer/ultisnips'
   if (g:completor == 'mu')
     Plug 'lifepillar/vim-mucomplete'
   endif
