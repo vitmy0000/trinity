@@ -6,9 +6,8 @@
 " Make sure you use single quotes
 call plug#begin('~/.vim/plugged')
 
-" let g:completor = 'ycm'
-let g:completor = 'mu'
 let g:install_external_dependent_plugin = 0
+let g:completor = ''
 if !&diff
   Plug 'scrooloose/nerdtree'
   Plug 'unkiwii/vim-nerdtree-sync'
@@ -28,9 +27,6 @@ if !&diff
   Plug 'kshenoy/vim-signature'
   Plug 'octol/vim-cpp-enhanced-highlight'
   Plug 'SirVer/ultisnips'
-  if (g:completor == 'mu')
-    Plug 'lifepillar/vim-mucomplete'
-  endif
   if (g:install_external_dependent_plugin == 1)
     Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'majutsushi/tagbar'
@@ -39,10 +35,12 @@ if !&diff
     Plug 'Chiel92/vim-autoformat'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
-    if (g:completor == 'ycm')
-      Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang --system-boost' }
-      Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
-    endif
+    let g:completor = 'ycm'
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang --system-boost' }
+    Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+  else
+    let g:completor = 'mu'
+    Plug 'lifepillar/vim-mucomplete'
   endif
 endif
 Plug 'morhetz/gruvbox'
@@ -716,13 +714,20 @@ let g:tagbar_map_closefold = "_"
 
 "-- Valloric/YouCompleteMe -- {{{...
 if (g:completor == 'ycm')
-  let g:ycm_show_diagnostics_ui = 0
+  set completeopt-=preview
   let g:ycm_key_list_select_completion = ['<Down>']
   let g:ycm_key_list_previous_completion = ['<Up>']
+  let g:ycm_show_diagnostics_ui = 0
+  let g:ycm_confirm_extra_conf = 0
   let g:ycm_complete_in_comments = 1
   let g:ycm_complete_in_strings = 1
   let g:ycm_use_ultisnips_completer = 1
   let g:ycm_seed_identifiers_with_syntax=1
+  nnoremap <leader>yi :YcmCompleter GoToInclude<CR>
+  nnoremap <leader>yd :YcmCompleter GoToDeclaration<CR>
+  nnoremap <leader>yt :YcmCompleter GetType<CR>
+  nnoremap <leader>yp :YcmCompleter GetParent<CR>
+  nnoremap <leader>yf :YcmCompleter FixIt<CR>
 endif
 "}}}
 
