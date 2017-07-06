@@ -27,6 +27,7 @@ if !&diff
   Plug 'kshenoy/vim-signature'
   Plug 'octol/vim-cpp-enhanced-highlight'
   Plug 'SirVer/ultisnips'
+  Plug 'honza/vim-snippets'
   if (g:install_external_dependent_plugin == 1)
     Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'majutsushi/tagbar'

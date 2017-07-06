@@ -1,0 +1,8 @@
+snippet args "arg parse" b
+import argparse
+
+parser = argparse.ArgumentParser(description='${1:DESCRIPTION TEXT}')
+parser.add_argument('-${2:x}', '--${3:xxx}', help='${4:HELP TEXT}', required=True)
+args = parser.parse_args()
+${0}
+endsnippet
