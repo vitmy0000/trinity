@@ -698,9 +698,12 @@ noremap <leader>fr :History<CR>
 noremap <leader>f: :History:<CR>
 noremap <leader>f/ :History/<CR>
 map <leader>mn :call fzf#vim#maps('n', 0)<CR>
-map <leader>mi :call fzf#vim#maps('i', 0)<CR>
+map <leader>mv :call fzf#vim#maps('v', 0)<CR>
 map <leader>mx :call fzf#vim#maps('x', 0)<CR>
 map <leader>mo :call fzf#vim#maps('o', 0)<CR>
+map <leader>ms :call fzf#vim#maps('s', 0)<CR>
+map <leader>mi :call fzf#vim#maps('i', 0)<CR>
+map <leader>mc :call fzf#vim#maps('c', 0)<CR>
 " }}}
 
 "-- mhinz/vim-signify -- {{{...
