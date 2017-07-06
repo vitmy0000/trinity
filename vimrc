@@ -99,7 +99,7 @@ augroup END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " configure backspace so it acts as it should act
 set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
+set whichwrap+=<,>,h,l,[,]
 " timeout
 set timeout timeoutlen=3000 ttimeoutlen=30
 augroup FastEscape
@@ -300,7 +300,7 @@ function! GetMyIndent(lnum)
       endwhile
     elseif l:pline =~# '[[{:]\s*\(#.*\)\?\s*$'
       return indent(l:plnum) + &shiftwidth
-    elseif l:pline =~# '^\s*return'
+    elseif (l:pline =~# '^\s*return' || l:pline =~# '^\s*pass\s*$')
       return indent(l:plnum) - &shiftwidth
     endif
   elseif &filetype == 'cpp'
