@@ -37,7 +37,7 @@ if !&diff
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     let g:completor = 'ycm'
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang --system-boost' }
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang' }
     Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
   else
     let g:completor = 'mu'
@@ -707,6 +707,7 @@ if (g:completor == 'ycm')
   set completeopt-=preview
   let g:ycm_key_list_select_completion = ['<Down>']
   let g:ycm_key_list_previous_completion = ['<Up>']
+  let g:ycm_key_list_stop_completion = ['<C-y>', '<CR>']
   let g:ycm_show_diagnostics_ui = 0
   let g:ycm_confirm_extra_conf = 0
   let g:ycm_complete_in_comments = 1
