@@ -134,16 +134,6 @@ cnoreabbrev wh windo wincmd H
 cnoreabbrev wv windo wincmd K
 " force write
 cnoreabbrev ww w ! sudo tee %
-" eol
-set virtualedit=onemore
-" HML
-nnoremap L $l
-xnoremap L $h
-noremap H ^
-nmap M <Plug>MoveMotionEndOfLinePlug
-nnoremap gh H
-nnoremap gl L
-nnoremap gm M
 " jump
 xnoremap gy y']
 nnoremap gp p']
@@ -197,6 +187,8 @@ inoremap <C-k> <C-o>D
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " show line number
 set number
+" eol
+set virtualedit=onemore
 " use relative line number
 set relativenumber
 " show line and column number
@@ -506,15 +498,6 @@ let g:lightline_buffer_minfextlen = 3
 let g:lightline_buffer_reservelen = 20
 " }}}
 
-"-- terryma/vim-smooth-scroll -- {{{...
-let g:smooth_scroll_steps = &scroll
-let g:smooth_scroll_speed = 2
-nnoremap <silent> K :call SmoothScroll('u', 'm', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
-nnoremap <silent> J :call SmoothScroll('d', 'm', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
-nnoremap <silent> <C-e> :call SmoothScroll('u', 'f', 5, g:smooth_scroll_speed)<CR>
-nnoremap <silent> <C-y> :call SmoothScroll('d', 'f', 5, g:smooth_scroll_speed)<CR>
-" }}}
-
 "-- tpope/vim-surround -- {{{...
 xmap s <Plug>VSurround
 xmap S <Plug>VgSurround
@@ -641,6 +624,9 @@ endfunction
 nnoremap <silent> yy :<c-u>call EasyClip#Yank#PreYankMotion()<cr>:call EasyClip#Yank#YankLine()<cr>:<c-u>call HighlightYankedLine()<cr>
 nnoremap <silent> <expr> Y ":<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opfunc=EasyClip#Yank#YankMotion<cr>" . (v:count > 0 ? v:count : '') . "g@$:<c-u>call HighlightYankedEOL()<cr>"
 nnoremap <silent> <expr> y ":<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opfunc=EasyClipYankMotionHighlithWrapper<cr>" . (v:count > 0 ? v:count : '') . "g@"
+" m key mappings
+nmap gM <Plug>MoveMotionEndOfLinePlug
+nnoremap gm m
 "}}}
 
 "-- scrooloose/nerdtree -- {{{...
@@ -874,25 +860,23 @@ aug END
 " }}}
 
 " SmoothScroll
-function! SmoothScroll(dir, cursor, dist, speed)
+function! SmoothScroll(dir, dist, speed)
   for i in range(a:dist/a:speed)
     let start = reltime()
     " scroll down and cursor move
-    if a:dir ==# 'd' && a:cursor ==# 'm'
+    if a:dir ==# 'd'
       exec "normal! ".a:speed."\<C-e>".a:speed."j"
     " scroll up and cursor move
-    elseif a:dir ==# 'u' && a:cursor ==# 'm'
+    elseif a:dir ==# 'u'
       exec "normal! ".a:speed."\<C-y>".a:speed."k"
-    " scroll down and cursor fix
-    elseif a:dir ==# 'd' && a:cursor ==# 'f'
-      exec "normal! ".a:speed."\<C-y>"
-    " scroll up and cursor fix
-    elseif a:dir ==# 'u' && a:cursor ==# 'f'
-      exec "normal! ".a:speed."\<C-e>"
     endif
     redraw
   endfor
 endfunction
+let g:smooth_scroll_steps = &scroll
+let g:smooth_scroll_speed = 3 "must be integer
+nnoremap <silent> K :call SmoothScroll('u', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
+nnoremap <silent> J :call SmoothScroll('d', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
 
 " Toggle all folds
 let s:my_unrol_flat = 1
