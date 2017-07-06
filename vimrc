@@ -707,11 +707,12 @@ if (g:completor == 'ycm')
   set completeopt-=preview
   let g:ycm_key_list_select_completion = ['<Down>']
   let g:ycm_key_list_previous_completion = ['<Up>']
-  let g:ycm_key_list_stop_completion = ['<C-y>', '<CR>']
+  let g:ycm_key_list_stop_completion = ['<C-y>']
+  imap <expr> <CR> pumvisible() ? "\<C-y>" : MyCR()
   let g:ycm_show_diagnostics_ui = 0
   let g:ycm_confirm_extra_conf = 0
-  let g:ycm_complete_in_comments = 1
-  let g:ycm_complete_in_strings = 1
+  let g:ycm_complete_in_comments = 0
+  let g:ycm_complete_in_strings = 0
   let g:ycm_use_ultisnips_completer = 1
   let g:ycm_seed_identifiers_with_syntax=1
   nnoremap <leader>yi :YcmCompleter GoToInclude<CR>
