@@ -381,15 +381,18 @@ nnoremap <leader>gg :call MyGrepOperator(mode(), input("grep: "))<cr>
 function! MySubstituteOperator(type)
   if a:type ==# 'v'
     normal! `<v`>"sy
+    call feedkeys(":%s/\<C-r>s/\<C-r>s/gc\<left>\<left>\<left>")
   elseif a:type ==# 'char'
     normal! `[v`]"sy
-  else
+    call feedkeys(":%s/\<C-r>s/\<C-r>s/gc\<left>\<left>\<left>")
+  elseif a:type ==# 'V'
+    call feedkeys(":'<,'>s/x/x/gc\<left>\<left>\<left>\<left>\<left>")
     return
   endif
-  call feedkeys(":%s/\<C-r>s/\<C-r>s/gc\<left>\<left>\<left>")
 endfunction
 xnoremap <leader>s :<c-u>call MySubstituteOperator(visualmode())<cr>
 nnoremap <leader>s :set operatorfunc=MySubstituteOperator<cr>g@
+nnoremap <leader>ss :%s/x/x/gc<left><left><left><left><left>
 " }}}
 
 " }}}
