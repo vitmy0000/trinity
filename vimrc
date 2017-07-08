@@ -632,6 +632,12 @@ nnoremap <silent> <expr> y ":<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opf
 " m key mappings
 nmap gM <Plug>MoveMotionEndOfLinePlug
 nnoremap gm m
+" r for replace
+xmap r <plug>XEasyClipPaste
+xmap r <plug>SubstituteOverMotionMap
+nmap rr <plug>SubstituteLine
+nmap R <plug>SubstituteToEndOfLine
+nnoremap gr r
 "}}}
 
 "-- scrooloose/nerdtree -- {{{...
