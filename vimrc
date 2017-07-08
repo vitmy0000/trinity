@@ -123,7 +123,7 @@ xnoremap > >gv
 nnoremap ' `
 nnoremap ` '
 " y$ -> Y Make Y behave like other capitals
-map Y y$
+nmap Y y$
 " help
 nnoremap ? :vert help<Space>
 cnoreabbrev vh vert help
@@ -244,9 +244,9 @@ function! MyCR()
   let l:prevChar = getline(line('.'))[col('.') - 2]
   let l:currChar = getline(line('.'))[col('.') - 1]
   if l:prevChar == '[' && l:currChar == ']'
-    return "\<CR>\<BS>\<UP>\<C-o>\o"
+    return "\<CR>\<C-o><<\<UP>\<C-o>\o"
   elseif l:prevChar == '{' && l:currChar == '}'
-    return "\<CR>\<BS>\<UP>\<C-o>\o"
+    return "\<CR>\<C-o><<\<UP>\<C-o>\o"
   endif
   return "\<CR>"
 endfunction
@@ -329,6 +329,8 @@ function! GetMyIndent(lnum)
         endif
         let l:check_linenum -= 1
       endwhile
+    elseif l:pline =~# '\s*namespace.*{\s*\(\/\/.*\)\?\s*$'
+      return indent(l:plnum)
     elseif l:pline =~# '[[{]\s*\(\/\/.*\)\?\s*$'
       return indent(l:plnum) + &shiftwidth
     endif
