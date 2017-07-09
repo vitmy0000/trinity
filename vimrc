@@ -174,7 +174,7 @@ set <M-\>=
 noremap! <M-\> <C-w>
 noremap! <C-d> <Del>
 noremap! <C-w> <C-w>
-noremap! <C-u> <C-u>
+inoremap <C-u> <C-g>u<C-u>
 " forward delete word and line are not feasible in command-line editing
 " however, they are not very commonly used
 set <M-d>=d
@@ -234,6 +234,13 @@ set ignorecase
 " case sensitive when uppercase letter appear
 set smartcase
 " <CR> inside parentheses
+function! MyPrevChar()
+  if col('.') < 2
+    return ''
+  else
+    return getline(line('.'))[col('.') - 2]
+  end
+endfunction
 function! MyCR()
   if pumvisible()
     return "\<CR>"
@@ -656,6 +663,10 @@ augroup END
 noremap <leader>r :MRU<CR>
 " }}}
 
+"-- Raimondi/delimitMate -- {{{...
+let delimitMate_expand_space = 1
+" }}}
+
 "-- kshenoy/vim-signature -- {{{...
 let g:SignatureMap = {
   \ 'Leader'             :  "m",
@@ -748,7 +759,7 @@ let g:formatters_cpp = ['my_custom_cpp']
 let g:ale_linters = {
 \   'vim': ['vint'],
 \   'python': ['pylint'],
-\   'cpp': ['clang'],
+\   'cpp': ['clang++'],
 \}
 let g:ale_python_pylint_options = '-E'
 function! LinterStatus() abort
@@ -801,6 +812,8 @@ augroup file_cpp
   autocmd!
   autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 softtabstop=2
   autocmd FileType cpp let NERDTreeIgnore = ['\.o$']
+  autocmd FileType cpp setlocal matchpairs+=<:>
+  autocmd FileType cpp inoremap <expr> < MyPrevChar() =~# '[< ]' ? "<" : "<>\<left>"
 augroup END
 " make
 augroup file_make
