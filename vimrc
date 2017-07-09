@@ -390,18 +390,18 @@ nnoremap <leader>gg :call MyGrepOperator(mode(), input("grep: "))<cr>
 function! MySubstituteOperator(type)
   if a:type ==# 'v'
     normal! `<v`>"sy
-    call feedkeys(":%s/\<C-r>s/\<C-r>s/gc\<left>\<left>\<left>")
+    call feedkeys(":%S/\<C-r>s/\<C-r>s/gc\<left>\<left>\<left>")
   elseif a:type ==# 'char'
     normal! `[v`]"sy
-    call feedkeys(":%s/\<C-r>s/\<C-r>s/gc\<left>\<left>\<left>")
+    call feedkeys(":%S/\<C-r>s/\<C-r>s/gc\<left>\<left>\<left>")
   elseif a:type ==# 'V'
-    call feedkeys(":'<,'>s/x/x/gc\<left>\<left>\<left>\<left>\<left>")
+    call feedkeys(":'<,'>S/x/x/gc\<left>\<left>\<left>\<left>\<left>")
     return
   endif
 endfunction
 xnoremap <leader>s :<c-u>call MySubstituteOperator(visualmode())<cr>
 nnoremap <leader>s :set operatorfunc=MySubstituteOperator<cr>g@
-nnoremap <leader>ss :%s/x/x/gc<left><left><left><left><left>
+nnoremap <leader>ss :%S/x/x/gc<left><left><left><left><left>
 " }}}
 
 " }}}
@@ -512,7 +512,7 @@ let g:lightline_buffer_reservelen = 20
 
 "-- tpope/vim-surround -- {{{...
 xmap s <Plug>VSurround
-xmap S <Plug>VgSurround
+xmap S <Plug>VSurround
 "}}}
 
 "-- justinmk/vim-sneak -- {{{...
