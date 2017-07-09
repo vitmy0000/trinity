@@ -14,14 +14,13 @@ if !&diff
   Plug 'itchyny/lightline.vim'
   Plug 'taohex/lightline-buffer'
   Plug 'artnez/vim-rename'
-  Plug 'szw/vim-maximizer'
   Plug 'Raimondi/delimitMate'
-  Plug 'justinmk/vim-sneak'
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-surround'
   Plug 'vim-scripts/mru.vim'
   Plug 'svermeulen/vim-easyclip'
+  Plug 'easymotion/vim-easymotion'
   Plug 'tpope/tpope-vim-abolish'
   Plug 'wellle/targets.vim'
   Plug 'kshenoy/vim-signature'
@@ -140,7 +139,6 @@ nnoremap gp p']
 nnoremap gP P']
 " quick save, workaround for sneak spell bug
 nnoremap s :set spell<CR>:write<CR>
-nnoremap S :set spell<CR>:wa<CR>
 " quick leave
 nnoremap q :quit<CR>
 nnoremap Q q
@@ -515,32 +513,6 @@ xmap s <Plug>VSurround
 xmap S <Plug>VSurround
 "}}}
 
-"-- justinmk/vim-sneak -- {{{...
-let g:sneak#label = 1
-let g:sneak#use_ic_scs = 1
-" sneak#wrap(op, inputlen, reverse, inclusive, label)
-nnoremap <silent> f :<C-U>call sneak#wrap('',           1, 0, 1, 1)<CR>
-nnoremap <silent> F :<C-U>call sneak#wrap('',           1, 1, 1, 1)<CR>
-xnoremap <silent> f :<C-U>call sneak#wrap(visualmode(), 1, 0, 1, 1)<CR>
-xnoremap <silent> F :<C-U>call sneak#wrap(visualmode(), 1, 1, 1, 1)<CR>
-onoremap <silent> f :<C-U>call sneak#wrap(v:operator,   1, 0, 1, 1)<CR>
-onoremap <silent> F :<C-U>call sneak#wrap(v:operator,   1, 1, 1, 1)<CR>
-nnoremap <silent> e :<C-U>call sneak#wrap('',           2, 0, 1, 1)<CR>
-nnoremap <silent> E :<C-U>call sneak#wrap('',           2, 1, 1, 1)<CR>
-xnoremap <silent> e :<C-U>call sneak#wrap(visualmode(), 2, 0, 1, 1)<CR>
-xnoremap <silent> E :<C-U>call sneak#wrap(visualmode(), 2, 1, 1, 1)<CR>
-onoremap <silent> e :<C-U>call sneak#wrap(v:operator,   2, 0, 1, 1)<CR>
-onoremap <silent> E :<C-U>call sneak#wrap(v:operator,   2, 1, 1, 1)<CR>
-map e <Plug>Sneak_s
-map E <Plug>Sneak_S
-" }}}
-
-"-- szw/vim-maximizer -- {{{...
-nnoremap <silent> <leader>W :MaximizerToggle<CR>
-nnoremap <silent> <leader>w <C-w>o
-nnoremap <silent> <leader><leader> <C-w><C-w>
-" }}}
-
 "-- lifepillar/vim-mucomplete -- {{{...
 if (g:completor == 'mu')
   set shortmess+=c
@@ -582,6 +554,18 @@ map *  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)
 map g* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
 map #  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)
 map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
+" }}}
+
+" -- easymotion/vim-easymotion -- {{{...
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+map F <Plug>(easymotion-bd-fl)
+map T <Plug>(easymotion-bd-tl)
+map B <Plug>(easymotion-b)
+map W <Plug>(easymotion-w)
+nmap S <Plug>(easymotion-s)
+nmap <leader>l <Plug>(easymotion-bd-jk)
+xmap <leader>l <Plug>(easymotion-bd-jk)
+nmap <leader><leader>l <C-w><C-w><Plug>(easymotion-bd-jk)
 " }}}
 
 "-- svermeulen/vim-easyclip -- {{{...
@@ -639,12 +623,11 @@ nnoremap <silent> <expr> y ":<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opf
 " m key mappings
 nmap gM <Plug>MoveMotionEndOfLinePlug
 nnoremap gm m
-" r for replace
-xmap r <plug>XEasyClipPaste
-nmap r <plug>SubstituteOverMotionMap
-nmap rr <plug>SubstituteLine
-nmap R <plug>SubstituteToEndOfLine
-nnoremap gr r
+" e for replace
+xmap e <plug>XEasyClipPaste
+nmap e <plug>SubstituteOverMotionMap
+nmap ee <plug>SubstituteLine
+nmap E <plug>SubstituteToEndOfLine
 "}}}
 
 "-- scrooloose/nerdtree -- {{{...
