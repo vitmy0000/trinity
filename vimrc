@@ -620,7 +620,7 @@ let g:tagbar_map_showproto = ''
 " }}}
 
 "-- scrooloose/nerdtree -- {{{...
-noremap <leader>e :NERDTreeToggle<CR>
+noremap <leader>e :NERDTreeToggle<CR><C-w>p<C-w>p
 noremap <leader>E :NERDTreeToggle<CR><C-w>p
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeMapActivateNode = 'o'
