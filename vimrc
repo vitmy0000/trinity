@@ -6,7 +6,7 @@
 " Make sure you use single quotes
 call plug#begin('~/.vim/plugged')
 
-let g:install_external_dependent_plugin = 1
+let g:install_external_dependent_plugin = 0
 let g:completor = ''
 if !&diff
   Plug 'scrooloose/nerdtree'
@@ -611,8 +611,8 @@ nmap E <plug>SubstituteToEndOfLine
 "}}}
 
 "-- majutsushi/tagbar -- {{{...
-noremap <leader>t :TagbarToggle<CR><C-w>p<C-w>p
-noremap <leader>T :NERDTreeToggle<CR><C-w>p
+noremap <leader>t :NERDTreeClose<CR>:TagbarToggle<CR>
+noremap <leader>T :NERDTreeClose<CR>:TagbarToggle<CR><C-w>p
 let g:tagbar_autofocus = 1
 let g:tagbar_map_closefold = ['_', 'zc']
 let g:tagbar_map_previewwin = ''
