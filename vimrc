@@ -6,14 +6,13 @@
 " Make sure you use single quotes
 call plug#begin('~/.vim/plugged')
 
-let g:install_external_dependent_plugin = 0
+let g:install_external_dependent_plugin = 1
 let g:completor = ''
 if !&diff
   Plug 'scrooloose/nerdtree'
   Plug 'unkiwii/vim-nerdtree-sync'
   Plug 'itchyny/lightline.vim'
   Plug 'taohex/lightline-buffer'
-  Plug 'artnez/vim-rename'
   Plug 'Raimondi/delimitMate'
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-repeat'
@@ -24,9 +23,8 @@ if !&diff
   Plug 'tpope/tpope-vim-abolish'
   Plug 'wellle/targets.vim'
   Plug 'kshenoy/vim-signature'
-  Plug 'octol/vim-cpp-enhanced-highlight'
-  Plug 'SirVer/ultisnips'
-  Plug 'honza/vim-snippets'
+  Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
+  Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
   if (g:install_external_dependent_plugin == 1)
     Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'majutsushi/tagbar'
@@ -133,12 +131,14 @@ cnoreabbrev wh windo wincmd H
 cnoreabbrev wv windo wincmd K
 " force write
 cnoreabbrev ww w ! sudo tee %
+" verbose
+cnoreabbrev v verbose
 " jump
 xnoremap gy y']
 nnoremap gp p']
 nnoremap gP P']
 " quick save, workaround for sneak spell bug
-nnoremap s :set spell<CR>:write<CR>
+nnoremap s :write<CR>
 " quick leave
 nnoremap q :quit<CR>
 nnoremap Q q
@@ -152,6 +152,8 @@ nnoremap U <C-r>
 noremap <leader>/ :let @/=''<CR>:windo call clearmatches()<CR>
 " join
 noremap <leader>j :join<CR>
+" window
+noremap <leader>w <C-w>
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 " buffer
@@ -308,7 +310,7 @@ function! GetMyIndent(lnum)
     elseif (l:pline =~# '^\s*return' || l:pline =~# '^\s*pass\s*$')
       return indent(l:plnum) - &shiftwidth
     endif
-  elseif &filetype == 'cpp'
+  elseif (&filetype == 'cpp')
     if NumCharInStr('(', l:pline) > NumCharInStr(')', l:pline)
       if l:pline =~# '(\s*\(#.*\)\?\s*$'
         return indent(l:plnum) + &shiftwidth + &shiftwidth
@@ -325,7 +327,6 @@ function! GetMyIndent(lnum)
         let l:left_cnt += NumCharInStr('(', l:check_line)
         let l:right_cnt += NumCharInStr(')', l:check_line)
         if l:left_cnt == l:right_cnt
-          echom "equal"
           if l:pline =~# '[[{]\s*\(\/\/.*\)\?\s*$'
             return indent(l:check_linenum) + &shiftwidth
           else
@@ -513,28 +514,6 @@ xmap s <Plug>VSurround
 xmap S <Plug>VSurround
 "}}}
 
-"-- lifepillar/vim-mucomplete -- {{{...
-if (g:completor == 'mu')
-  set shortmess+=c
-  set complete-=t "no tag
-  set completeopt=menuone,noselect,noinsert
-  let g:mucomplete#no_mappings = 1
-  let g:mucomplete#enable_auto_at_startup = 1
-  let g:mucomplete#chains = {
-    \ 'default' : ['ulti', 'path', 'keyn', 'c-n'],
-  \ }
-  inoremap <silent> <plug>(MUcompleteFwdKey) <s-right>
-  imap <s-right> <plug>(MUcompleteCycFwd)
-  inoremap <silent> <plug>(MUcompleteBwdKey) <s-left>
-  imap <s-left> <plug>(MUcompleteCycBwd)
-  inoremap <expr> <c-e> pumvisible() ? mucomplete#popup_exit("\<c-e>") : "\<c-o>$"
-  inoremap <expr> <c-y> pumvisible() ? mucomplete#popup_exit("\<c-y>") : "\<c-y>"
-  inoremap <expr>  <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
-  inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<c-o>gj"
-  inoremap <expr> <up> pumvisible() ? "\<c-p>" : "\<c-o>gk"
-endif
-" }}}
-
 "-- SirVer/ultisnips -- {{{...
 let g:UltiSnipsExpandTrigger="<Tab>"
 let g:UltiSnipsJumpForwardTrigger="<Tab>"
@@ -565,6 +544,7 @@ map W <Plug>(easymotion-w)
 nmap S <Plug>(easymotion-s)
 nmap <leader>l <Plug>(easymotion-bd-jk)
 xmap <leader>l <Plug>(easymotion-bd-jk)
+nmap <leader>L <Plug>(easymotion-overwin-line)
 nmap <leader><leader>l <C-w><C-w><Plug>(easymotion-bd-jk)
 " }}}
 
@@ -630,8 +610,47 @@ nmap ee <plug>SubstituteLine
 nmap E <plug>SubstituteToEndOfLine
 "}}}
 
+"-- majutsushi/tagbar -- {{{...
+noremap <leader>t :TagbarToggle<CR><C-w>p<C-w>p
+noremap <leader>T :NERDTreeToggle<CR><C-w>p
+let g:tagbar_autofocus = 1
+let g:tagbar_map_closefold = ['_', 'zc']
+let g:tagbar_map_previewwin = ''
+let g:tagbar_map_showproto = ''
+" }}}
+
 "-- scrooloose/nerdtree -- {{{...
-noremap <leader>e :NERDTreeToggle<CR>
+noremap <leader>e :NERDTreeToggle<CR><C-w>p<C-w>p
+noremap <leader>E :NERDTreeToggle<CR><C-w>p
+let g:NERDTreeChDirMode = 2
+let g:NERDTreeMapActivateNode = 'o'
+let g:NERDTreeMapPreview = 'p'
+let g:NERDTreeMapOpenInTab = ''
+let g:NERDTreeMapOpenInTabSilent = ''
+let g:NERDTreeMapOpenSplit = 's'
+let g:NERDTreeMapPreviewSplit = 'gs'
+let g:NERDTreeMapOpenVSplit = 'v'
+let g:NERDTreeMapPreviewVSplit = 'gv'
+let g:NERDTreeMapCloseDir = '_'
+let g:NERDTreeMapOpenRecursively = ''
+let g:NERDTreeMapCloseChildren = ''
+let g:NERDTreeMapOpenExpl = ''
+let g:NERDTreeMapJumpRoot = ''
+let g:NERDTreeMapJumpParent = ''
+let g:NERDTreeMapJumpFirstChild = ''
+let g:NERDTreeMapJumpLastChild = ''
+let g:NERDTreeMapJumpNextSibling = ''
+let g:NERDTreeMapJumpPrevSibling = ''
+let g:NERDTreeMapDeleteBookmark = ''
+let g:NERDTreeMapChangeRoot = 'w'
+let g:NERDTreeMapUpdir = 'u'
+let g:NERDTreeMapUpdirKeepOpen = ''
+let g:NERDTreeMapRefresh = ''
+let g:NERDTreeMapRefreshRoot = 'r'
+let g:NERDTreeMapMenu = 'a'
+let g:NERDTreeMapCWD = ''
+let g:NERDTreeMapChdir = ''
+let g:NERDTreeMapToggleZoom = ''
 augroup nerdtree
   autocmd!
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -702,18 +721,37 @@ let g:signify_sign_show_count = 0
 let g:signify_sign_change = '*'
 " }}}
 
-"-- majutsushi/tagbar -- {{{...
-noremap <leader>t :TagbarToggle<CR>
-let g:tagbar_map_closefold = "_"
+"-- lifepillar/vim-mucomplete -- {{{...
+if (g:completor == 'mu')
+  set shortmess+=c
+  set complete-=t "no tag
+  set completeopt=menuone,noselect,noinsert
+  let g:mucomplete#no_mappings = 1
+  let g:mucomplete#enable_auto_at_startup = 1
+  let g:mucomplete#chains = {
+    \ 'default' : ['ulti', 'path', 'keyn', 'c-n'],
+  \ }
+  inoremap <silent> <plug>(MUcompleteFwdKey) <s-right>
+  imap <s-right> <plug>(MUcompleteCycFwd)
+  inoremap <silent> <plug>(MUcompleteBwdKey) <s-left>
+  imap <s-left> <plug>(MUcompleteCycBwd)
+  inoremap <expr> <c-e> pumvisible() ? mucomplete#popup_exit("\<c-e>") : "\<c-o>$"
+  inoremap <expr> <c-y> pumvisible() ? mucomplete#popup_exit("\<c-y>") : "\<c-y>"
+  inoremap <expr>  <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
+  inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<c-o>gj"
+  inoremap <expr> <up> pumvisible() ? "\<c-p>" : "\<c-o>gk"
+endif
 " }}}
 
 "-- Valloric/YouCompleteMe -- {{{...
 if (g:completor == 'ycm')
   set completeopt-=preview
-  let g:ycm_key_list_select_completion = ['<Down>']
-  let g:ycm_key_list_previous_completion = ['<Up>']
+  let g:ycm_key_list_select_completion = ['<C-n>']
+  let g:ycm_key_list_previous_completion = ['<C-p>']
   let g:ycm_key_list_stop_completion = ['<C-y>']
   imap <expr> <CR> pumvisible() ? "\<C-y>" : MyCR()
+  imap <expr> <Down> pumvisible() ? "\<C-n>" : "\<C-o>gj"
+  imap <expr> <Up> pumvisible() ? "\<C-p>" : "\<C-o>gk"
   let g:ycm_show_diagnostics_ui = 0
   let g:ycm_confirm_extra_conf = 0
   let g:ycm_complete_in_comments = 1
@@ -774,7 +812,7 @@ let g:ale_lint_on_text_changed = 'never'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Lang {{{...
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set tabstop=2 shiftwidth=2 softtabstop=2
+set tabstop=4 shiftwidth=4 softtabstop=4
 set foldmethod=indent
 
 " vim
@@ -801,7 +839,7 @@ augroup END
 " make
 augroup file_make
   autocmd!
-  autocmd FileType make setlocal tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType make setlocal tabstop=8 shiftwidth=8 softtabstop=8
   autocmd FileType make setlocal noexpandtab
   autocmd FileType make let NERDTreeIgnore = ['\.o$']
 augroup END
