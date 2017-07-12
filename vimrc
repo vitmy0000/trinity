@@ -780,7 +780,7 @@ let g:formatters_cpp = ['my_custom_cpp']
 let g:ale_linters = {
 \   'vim': ['vint'],
 \   'python': ['pylint'],
-\   'cpp': ['clang++'],
+\   'cpp': ['clang'],
 \}
 let g:ale_python_pylint_options = '-E'
 function! LinterStatus() abort
