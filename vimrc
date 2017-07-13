@@ -961,7 +961,7 @@ function! MyMRU()
     execute 'e #<' . l:file
   endif
 endfunction
-nmap <leader>r :call MyMRU()<CR>
+noremap <expr> <leader>r g:install_external_dependent_plugin == 1 ? ":History<CR>" : ":call MyMRU()\<CR>"
 " }}}
 
 " }}}
