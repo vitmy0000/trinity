@@ -929,10 +929,10 @@ nnoremap <silent> J :call SmoothScroll('d', g:smooth_scroll_steps, g:smooth_scro
 let s:my_unrol_flat = 1
 function! MyUnrolToggle()
 if s:my_unrol_flat == 0
-    :exe "normal zR"
+    execute "normal zR"
     let s:my_unrol_flat = 1
 else
-    :exe "normal zM"
+    execute "normal zM"
     let s:my_unrol_flat = 0
 endif
 endfunction
