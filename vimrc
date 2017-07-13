@@ -89,6 +89,20 @@ augroup remove_trailing_space
   autocmd!
   autocmd BufWritePre * %s/\s\+$//e
 augroup END
+" auto close quickfix window
+aug QFClose
+  au!
+  au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
+aug END
+" jump to last postion when reopen
+augroup last_position
+  autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+augroup END
+" stop loggin viminfo in vimdiff
+if &diff
+  set viminfo=
+endif
+
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -237,7 +251,7 @@ set incsearch
 set ignorecase
 " case sensitive when uppercase letter appear
 set smartcase
-" <CR> inside parentheses
+" <CR> inside parentheses {{{
 function! MyCR()
   if pumvisible()
     return "\<CR>"
@@ -254,6 +268,7 @@ function! MyCR()
   endif
   return "\<CR>"
 endfunction
+" }}}
 " my simple indent settings {{{...
 filetype indent off
 function! NumCharInStr(char, str)
@@ -885,12 +900,6 @@ endfunction
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 " }}}
 
-" jump to last postion when reopen {{{...
-augroup last_position
-  autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-augroup END
-" }}}
-
 " interactive registers {{{...
 function! MyRegp()
   registers
@@ -910,14 +919,7 @@ nmap <leader>p :call MyRegp()<CR>
 nmap <leader>P :call MyRegP()<CR>
 " }}}
 
-" auto close quickfix window {{{...
-aug QFClose
-  au!
-  au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
-aug END
-" }}}
-
-" SmoothScroll
+" SmoothScroll {{{
 function! SmoothScroll(dir, dist, speed)
   for i in range(a:dist/a:speed)
     let start = reltime()
@@ -935,8 +937,9 @@ let g:smooth_scroll_steps = &scroll
 let g:smooth_scroll_speed = 3 "must be integer
 nnoremap <silent> K :call SmoothScroll('u', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
 nnoremap <silent> J :call SmoothScroll('d', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
+" }}}
 
-" Toggle all folds
+" Toggle all folds {{{
 let s:my_unrol_flat = 1
 function! MyUnrolToggle()
 if s:my_unrol_flat == 0
@@ -948,7 +951,9 @@ else
 endif
 endfunction
 nnoremap <S-tab> :call MyUnrolToggle()<CR>
+"}}}
 
+" MRU {{{
 function! MyMRU()
   oldfiles
   let l:file = input("Please select your file: ")
@@ -957,4 +962,6 @@ function! MyMRU()
   endif
 endfunction
 nmap <leader>r :call MyMRU()<CR>
+" }}}
+
 " }}}
