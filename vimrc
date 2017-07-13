@@ -33,11 +33,9 @@ if !&diff
     Plug 'Chiel92/vim-autoformat'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
-    let g:completor = 'ycm'
     Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang' }
     Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
   else
-    let g:completor = 'mu'
     Plug 'lifepillar/vim-mucomplete'
   endif
 endif
@@ -728,7 +726,7 @@ let g:signify_sign_change = '*'
 " }}}
 
 "-- lifepillar/vim-mucomplete -- {{{...
-if (g:completor == 'mu')
+if exists("g:loaded_mucomplete")
   set shortmess+=c
   set complete-=t "no tag
   set completeopt=menuone,noselect,noinsert
@@ -750,7 +748,7 @@ endif
 " }}}
 
 "-- Valloric/YouCompleteMe -- {{{...
-if (g:completor == 'ycm')
+if exists("g:loaded_youcompleteme")
   set completeopt-=preview
   let g:ycm_key_list_select_completion = ['<C-n>']
   let g:ycm_key_list_previous_completion = ['<C-p>']
