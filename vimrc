@@ -741,8 +741,8 @@ if (g:completor == 'ycm')
   let g:ycm_key_list_previous_completion = ['<C-p>']
   let g:ycm_key_list_stop_completion = ['<C-y>']
   imap <expr> <CR> pumvisible() ? "\<C-y>" : MyCR()
-  imap <expr> <Down> pumvisible() ? "\<C-n>" : "\<C-o>gj"
-  imap <expr> <Up> pumvisible() ? "\<C-p>" : "\<C-o>gk"
+  imap <expr> <Down> pumvisible() ? "\<C-n>" : "\<C-o>j"
+  imap <expr> <Up> pumvisible() ? "\<C-p>" : "\<C-o>k"
   let g:ycm_show_diagnostics_ui = 0
   let g:ycm_confirm_extra_conf = 0
   let g:ycm_complete_in_comments = 1
@@ -949,4 +949,12 @@ endif
 endfunction
 nnoremap <S-tab> :call MyUnrolToggle()<CR>
 
+function! MyMRU()
+  oldfiles
+  let l:file = input("Please select your file: ")
+  if l:file != ''
+    execute 'e #<' . l:file
+  endif
+endfunction
+nmap <leader>r :call MyMRU()<CR>
 " }}}
