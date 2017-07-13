@@ -121,6 +121,10 @@ nnoremap ' `
 nnoremap ` '
 " y$ -> Y Make Y behave like other capitals
 nmap Y y$
+" HML
+noremap <expr> H getline(line('.'))[:col('.') - 2] =~# '^\s*$' ? "0" : "^"
+nnoremap <expr> L col('.') == col('$') - 1 ? "$l" : "$"
+xnoremap <expr> L col('.') == col('$') - 1 ? "$" : "$h"
 " help
 nnoremap ? :vert help<Space>
 cnoreabbrev vh vert help
@@ -592,7 +596,7 @@ nnoremap <silent> yy :<c-u>call EasyClip#Yank#PreYankMotion()<cr>:call EasyClip#
 nnoremap <silent> <expr> Y ":<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opfunc=EasyClip#Yank#YankMotion<cr>" . (v:count > 0 ? v:count : '') . "g@$:<c-u>call HighlightYankedEOL()<cr>"
 nnoremap <silent> <expr> y ":<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opfunc=EasyClipYankMotionHighlithWrapper<cr>" . (v:count > 0 ? v:count : '') . "g@"
 " m key mappings
-nmap gM <Plug>MoveMotionEndOfLinePlug
+nmap M <Plug>MoveMotionEndOfLinePlug
 nnoremap gm m
 " e for replace
 xmap e <plug>XEasyClipPaste
@@ -802,26 +806,30 @@ let g:ale_lint_on_text_changed = 'never'
 set tabstop=4 shiftwidth=4 softtabstop=4
 set foldmethod=indent
 
-" vim
+" vim {{{
 augroup file_vim
   autocmd!
   autocmd FileType vim setlocal tabstop=2 shiftwidth=2 softtabstop=2
   autocmd FileType vim setlocal foldmethod=marker
 augroup END
-" python
+" }}}
+
+" python {{{
 augroup file_py
   autocmd!
   autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
   autocmd FileType python let b:delimitMate_nesting_quotes = ['"']
   autocmd FileType python let NERDTreeIgnore = ['\.pyc$']
 augroup END
-" cpp
+" }}}
+
+" cpp {{{
 function! MyCppArrowAsParenthesis()
   if col('.') < 2
     return 0
   elseif getline(line('.'))[ : col('.') - 2] =~# '^#include\s'
     return 1
-  elseif getline(line('.'))[col('.') - 10 : col('.') - 2] =~# '^.*operator'
+  elseif getline(line('.'))[ : col('.') - 2] =~# '^.*operator$'
     return 0
   elseif getline(line('.'))[col('.') - 2] =~# '[< ]'
     return 0
@@ -836,13 +844,16 @@ augroup file_cpp
   autocmd FileType cpp setlocal matchpairs+=<:>
   autocmd FileType cpp inoremap <expr> < MyCppArrowAsParenthesis() ? "<>\<left>" : "<"
 augroup END
-" make
+" }}}
+
+" make {{{
 augroup file_make
   autocmd!
   autocmd FileType make setlocal tabstop=8 shiftwidth=8 softtabstop=8
   autocmd FileType make setlocal noexpandtab
   autocmd FileType make let NERDTreeIgnore = ['\.o$']
 augroup END
+" }}}
 
 " }}}
 
