@@ -11,9 +11,9 @@ let g:completor = ''
 if !&diff
   Plug 'scrooloose/nerdtree'
   Plug 'unkiwii/vim-nerdtree-sync'
-  Plug 'skywind3000/quickmenu.vim'
   Plug 'itchyny/lightline.vim'
   Plug 'taohex/lightline-buffer'
+  Plug 'skywind3000/quickmenu.vim'
   Plug 'Raimondi/delimitMate'
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-repeat'
@@ -423,6 +423,28 @@ nnoremap <leader>ss :%S/x/x/gc<left><left><left><left><left>
 "-- tomtom/tcomment_vim -- {{{...
 let g:tcommentMapLeaderOp1 = '<Leader>c'
 let g:tcommentMapLeaderOp2 = '<Leader>C'
+" }}}
+
+"-- skywind3000/quickmenu.vim -- {{{...
+if !&diff
+  " enable cursorline (L) and cmdline help (H)
+  let g:quickmenu_options = "L"
+  let g:quickmenu_ft_blacklist = ['netrw', 'nerdtree', 'tagbar']
+  " clear all the items
+  call g:quickmenu#reset()
+  " invoke key
+  noremap <silent> <leader>a :NERDTreeClose<cr>:call quickmenu#toggle(0)<cr>
+  " section 1, text starting with "#" represents a section (see the screen capture below)
+  call g:quickmenu#append('# Common', '')
+  call g:quickmenu#append('Toggle line wrap', 'set wrap!')
+  call g:quickmenu#append('Toggle invisible char display', 'set list!')
+  call g:quickmenu#append('Toggle cursor column', 'set cursorcolumn!')
+  " section 2
+  if (g:install_external_dependent_plugin == 1)
+    call g:quickmenu#append('# Extra', '')
+    call g:quickmenu#append('Edit snippets', 'UltiSnipsEdit')
+  endif
+endif
 " }}}
 
 "-- itchyny/lightline.vim -- {{{...
