@@ -11,20 +11,20 @@ let g:completor = ''
 if !&diff
   Plug 'scrooloose/nerdtree'
   Plug 'unkiwii/vim-nerdtree-sync'
+  Plug 'skywind3000/quickmenu.vim'
   Plug 'itchyny/lightline.vim'
   Plug 'taohex/lightline-buffer'
   Plug 'Raimondi/delimitMate'
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-surround'
-  Plug 'vim-scripts/mru.vim'
   Plug 'svermeulen/vim-easyclip'
   Plug 'easymotion/vim-easymotion'
   Plug 'tpope/tpope-vim-abolish'
   Plug 'wellle/targets.vim'
   Plug 'kshenoy/vim-signature'
-  Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
   Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+  Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
   if (g:install_external_dependent_plugin == 1)
     Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'majutsushi/tagbar'
@@ -234,13 +234,6 @@ set ignorecase
 " case sensitive when uppercase letter appear
 set smartcase
 " <CR> inside parentheses
-function! MyPrevChar()
-  if col('.') < 2
-    return ''
-  else
-    return getline(line('.'))[col('.') - 2]
-  end
-endfunction
 function! MyCR()
   if pumvisible()
     return "\<CR>"
@@ -542,10 +535,8 @@ map T <Plug>(easymotion-bd-tl)
 map B <Plug>(easymotion-b)
 map W <Plug>(easymotion-w)
 nmap S <Plug>(easymotion-s)
-nmap <leader>l <Plug>(easymotion-bd-jk)
-xmap <leader>l <Plug>(easymotion-bd-jk)
+map <leader>l <Plug>(easymotion-bd-jk)
 nmap <leader>L <Plug>(easymotion-overwin-line)
-nmap <leader><leader>l <C-w><C-w><Plug>(easymotion-bd-jk)
 " }}}
 
 "-- svermeulen/vim-easyclip -- {{{...
@@ -660,10 +651,6 @@ augroup nerdtree
   autocmd BufEnter * silent! lcd %:p:h
 augroup END
 "}}}
-
-"-- vim-scripts/mru.vim -- {{{...
-noremap <leader>r :MRU<CR>
-" }}}
 
 "-- Raimondi/delimitMate -- {{{...
 let delimitMate_expand_space = 1
@@ -829,12 +816,25 @@ augroup file_py
   autocmd FileType python let NERDTreeIgnore = ['\.pyc$']
 augroup END
 " cpp
+function! MyCppArrowAsParenthesis()
+  if col('.') < 2
+    return 0
+  elseif getline(line('.'))[ : col('.') - 2] =~# '^#include\s'
+    return 1
+  elseif getline(line('.'))[col('.') - 10 : col('.') - 2] =~# '^.*operator'
+    return 0
+  elseif getline(line('.'))[col('.') - 2] =~# '[< ]'
+    return 0
+  else
+    return 1
+  end
+endfunction
 augroup file_cpp
   autocmd!
   autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 softtabstop=2
   autocmd FileType cpp let NERDTreeIgnore = ['\.o$']
   autocmd FileType cpp setlocal matchpairs+=<:>
-  autocmd FileType cpp inoremap <expr> < MyPrevChar() =~# '[< ]' ? "<" : "<>\<left>"
+  autocmd FileType cpp inoremap <expr> < MyCppArrowAsParenthesis() ? "<>\<left>" : "<"
 augroup END
 " make
 augroup file_make
