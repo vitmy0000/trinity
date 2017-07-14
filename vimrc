@@ -167,7 +167,7 @@ xnoremap <S-Tab> <gv
 " remap U to <C-r> for easier redo
 nnoremap U <C-r>
 " turn off search highlight
-noremap <leader>/ :let @/=''<CR>:windo call clearmatches()<CR>
+noremap <leader>/ :noh<CR>:windo call clearmatches()<CR>
 " join
 noremap <leader>j :join<CR>
 " window
@@ -439,6 +439,7 @@ if !&diff
   call g:quickmenu#append('Toggle line wrap', 'setlocal wrap!')
   call g:quickmenu#append('Toggle invisible char display', 'setlocal list!')
   call g:quickmenu#append('Toggle cursor column', 'setlocal cursorcolumn!')
+  call g:quickmenu#append('Toggle quickfix window', 'call MyQuickfixToggle()')
   " section 2
   if (g:install_external_dependent_plugin == 1)
     call g:quickmenu#append('# Extra', '')
@@ -984,6 +985,19 @@ function! MyMRU()
   endif
 endfunction
 noremap <expr> <leader>r g:install_external_dependent_plugin == 1 ? ":History<CR>" : ":call MyMRU()\<CR>"
+" }}}
+
+" toggle quickfix window {{{
+let g:my_quickfix_is_open = 0
+function! MyQuickfixToggle()
+    if g:my_quickfix_is_open
+        cclose
+        let g:my_quickfix_is_open = 0
+    else
+        copen
+        let g:my_quickfix_is_open = 1
+    endif
+endfunction
 " }}}
 
 " }}}
