@@ -436,9 +436,9 @@ if !&diff
   noremap <silent> <leader>a :NERDTreeClose<cr>:call quickmenu#toggle(0)<cr>
   " section 1, text starting with "#" represents a section (see the screen capture below)
   call g:quickmenu#append('# Common', '')
-  call g:quickmenu#append('Toggle line wrap', 'set wrap!')
-  call g:quickmenu#append('Toggle invisible char display', 'set list!')
-  call g:quickmenu#append('Toggle cursor column', 'set cursorcolumn!')
+  call g:quickmenu#append('Toggle line wrap', 'setlocal wrap!')
+  call g:quickmenu#append('Toggle invisible char display', 'setlocal list!')
+  call g:quickmenu#append('Toggle cursor column', 'setlocal cursorcolumn!')
   " section 2
   if (g:install_external_dependent_plugin == 1)
     call g:quickmenu#append('# Extra', '')
@@ -790,7 +790,7 @@ if (g:completor == 'ycm')
   nnoremap <leader>yd :YcmCompleter GoToDeclaration<CR>
   nnoremap <leader>yt :YcmCompleter GetType<CR>
   nnoremap <leader>yp :YcmCompleter GetParent<CR>
-  nnoremap <leader>yf :YcmCompleter FixIt<CR>
+  nnoremap <leader>yf :YcmCompleter FixIt<CR>:copen<CR>
 endif
 "}}}
 
