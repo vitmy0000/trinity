@@ -650,6 +650,12 @@ let g:tagbar_autofocus = 1
 let g:tagbar_map_closefold = ['_', 'zc']
 let g:tagbar_map_previewwin = ''
 let g:tagbar_map_showproto = ''
+let g:tagbar_map_hidenonpublic = ''
+let g:tagbar_map_togglecaseinsensitive = ''
+augroup tagbar
+  autocmd!
+  autocmd FileType tagbar nmap <buffer> i c<CR>
+augroup END
 " }}}
 
 "-- scrooloose/nerdtree -- {{{...
@@ -690,7 +696,7 @@ augroup nerdtree
   autocmd StdinReadPre * let s:std_in=1
   autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
   autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-  autocmd BufEnter * silent! lcd %:p:h
+  autocmd FileType nerdtree nmap <buffer> i <CR>:NERDTreeClose<CR>
 augroup END
 "}}}
 
@@ -880,7 +886,7 @@ augroup file_cpp
   autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 softtabstop=2
   autocmd FileType cpp let NERDTreeIgnore = ['\.o$']
   autocmd FileType cpp setlocal matchpairs+=<:>
-  autocmd FileType cpp inoremap <expr> < MyCppArrowAsParenthesis() ? "<>\<left>" : "<"
+  autocmd FileType cpp inoremap <buffer> <expr> < MyCppArrowAsParenthesis() ? "<>\<left>" : "<"
 augroup END
 " }}}
 
