@@ -1,11 +1,11 @@
-##-- zplug --##
+##-- zplug {{{--
 # git clone https://github.com/zplug/zplug ~/.zplug
 source ~/.zplug/init.zsh
 
-zplug "zsh-users/zsh-history-substring-search"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "hlissner/zsh-autopair", defer:2
+zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -16,55 +16,81 @@ if ! zplug check --verbose; then
 fi
 # Then, source plugins and add commands to $PATH
 zplug load #--verbose
+##}}}
 
-##-- better defaults --##
-setopt PROMPT_SUBST
-PROMPT=$'\n%{\e[47m\e[30m%} %T %{\e[37m\e[45m%} ${$(print -P "%4(c:.../:)%3c")//\\//  } %(1j.⚙.) %{\e[35m\e[40m%}%{\e[0m%}\n\$ '
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-  PROMPT=$'\n%{\e[47m\e[30m%} %T %{\e[37m\e[44m%} ${$(print -P "%4(c:.../:)%3c")//\\//  } %(1j.⚙.) %{\e[34m\e[40m%}%{\e[0m%}\n\$ '
-# many other tests omitted
-else
-  case $(ps -o comm= -p $PPID) in
-    sshd|*/sshd) PROMPT=$'\n%{\e[47m\e[30m%} %T %{\e[37m\e[44m%} ${$(print -P "%4(c:.../:)%3c")//\\//  } %(1j.⚙.) %{\e[34m\e[40m%}%{\e[0m%}\n\$ '
-  esac
-fi
+##-- essential {{{--
+# append the follow lines to .bashrc
+# to set default shell to zsh without root permission
+: <<'END'
+export SHELL=$(which zsh)
+[ -z "$ZSH_VERSION" ] && exec "$SHELL" -l
+END
+# export this variable so to enable bash sub-shell
+export ZSH_VERSION=$ZSH_VERSION
+##}}}
 
-setopt INC_APPEND_HISTORY
-setopt HISTIGNOREDUPS
+##-- options {{{--
+
+##-- cmd history {{{--
 export HISTFILE=~/.zsh_history
-export HISTSIZE=500
-export SAVEHIST=500
+export HISTSIZE=1000
+export SAVEHIST=1000
+# append history without waiting until the shell exits
+setopt INC_APPEND_HISTORY
+# do not enter command lines into the history list
+# if they are duplicates of the previous event.
+setopt HIST_IGNORE_DUPS
+##}}}
+
+##-- dir {{{--
+setopt AUTO_CD
+# dir history stack
+setopt AUTO_PUSHD PUSHD_MINUS PUSHD_SILENT PUSHD_TO_HOME
 export DIRSTACKSIZE=10
-setopt autopushd pushdminus pushdsilent pushdtohome
-zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
-#echo $WORDCHARS *?_-.[]~=/&;!#$%^(){}<>
-export WORDCHARS=''
+##}}}
+
+##}}}
+
+##-- keybindings {{{--
 # consistent ctrl-u behaviour
-bindkey \^U backward-kill-line
+bindkey '^u' backward-kill-line
 # in word completion
 bindkey '^i' expand-or-complete-prefix
+##}}}
 
-##-- alias --##
-source ~/.zshrc.local
-alias vi="vim"
-alias view="vim -R"
-alias la="ls -la"
-alias ll="ls -lh"
+##-- alias {{{--
+alias vi='vim'
+alias ls='ls --color'
+alias ll='ls -l'
+alias la='ls -la'
+# dir history
 alias dh="dirs -v"
+# history sync
 alias hs="fc -R"
+# shell level
+alias sl="echo $SHLVL"
+##}}}
 
-##-- applications --##
-# zsh-history-substring-search
-bindkey -M emacs '^P' history-substring-search-up
-bindkey -M emacs '^N' history-substring-search-down
+##-- completion {{{--
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
+##}}}
 
-# fasd
-eval "$(fasd --init auto)"
-alias v='f -e vim' # quick opening files with vim
-bindkey '^X^F' fasd-complete-f  # C-x C-f to do fasd-complete-f (only files)
-bindkey '^X^D' fasd-complete-d  # C-x C-d to do fasd-complete-d (only directories)
-bindkey '^X^A' fasd-complete    # C-x C-a to do fasd-complete (files and directories)
+##-- plugins {{{--
 
-# fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+##-- bhilburn/powerlevel9k {{{--
+POWERLEVEL9K_DIR_PATH_SEPARATOR=" $(print_icon "LEFT_SUBSEGMENT_SEPARATOR") "
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
+POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
+POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX="$ "
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=('status' 'time' 'dir' 'vcs' 'background_jobs')
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
+POWERLEVEL9K_STATUS_OK_BACKGROUND='237'
+# show color
+: <<'END'
+for code ({000..255}) print -P -- "$code: %F{$code}This is how your text would look like%f"
+END
+##}}}
+
+##}}}
