@@ -19,7 +19,7 @@ fi
 zplug load #--verbose
 ##}}}
 
-##-- essential {{{--
+##-- setup {{{--
 # append the follow lines to .bashrc
 # to set default shell to zsh without root permission
 : <<'END'
@@ -30,7 +30,7 @@ END
 export ZSH_VERSION=$ZSH_VERSION
 ##}}}
 
-##-- options {{{--
+##-- history {{{--
 
 ##-- cmd history {{{--
 export HISTFILE=~/.zsh_history
@@ -43,7 +43,7 @@ setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
 ##}}}
 
-##-- dir {{{--
+##-- dir history {{{--
 setopt AUTO_CD
 # dir history stack
 setopt AUTO_PUSHD PUSHD_MINUS PUSHD_SILENT PUSHD_TO_HOME
@@ -52,11 +52,13 @@ export DIRSTACKSIZE=10
 
 ##}}}
 
-##-- keybindings {{{--
-# consistent ctrl-u behaviour
-bindkey '^u' backward-kill-line
-# in word completion
-bindkey '^i' expand-or-complete-prefix
+##-- completion {{{--
+autoload -U compinit
+compinit
+# allow completion from within a word/phrase
+setopt complete_in_word
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
 ##}}}
 
 ##-- alias {{{--
@@ -65,16 +67,11 @@ alias ls='ls --color'
 alias ll='ls -l'
 alias la='ls -la'
 # dir history
-alias dh="dirs -v"
+alias dh='dirs -v'
 # history sync
-alias hs="fc -R"
+alias hs='fc -R'
 # shell level
-alias sl="echo $SHLVL"
-##}}}
-
-##-- completion {{{--
-zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
+alias sl='echo $SHLVL'
 ##}}}
 
 ##-- plugins {{{--
@@ -99,4 +96,14 @@ zle -N deer-launch
 bindkey '\ef' deer-launch
 ##}}}
 
+alias hh='python ~/iCheat/icheat.py -s ~/.zsh_history'
+
 ##}}}
+
+##-- keybindings {{{--
+# consistent ctrl-u behaviour
+bindkey '^u' backward-kill-line
+# in word completion
+# bindkey '^i' expand-or-complete-prefix
+##}}}
+
