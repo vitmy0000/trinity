@@ -103,7 +103,5 @@ alias hh='python ~/iCheat/icheat.py -s ~/.zsh_history'
 ##-- keybindings {{{--
 # consistent ctrl-u behaviour
 bindkey '^u' backward-kill-line
-# in word completion
-# bindkey '^i' expand-or-complete-prefix
 ##}}}
 
