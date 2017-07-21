@@ -6,13 +6,14 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "hlissner/zsh-autopair", defer:2
 zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
+zplug "vifon/deer", use:deer
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
+  printf "Install? [y/N]: "
+  if read -q; then
+    echo; zplug install
+  fi
 fi
 # Then, source plugins and add commands to $PATH
 zplug load #--verbose
@@ -91,6 +92,11 @@ POWERLEVEL9K_STATUS_OK_BACKGROUND='237'
 : <<'END'
 for code ({000..255}) print -P -- "$code: %F{$code}This is how your text would look like%f"
 END
+##}}}
+
+##-- vifon/deer {{{--
+zle -N deer-launch
+bindkey '\ef' deer-launch
 ##}}}
 
 ##}}}

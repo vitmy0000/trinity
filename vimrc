@@ -858,6 +858,14 @@ augroup file_vim
 augroup END
 " }}}
 
+" shell {{{
+augroup file_shell
+  autocmd!
+  autocmd FileType sh,zsh setlocal tabstop=2 shiftwidth=2 softtabstop=2
+  autocmd FileType sh,zsh setlocal foldmethod=marker
+augroup END
+" }}}
+
 " python {{{
 augroup file_py
   autocmd!
