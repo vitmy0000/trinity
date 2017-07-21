@@ -155,6 +155,7 @@ cnoreabbrev v verbose
 xnoremap gy y']
 nnoremap gp p']
 nnoremap gP P']
+nnoremap <expr> gV '`[' . strpart(getregtype(), 0, 1) . '`]'
 " quick save, workaround for sneak spell bug
 nnoremap s :write<CR>
 " quick leave
