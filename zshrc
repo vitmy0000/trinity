@@ -72,6 +72,8 @@ alias dh='dirs -v'
 alias hs='fc -R'
 # shell level
 alias sl='echo $SHLVL'
+# icheat for history
+alias hh='python ~/iCheat/icheat.py -s ~/.zsh_history'
 ##}}}
 
 ##-- plugins {{{--
@@ -95,8 +97,6 @@ END
 zle -N deer-launch
 bindkey '\ef' deer-launch
 ##}}}
-
-alias hh='python ~/iCheat/icheat.py -s ~/.zsh_history'
 
 ##}}}
 
