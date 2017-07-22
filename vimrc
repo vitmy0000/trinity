@@ -814,7 +814,6 @@ let g:formatters_cpp = ['my_custom_cpp']
 
 "-- w0rp/ale -- {{{...
 let g:ale_linters = {
-\   'vim': ['vint'],
 \   'python': ['pylint'],
 \   'cpp': ['clang'],
 \}
