@@ -6,7 +6,7 @@
 " Make sure you use single quotes
 call plug#begin('~/.vim/plugged')
 
-let g:install_external_dependent_plugin = 0
+let g:install_external_dependent_plugin = 1
 let g:completor = ''
 if !&diff
   Plug 'scrooloose/nerdtree'
@@ -34,7 +34,7 @@ if !&diff
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --no-update-rc' }
     Plug 'junegunn/fzf.vim'
     let g:completor = 'ycm'
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang' }
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
     Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
   else
     let g:completor = 'mu'
