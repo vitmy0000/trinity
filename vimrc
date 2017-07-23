@@ -6,7 +6,7 @@
 " Make sure you use single quotes
 call plug#begin('~/.vim/plugged')
 
-let g:install_external_dependent_plugin = 1
+let g:install_external_dependent_plugin = 0
 let g:completor = ''
 if !&diff
   Plug 'scrooloose/nerdtree'
