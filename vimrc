@@ -31,7 +31,7 @@ if !&diff
     Plug 'mhinz/vim-signify'
     Plug 'w0rp/ale'
     Plug 'Chiel92/vim-autoformat'
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --no-update-rc' }
     Plug 'junegunn/fzf.vim'
     let g:completor = 'ycm'
     Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang' }
@@ -773,9 +773,9 @@ if (g:completor == 'mu')
   imap <s-left> <plug>(MUcompleteCycBwd)
   inoremap <expr> <c-e> pumvisible() ? mucomplete#popup_exit("\<c-e>") : "\<c-o>$"
   inoremap <expr> <c-y> pumvisible() ? mucomplete#popup_exit("\<c-y>") : "\<c-y>"
-  inoremap <expr>  <cr> pumvisible() ? mucomplete#popup_exit("\<cr>") : MyCR()
-  inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<c-o>gj"
-  inoremap <expr> <up> pumvisible() ? "\<c-p>" : "\<c-o>gk"
+  inoremap <expr>  <cr> pumvisible() ? mucomplete#popup_exit("\<c-y>") : MyCR()
+  inoremap <expr> <down> pumvisible() ? "\<c-n>" : "\<c-o>j"
+  inoremap <expr> <up> pumvisible() ? "\<c-p>" : "\<c-o>k"
 endif
 " }}}
 

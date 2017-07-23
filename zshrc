@@ -98,10 +98,15 @@ zle -N deer-launch
 bindkey '\ef' deer-launch
 ##}}}
 
+##-- fzf(installed as vim plugin) {{{--
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+##}}}
+
 ##}}}
 
 ##-- keybindings {{{--
 # consistent ctrl-u behaviour
 bindkey '^u' backward-kill-line
 ##}}}
+
 
