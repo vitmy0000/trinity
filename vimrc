@@ -23,6 +23,7 @@ if !&diff
   Plug 'tpope/tpope-vim-abolish'
   Plug 'wellle/targets.vim'
   Plug 'kshenoy/vim-signature'
+  Plug 'tpope/vim-projectionist'
   Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
   Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
   if (g:install_external_dependent_plugin == 1)
@@ -60,6 +61,8 @@ filetype plugin indent on
 " encoding
 set encoding=utf-8
 scriptencoding utf-8
+" wrap line by default
+set wrap
 " reload after external modification
 set autoread
 " cancel backup
@@ -90,10 +93,10 @@ augroup remove_trailing_space
   autocmd BufWritePre * %s/\s\+$//e
 augroup END
 " auto close quickfix window
-aug QFClose
-  au!
-  au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
-aug END
+augroup QFClose
+  autocmd!
+  autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
+augroup END
 " jump to last postion when reopen
 augroup last_position
   autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -102,7 +105,8 @@ augroup END
 if &diff
   set viminfo=
 endif
-
+" force line wrap in vimdiff
+autocmd VimEnter * if &diff | execute 'windo set wrap' | endif
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
