@@ -448,6 +448,7 @@ if !&diff
   call g:quickmenu#append('Toggle invisible char display', 'setlocal list!')
   call g:quickmenu#append('Toggle cursor column', 'setlocal cursorcolumn!')
   call g:quickmenu#append('Toggle quickfix window', 'call MyQuickfixToggle()')
+  call g:quickmenu#append('Reset Tab to space', 'setlocal list | retab')
   " section 2
   if (g:install_external_dependent_plugin == 1)
     call g:quickmenu#append('# Extra', '')
