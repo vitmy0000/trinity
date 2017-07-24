@@ -356,6 +356,9 @@ function! GetMyIndent(lnum)
       return indent(l:plnum)
     elseif l:pline =~# '[[{]\s*\(\/\/.*\)\?\s*$'
       return indent(l:plnum) + &shiftwidth
+    " public:, protected:, private:
+    elseif l:pline =~# '\(public\|protected\|private\):\s*\(\/\/.*\)\?\s*$'
+      return indent(l:plnum) + 1
     endif
   else "other filetypes
     if l:pline =~# '[[{]\s*$'
@@ -438,7 +441,7 @@ if !&diff
   " clear all the items
   call g:quickmenu#reset()
   " invoke key
-  noremap <silent> <leader>q :NERDTreeClose<cr>:call quickmenu#toggle(0)<cr>
+  noremap <silent> <leader>q :NERDTreeClose<cr>:TagbarClose<cr>:call quickmenu#toggle(0)<cr>
   " section 1, text starting with "#" represents a section (see the screen capture below)
   call g:quickmenu#append('# Common', '')
   call g:quickmenu#append('Toggle line wrap', 'setlocal wrap!')
@@ -649,8 +652,8 @@ nmap E <plug>SubstituteToEndOfLine
 "}}}
 
 "-- majutsushi/tagbar -- {{{...
-noremap <leader>t :TagbarToggle<CR>
-noremap <leader>T :TagbarToggle<CR><C-w>p
+noremap <leader>t :NERDTreeClose<CR>:TagbarToggle<CR>
+noremap <leader>T :NERDTreeClose<CR>:TagbarToggle<CR><C-w>p
 let g:tagbar_autofocus = 1
 let g:tagbar_map_closefold = ['_', 'zc']
 let g:tagbar_map_previewwin = ''
@@ -664,8 +667,8 @@ augroup END
 " }}}
 
 "-- scrooloose/nerdtree -- {{{...
-noremap <leader>e :NERDTreeToggle<CR><C-w>p<C-w>p
-noremap <leader>E :NERDTreeToggle<CR><C-w>p
+noremap <leader>e :TagbarClose<CR>:NERDTreeToggle<CR><C-w>p<C-w>p
+noremap <leader>E :TagbarClose<CR>:NERDTreeToggle<CR><C-w>p
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeMapActivateNode = 'o'
 let g:NERDTreeMapPreview = 'p'
