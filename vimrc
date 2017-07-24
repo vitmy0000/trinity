@@ -438,7 +438,7 @@ if !&diff
   " clear all the items
   call g:quickmenu#reset()
   " invoke key
-  noremap <silent> <leader>a :NERDTreeClose<cr>:call quickmenu#toggle(0)<cr>
+  noremap <silent> <leader>q :NERDTreeClose<cr>:call quickmenu#toggle(0)<cr>
   " section 1, text starting with "#" represents a section (see the screen capture below)
   call g:quickmenu#append('# Common', '')
   call g:quickmenu#append('Toggle line wrap', 'setlocal wrap!')
