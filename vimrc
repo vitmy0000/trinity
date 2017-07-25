@@ -149,17 +149,16 @@ cnoreabbrev vh vert help
 " range search
 xmap / <Esc>/\%V
 " change window layout
-cnoreabbrev wh windo wincmd H
-cnoreabbrev wv windo wincmd K
+cnoreabbrev wv windo wincmd H
+cnoreabbrev ws windo wincmd K
 " force write
 cnoreabbrev ww w ! sudo tee %
-" verbose
-cnoreabbrev v verbose
-" jump
+" jump to end of copying and pasting region
 xnoremap gy y']
 nnoremap gp p']
 nnoremap gP P']
-nnoremap <expr> gV '`[' . strpart(getregtype(), 0, 1) . '`]'
+" select last paste in visual mode
+nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
 " quick save, workaround for sneak spell bug
 nnoremap s :write<CR>
 " quick leave
@@ -179,6 +178,8 @@ noremap <leader>j :join<CR>
 noremap <leader>w <C-w>
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
+" ctrl-i is equivalent to tab, use ctrl-l instead
+noremap <C-l> <C-i>
 " buffer
 nnoremap + :bn<CR>
 nnoremap _ :bp<CR>
