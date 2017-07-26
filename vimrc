@@ -431,7 +431,6 @@ nnoremap <leader>ss :%S/x/x/gc<left><left><left><left><left>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "-- tomtom/tcomment_vim -- {{{...
 let g:tcommentMapLeaderOp1 = '<Leader>c'
-let g:tcommentMapLeaderOp2 = '<Leader>C'
 " }}}
 
 "-- skywind3000/quickmenu.vim -- {{{...
@@ -442,18 +441,22 @@ if !&diff
   " clear all the items
   call g:quickmenu#reset()
   " invoke key
-  noremap <silent> <leader>q :NERDTreeClose<cr>:TagbarClose<cr>:call quickmenu#toggle(0)<cr>
+  noremap <silent> <leader>a :NERDTreeClose<cr>:TagbarClose<cr>:call quickmenu#toggle(0)<cr>
   " section 1, text starting with "#" represents a section (see the screen capture below)
-  call g:quickmenu#append('# Common', '')
+  call g:quickmenu#append('# Toggle', '')
   call g:quickmenu#append('Toggle line wrap', 'setlocal wrap!')
   call g:quickmenu#append('Toggle invisible char display', 'setlocal list!')
   call g:quickmenu#append('Toggle cursor column', 'setlocal cursorcolumn!')
-  call g:quickmenu#append('Toggle quickfix window', 'call MyQuickfixToggle()')
-  call g:quickmenu#append('Reset Tab to space', 'setlocal list | retab')
   " section 2
+  call g:quickmenu#append('# Misc', '')
+  call g:quickmenu#append('MRU', 'call MyMRU()')
+  call g:quickmenu#append('Tab to space', 'setlocal list | retab')
+  call g:quickmenu#append('Reload vimrc', 'source ~/.vimrc')
+  " section 3
   if (g:install_external_dependent_plugin == 1)
-    call g:quickmenu#append('# Extra', '')
+    call g:quickmenu#append('# External', '')
     call g:quickmenu#append('Edit snippets', 'UltiSnipsEdit')
+    call g:quickmenu#append('Ycm config gen', 'YcmGenerateConfig')
   endif
 endif
 " }}}
@@ -584,11 +587,7 @@ map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
 map F <Plug>(easymotion-bd-fl)
 map T <Plug>(easymotion-bd-tl)
-map B <Plug>(easymotion-b)
-map W <Plug>(easymotion-w)
 nmap S <Plug>(easymotion-s)
-map <leader>l <Plug>(easymotion-bd-jk)
-nmap <leader>L <Plug>(easymotion-overwin-line)
 " }}}
 
 "-- svermeulen/vim-easyclip -- {{{...
@@ -762,7 +761,7 @@ map <leader>mc :call fzf#vim#maps('c', 0)<CR>
 " }}}
 
 "-- mhinz/vim-signify -- {{{...
-let g:signify_sign_show_count = 0
+let g:signify_sign_show_count = 1
 let g:signify_sign_change = '*'
 " }}}
 
@@ -988,10 +987,10 @@ nnoremap <silent> J :call SmoothScroll('d', g:smooth_scroll_steps, g:smooth_scro
 " Toggle all folds {{{
 let s:my_unrol_flat = 1
 function! MyUnrolToggle()
-if s:my_unrol_flat == 0
+  if s:my_unrol_flat == 0
     execute "normal zR"
     let s:my_unrol_flat = 1
-else
+  else
     execute "normal zM"
     let s:my_unrol_flat = 0
 endif
@@ -1007,20 +1006,20 @@ function! MyMRU()
     execute 'e #<' . l:file
   endif
 endfunction
-noremap <expr> <leader>r g:install_external_dependent_plugin == 1 ? ":History<CR>" : ":call MyMRU()\<CR>"
 " }}}
 
 " toggle quickfix window {{{
-let g:my_quickfix_is_open = 0
 function! MyQuickfixToggle()
-    if g:my_quickfix_is_open
-        cclose
-        let g:my_quickfix_is_open = 0
-    else
-        copen
-        let g:my_quickfix_is_open = 1
+  for i in range(1, winnr('$'))
+    let bnum = winbufnr(i)
+    if getbufvar(bnum, '&buftype') == 'quickfix'
+      cclose
+      return
     endif
+  endfor
+  copen
 endfunction
+nnoremap <leader>q :call MyQuickfixToggle()<CR>
 " }}}
 
 " }}}

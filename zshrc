@@ -95,7 +95,7 @@ END
 
 ##-- vifon/deer {{{--
 zle -N deer-launch
-bindkey '\ef' deer-launch
+# bindkey '\ef' deer-launch
 ##}}}
 
 ##-- fzf(installed as vim plugin) {{{--
