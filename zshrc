@@ -6,7 +6,6 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "hlissner/zsh-autopair", defer:2
 zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
-zplug "vifon/deer", use:deer
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -93,11 +92,6 @@ for code ({000..255}) print -P -- "$code: %F{$code}This is how your text would l
 END
 ##}}}
 
-##-- vifon/deer {{{--
-zle -N deer-launch
-# bindkey '\ef' deer-launch
-##}}}
-
 ##-- fzf(installed as vim plugin) {{{--
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 ##}}}
@@ -106,6 +100,7 @@ zle -N deer-launch
 
 ##-- keybindings {{{--
 # consistent ctrl-u behaviour
+export WORDCHARS=
 bindkey '^u' backward-kill-line
 ##}}}
 
