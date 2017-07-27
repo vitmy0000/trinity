@@ -457,7 +457,7 @@ if !&diff
   " clear all the items
   call g:quickmenu#reset()
   " invoke key
-  noremap <silent> <leader>a :NERDTreeClose<cr>:TagbarClose<cr>:call quickmenu#toggle(0)<cr>
+  noremap <silent> <leader>a :call MyTagbarClose()<cr>:NERDTreeClose<cr>:call quickmenu#toggle(0)<cr>
   " section 1, text starting with "#" represents a section (see the screen capture below)
   call g:quickmenu#append('# Toggle', '')
   call g:quickmenu#append('Toggle line wrap', 'setlocal wrap!')
@@ -686,11 +686,16 @@ augroup tagbar
   autocmd!
   autocmd FileType tagbar nmap <buffer> i c<CR>
 augroup END
+function! MyTagbarClose()
+  if g:install_external_dependent_plugin == 1
+    TagbarClose
+  endif
+endfunction
 " }}}
 
 "-- scrooloose/nerdtree -- {{{...
-noremap <leader>e :TagbarClose<CR>:NERDTreeToggle<CR><C-w>p<C-w>p
-noremap <leader>E :TagbarClose<CR>:NERDTreeToggle<CR><C-w>p
+noremap <leader>e :call MyTagbarClose()<cr>:NERDTreeToggle<CR><C-w>p<C-w>p
+noremap <leader>E :call MyTagbarClose()<cr>:NERDTreeToggle<CR><C-w>p
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeMapActivateNode = 'o'
 let g:NERDTreeMapPreview = 'p'
