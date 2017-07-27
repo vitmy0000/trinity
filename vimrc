@@ -21,9 +21,12 @@ if !&diff
   Plug 'svermeulen/vim-easyclip'
   Plug 'easymotion/vim-easymotion'
   Plug 'tpope/tpope-vim-abolish'
-  Plug 'wellle/targets.vim'
   Plug 'kshenoy/vim-signature'
   Plug 'tpope/vim-projectionist'
+  Plug 'kana/vim-textobj-user'
+  Plug 'sgur/vim-textobj-parameter'
+  Plug 'Julian/vim-textobj-variable-segment'
+  Plug 'beloglazov/vim-textobj-quotes'
   Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
   Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
   if (g:install_external_dependent_plugin == 1)
