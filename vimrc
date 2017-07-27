@@ -85,7 +85,7 @@ set updatetime=500
 " stop auto comment inserting
 augroup disable_auto_comment
   autocmd!
-  autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+  autocmd FileType * setlocal formatoptions=
 augroup END
 " remove trailing space when saving buffer
 augroup remove_trailing_space
@@ -154,13 +154,14 @@ cnoreabbrev ws windo wincmd K
 " force write
 cnoreabbrev ww w ! sudo tee %
 " jump to end of copying and pasting region
-xnoremap gy y']
-nnoremap gp p']
-nnoremap gP P']
+xnoremap gy y`]
+nnoremap gp p`]
+nnoremap gP P`]
 " select last paste in visual mode
 nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
 " quick save, workaround for sneak spell bug
 nnoremap s :write<CR>
+nnoremap S :wa<CR>
 " quick leave
 nnoremap q :quit<CR>
 nnoremap Q q
@@ -172,8 +173,6 @@ xnoremap <S-Tab> <gv
 nnoremap U <C-r>
 " turn off search highlight
 noremap <leader>/ :noh<CR>:windo call clearmatches()<CR>
-" join
-noremap <leader>j :join<CR>
 " window
 noremap <leader>w <C-w>
 " use tab toggle fold
@@ -184,26 +183,40 @@ noremap <C-l> <C-i>
 nnoremap + :bn<CR>
 nnoremap _ :bp<CR>
 nnoremap - :bd<CR>
-" emacs key mappings
-inoremap <C-e> <C-o>$
-inoremap <C-a> <C-o>^
-cnoremap <C-e> <C-e>
-cnoremap <C-a> <C-b>
-set <M-f>=f
-noremap! <M-f> <s-right>
+" line editing {{{...
+" Option + U mapped to Option + b
 set <M-b>=b
-noremap! <M-b> <s-left>
+inoremap <M-b> <s-left>
+cnoremap <M-b> <s-left>
+" Option + I mapped to Option + f
+set <M-f>=f
+inoremap <M-f> <s-right>
+cnoremap <M-f> <s-right>
+" Option + Y mapped to Ctrl + a
+inoremap <expr> <C-a> getline(line('.'))[:col('.') - 2] =~# '^\s*$' ? "\<C-o>0" : "\<C-o>^"
+cnoremap <C-a> <C-b>
+" Option + O mapped to Ctrl + e
+inoremap <C-e> <C-o>$
+cnoremap <C-e> <C-e>
+" Option + N mapped to Option + Delete
 " <M-BS> not available, <M-\> as a workaround
 set <M-\>=
-noremap! <M-\> <C-w>
-noremap! <C-d> <Del>
-noremap! <C-w> <C-w>
-inoremap <C-u> <C-g>u<C-u>
-" forward delete word and line are not feasible in command-line editing
-" however, they are not very commonly used
+inoremap <M-\> <C-w>
+cnoremap <M-\> <C-w>
+" Option + M mapped to Option + d
 set <M-d>=d
 inoremap <M-d> <C-o>de
+cnoremap <M-d> <Del>
+" Option + , mapped to Ctrl + u
+inoremap <C-u> <C-u>
+cnoremap <C-u> <C-u>
+" Option + . mapped to Ctrl + k
 inoremap <C-k> <C-o>D
+cnoremap <C-k> <Del>
+" forward delete word and line are not feasible in command-line editing
+" however, they are not very commonly used
+" }}}
+
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -585,9 +598,14 @@ map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
 
 " -- easymotion/vim-easymotion -- {{{...
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
-map F <Plug>(easymotion-bd-fl)
-map T <Plug>(easymotion-bd-tl)
-nmap S <Plug>(easymotion-s)
+map f <Plug>(easymotion-bd-fl)
+map t <Plug>(easymotion-bd-tl)
+noremap T :join<CR>
+map F <Plug>(easymotion-s)
+map w <Plug>(easymotion-bd-wl)
+map W <Plug>(easymotion-lineanywhere)
+map b <Plug>(easymotion-bd-jk)
+nmap B <Plug>(easymotion-overwin-line)
 " }}}
 
 "-- svermeulen/vim-easyclip -- {{{...
