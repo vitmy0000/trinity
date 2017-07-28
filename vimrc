@@ -178,6 +178,7 @@ nnoremap U <C-r>
 noremap <leader>/ :noh<CR>:windo call clearmatches()<CR>
 " window
 noremap <leader>w <C-w>
+noremap <leader>wm <C-w>o
 " use tab toggle fold
 nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
 " ctrl-i is equivalent to tab, use ctrl-l instead
