@@ -606,7 +606,6 @@ map f <Plug>(easymotion-bd-fl)
 map t <Plug>(easymotion-bd-tl)
 noremap T :join<CR>
 map F <Plug>(easymotion-s)
-map w <Plug>(easymotion-bd-wl)
 map W <Plug>(easymotion-lineanywhere)
 map b <Plug>(easymotion-bd-jk)
 nmap B <Plug>(easymotion-overwin-line)
