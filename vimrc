@@ -64,8 +64,8 @@ filetype plugin indent on
 " encoding
 set encoding=utf-8
 scriptencoding utf-8
-" wrap line by default
-set wrap
+" nowrap line by default
+set nowrap
 " reload after external modification
 set autoread
 " cancel backup
@@ -80,6 +80,10 @@ set autowriteall
 set spell
 " no bell
 set belloff=all
+" open new horizontal split below the current one
+set splitbelow
+" open new vertical split right of the current one
+set splitright
 " wildmenu
 set wildmenu
 set wildmode=list:longest,full
@@ -243,7 +247,7 @@ set scrolloff=5
 " highlight current line
 set cursorline
 " highlight column at 80
-set colorcolumn=80
+set colorcolumn=81
 " invisible character
 set listchars=tab:▸\ ,eol:¬,space:·
 " theme
