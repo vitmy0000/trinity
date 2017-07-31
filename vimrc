@@ -349,7 +349,7 @@ function! GetMyIndent(lnum)
     elseif (l:pline =~# '^\s*return' || l:pline =~# '^\s*pass\s*$')
       return indent(l:plnum) - &shiftwidth
     endif
-  elseif (&filetype == 'cpp')
+  elseif (&filetype == 'cpp' || &filetype == 'java')
     if NumCharInStr('(', l:pline) > NumCharInStr(')', l:pline)
       if l:pline =~# '(\s*\(#.*\)\?\s*$'
         return indent(l:plnum) + &shiftwidth + &shiftwidth
@@ -463,16 +463,18 @@ if !&diff
   call g:quickmenu#reset()
   " invoke key
   noremap <silent> <leader>a :call MyTagbarClose()<cr>:NERDTreeClose<cr>:call quickmenu#toggle(0)<cr>
-  " section 1, text starting with "#" represents a section (see the screen capture below)
+  " section 1
+  call g:quickmenu#append('# Basic', '')
+  call g:quickmenu#append('Edit vimrc', 'Edit ~/.vimrc')
+  call g:quickmenu#append('Reload vimrc', 'source ~/.vimrc')
+  call g:quickmenu#append('MRU', 'call MyMRU()')
+  call g:quickmenu#append('Tab to space', 'setlocal list | retab')
+  " section 2, text starting with "#" represents a section (see the screen capture below)
   call g:quickmenu#append('# Toggle', '')
   call g:quickmenu#append('Toggle line wrap', 'setlocal wrap!')
   call g:quickmenu#append('Toggle invisible char display', 'setlocal list!')
   call g:quickmenu#append('Toggle cursor column', 'setlocal cursorcolumn!')
-  " section 2
-  call g:quickmenu#append('# Misc', '')
-  call g:quickmenu#append('MRU', 'call MyMRU()')
-  call g:quickmenu#append('Tab to space', 'setlocal list | retab')
-  call g:quickmenu#append('Reload vimrc', 'source ~/.vimrc')
+  call g:quickmenu#append('Toggle relative number', 'setlocal relativenumber!')
   " section 3
   if (g:install_external_dependent_plugin == 1)
     call g:quickmenu#append('# External', '')
@@ -820,6 +822,7 @@ endif
 "-- Valloric/YouCompleteMe -- {{{...
 if (g:completor == 'ycm')
   set completeopt-=preview
+  let g:EclimCompletionMethod = 'omnifunc'
   let g:ycm_key_list_select_completion = ['<C-n>']
   let g:ycm_key_list_previous_completion = ['<C-p>']
   let g:ycm_key_list_stop_completion = ['<C-y>']
@@ -848,12 +851,14 @@ let g:formatdef_yapf = "'yapf --line ' . a:firstline . '-' . a:lastline "
 let g:formatters_python = ['yapf']
 let g:formatdef_my_custom_cpp = "'clang-format -style=\"{BasedOnStyle: google}\" -lines=' . a:firstline . ':' . a:lastline "
 let g:formatters_cpp = ['my_custom_cpp']
+" let g:formatters_java = ['astyle']
 " }}}
 
 "-- w0rp/ale -- {{{...
 let g:ale_linters = {
 \   'python': ['pylint'],
 \   'cpp': ['clang'],
+\   'java': ['javac'],
 \}
 let g:ale_python_pylint_options = '-E'
 function! LinterStatus() abort
@@ -933,6 +938,25 @@ augroup file_cpp
   autocmd FileType cpp let NERDTreeIgnore = ['\.o$']
   autocmd FileType cpp setlocal matchpairs+=<:>
   autocmd FileType cpp inoremap <buffer> <expr> < MyCppArrowAsParenthesis() ? "<>\<left>" : "<"
+augroup END
+" }}}
+
+" java {{{
+function! MyJavaArrowAsParenthesis()
+  if col('.') < 2
+    return 0
+  elseif getline(line('.'))[col('.') - 2] =~# '[< ]'
+    return 0
+  else
+    return 1
+  end
+endfunction
+augroup file_java
+  autocmd!
+  autocmd FileType java setlocal tabstop=2 shiftwidth=2 softtabstop=2
+  autocmd FileType java let NERDTreeIgnore = ['\.class$']
+  autocmd FileType java setlocal matchpairs+=<:>
+  autocmd FileType java inoremap <buffer> <expr> < MyJavaArrowAsParenthesis() ? "<>\<left>" : "<"
 augroup END
 " }}}
 
