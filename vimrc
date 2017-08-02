@@ -225,6 +225,18 @@ cnoremap <C-k> <Del>
 " however, they are not very commonly used
 " }}}
 
+" select window by number {{{--
+noremap <leader>1 1<C-w><C-w>
+noremap <leader>2 2<C-w><C-w>
+noremap <leader>3 3<C-w><C-w>
+noremap <leader>4 4<C-w><C-w>
+noremap <leader>5 5<C-w><C-w>
+noremap <leader>6 6<C-w><C-w>
+noremap <leader>7 7<C-w><C-w>
+noremap <leader>8 8<C-w><C-w>
+noremap <leader>9 9<C-w><C-w>
+" }}}
+
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -608,12 +620,12 @@ map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
 
 " -- easymotion/vim-easymotion -- {{{...
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
-map f <Plug>(easymotion-bd-fl)
-map t <Plug>(easymotion-bd-tl)
-noremap T :join<CR>
-map F <Plug>(easymotion-s)
+map F <Plug>(easymotion-bd-fl)
+map T <Plug>(easymotion-bd-tl)
+map ; :join<CR>
+map , <Plug>(easymotion-s)
 map W <Plug>(easymotion-lineanywhere)
-map b <Plug>(easymotion-bd-jk)
+xmap B <Plug>(easymotion-bd-jk)
 nmap B <Plug>(easymotion-overwin-line)
 " }}}
 
