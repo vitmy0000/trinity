@@ -448,13 +448,13 @@ function! MySubstituteOperator(type)
     normal! `[v`]"sy
     call feedkeys(":%S/\<C-r>s/\<C-r>s/gc\<left>\<left>\<left>")
   elseif a:type ==# 'V'
-    call feedkeys(":'<,'>S/x/x/gc\<left>\<left>\<left>\<left>\<left>")
+    call feedkeys(":'<,'>S///gc\<left>\<left>\<left>\<left>")
     return
   endif
 endfunction
 xnoremap <leader>s :<c-u>call MySubstituteOperator(visualmode())<cr>
 nnoremap <leader>s :set operatorfunc=MySubstituteOperator<cr>g@
-nnoremap <leader>ss :%S/x/x/gc<left><left><left><left><left>
+nnoremap <leader>ss :%S///gc<left><left><left><left>
 " }}}
 
 " }}}
