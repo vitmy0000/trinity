@@ -255,7 +255,7 @@ set showcmd
 " enable parentheses match
 set showmatch
 " scrolloff
-set scrolloff=5
+set scrolloff=8
 " highlight current line
 set cursorline
 " highlight column at 80
@@ -474,10 +474,10 @@ if !&diff
   " clear all the items
   call g:quickmenu#reset()
   " invoke key
-  noremap <silent> <leader>a :call MyTagbarClose()<cr>:NERDTreeClose<cr>:call quickmenu#toggle(0)<cr>
+  noremap <silent> <cr> :call MyTagbarClose()<cr>:NERDTreeClose<cr>:call quickmenu#toggle(0)<cr>
   " section 1
   call g:quickmenu#append('# Basic', '')
-  call g:quickmenu#append('Edit vimrc', 'Edit ~/.vimrc')
+  call g:quickmenu#append('Edit vimrc', 'edit ~/.vimrc')
   call g:quickmenu#append('Reload vimrc', 'source ~/.vimrc')
   call g:quickmenu#append('MRU', 'call MyMRU()')
   call g:quickmenu#append('Tab to space', 'setlocal list | retab')
