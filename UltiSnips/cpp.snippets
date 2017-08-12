@@ -2,7 +2,23 @@ snippet hello "hello world" b
 #include <iostream>
 
 int main(int argc, char *argv[]) {
-  std::cout << "Hello, world!" << std::endl;
-  return 0;
+	std::cout << "Hello, world!" << std::endl;
+	return 0;
 }
+endsnippet
+
+snippet readfile "read file" b
+#include <ifstream>
+
+std::ifstream ${1:INPUT_FILE_VARIABLE}(${2:INPUT_FILE_NAME_STR});
+if ($1.is_open()) {
+	std::string line;
+	while (getline($1)) {
+		std::cout << line << '\n';
+	}
+	$1.close();
+} else {
+	std::cout << "Unable to open file!" << std::endl;
+}
+$0
 endsnippet

@@ -595,6 +595,10 @@ let g:lightline_buffer_reservelen = 20
 "-- tpope/vim-surround -- {{{...
 xmap s <Plug>VSurround
 xmap S <Plug>VSurround
+xmap s( s)
+xmap s{ s}
+xmap s[ s]
+xmap s< s>
 "}}}
 
 "-- SirVer/ultisnips -- {{{...

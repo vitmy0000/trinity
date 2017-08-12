@@ -63,8 +63,8 @@ zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
 ##-- alias {{{--
 alias vi='vim'
 alias ls='ls --color'
-alias ll='ls -l'
-alias la='ls -la'
+alias la='ls -a'
+alias ll='ls -alh'
 # dir history
 alias dh='dirs -v'
 # history sync
