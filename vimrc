@@ -401,7 +401,7 @@ function! GetMyIndent(lnum)
   endif
   return -1
 endfunction
-set indentkeys=o
+set indentkeys=oO
 set indentexpr=GetMyIndent(v:lnum)
 " grep
 highlight GrepHighlight ctermbg=Green ctermfg=Black
