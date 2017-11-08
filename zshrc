@@ -3,6 +3,7 @@
 source ~/.zplug/init.zsh
 
 zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-history-substring-search"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "hlissner/zsh-autopair", defer:2
 zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
@@ -118,3 +119,5 @@ bindkey '^u' backward-kill-line
 ##}}}
 
 
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
