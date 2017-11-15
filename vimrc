@@ -7,8 +7,10 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --no-update-rc' }
 Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
+Plug 'ntpeters/vim-better-whitespace'
 Plug 'morhetz/gruvbox'
 Plug 'mhinz/vim-signify'
+Plug 'sjl/gundo.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'svermeulen/vim-easyclip'
 Plug 'easymotion/vim-easymotion'
@@ -207,6 +209,11 @@ set mouse=a " enable mouse
 set spell
 set belloff=all
 set whichwrap+=<,>,h,l,[,] " allow motion across lines
+set wildmenu
+set wildmode=list:longest,full
+if &diff
+  set viminfo=
+endif
 " == }}}
 " ==> UI {{{...
 set background=dark
@@ -295,6 +302,10 @@ let g:lightline = {
       \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
       \ }
 " == }}}
+" ==> {{{...
+let g:gundo_prefer_python3 = 1
+let g:gundo_return_on_revert = 0
+" === }}}
 " ==> incsearch.vim {{{...
 set hlsearch
 set ignorecase
