@@ -1,196 +1,172 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-plug {{{...
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-" :PlugInstall
-" Make sure you use single quotes
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" requires Ag, Ctags, Cmake, Git, yapf, clang-format, pylint
 call plug#begin('~/.vim/plugged')
 
-let g:completor = ''
-if !&diff
-  Plug 'scrooloose/nerdtree'
-  Plug 'unkiwii/vim-nerdtree-sync'
-  Plug 'itchyny/lightline.vim'
-  Plug 'taohex/lightline-buffer'
-  Plug 'skywind3000/quickmenu.vim'
-  Plug 'Raimondi/delimitMate'
-  Plug 'tomtom/tcomment_vim'
-  Plug 'tpope/vim-repeat'
-  Plug 'tpope/vim-surround'
-  Plug 'svermeulen/vim-easyclip'
-  Plug 'easymotion/vim-easymotion'
-  Plug 'tpope/tpope-vim-abolish'
-  Plug 'tpope/vim-projectionist'
-  Plug 'kana/vim-textobj-user'
-  Plug 'sgur/vim-textobj-parameter'
-  Plug 'Julian/vim-textobj-variable-segment'
-  Plug 'beloglazov/vim-textobj-quotes'
-  Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-  Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
-  Plug 'majutsushi/tagbar'
-  Plug 'mhinz/vim-signify'
-  Plug 'w0rp/ale'
-  Plug 'Chiel92/vim-autoformat'
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --no-update-rc' }
-  Plug 'junegunn/fzf.vim'
-  Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
-  Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
-endif
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --no-update-rc' }
+Plug 'junegunn/fzf.vim'
+Plug 'itchyny/lightline.vim'
 Plug 'morhetz/gruvbox'
+Plug 'mhinz/vim-signify'
+Plug 'Raimondi/delimitMate'
+Plug 'svermeulen/vim-easyclip'
+Plug 'easymotion/vim-easymotion'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-projectionist'
+Plug 'tpope/tpope-vim-abolish'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/vim-asterisk'
 Plug 'osyo-manga/vim-anzu'
+Plug 'kana/vim-textobj-user'
+Plug 'sgur/vim-textobj-parameter'
+Plug 'Julian/vim-textobj-variable-segment'
+Plug 'Julian/vim-textobj-brace'
+Plug 'beloglazov/vim-textobj-quotes'
+Plug 'mhinz/vim-signify'
+Plug 'majutsushi/tagbar'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+Plug 'w0rp/ale'
+Plug 'Chiel92/vim-autoformat'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
+" TODO incsearch.vim added in 8.0.1238
 
-" Initialize plugin system
 call plug#end()
-" }}}
+" = }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Better defaults {{{...
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" basic
-set nocompatible
-syntax on
-filetype plugin indent on
-" encoding
-set encoding=utf-8
-scriptencoding utf-8
-" nowrap line by default
-set nowrap
-" reload after external modification
-set autoread
-" cancel backup
-set nobackup
-" cancel swap file
-set noswapfile
-" enable mouse
-set mouse=a
-" save on buffer switch
-set autowriteall
-" spell check
-set spell
-" no bell
-set belloff=all
-" open new horizontal split below the current one
-set splitbelow
-" open new vertical split right of the current one
-set splitright
-" wildmenu
-set wildmenu
-set wildmode=list:longest,full
-" timeout to send CursorHold
-set updatetime=500
-" stop auto comment inserting
-augroup disable_auto_comment
-  autocmd!
-  autocmd FileType * setlocal formatoptions=
-augroup END
-" remove trailing space when saving buffer
-augroup remove_trailing_space
-  autocmd!
-  autocmd BufWritePre * %s/\s\+$//e
-augroup END
-" auto close quickfix window
-augroup QFClose
-  autocmd!
-  autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
-augroup END
-" jump to last postion when reopen
-augroup last_position
-  autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-augroup END
-" stop loggin viminfo in vimdiff
-if &diff
-  set viminfo=
-endif
-" force line wrap in vimdiff
-autocmd VimEnter * if &diff | execute 'windo set wrap' | endif
-" }}}
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Keys  {{{...
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" configure backspace so it acts as it should act
-set backspace=eol,start,indent
-set whichwrap+=<,>,h,l,[,]
-" timeout
-set timeout timeoutlen=3000 ttimeoutlen=30
-augroup FastEscape
-  autocmd!
-  autocmd InsertEnter * set timeoutlen=10
-  autocmd InsertLeave * set timeoutlen=3000
-augroup END
-" leader
-let g:mapleader = "\<Space>"
-" treat long lines as break lines (useful when moving around in them)
-nnoremap k gk
-nnoremap gk k
-nnoremap j gj
-nnoremap gj j
+" => Key mappings {{{...
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ==> basics {{{...
+nnoremap <space><space> :Commands<cr>
+nnoremap ; :write<cr>
+nnoremap , J
+nnoremap ? :vert help<space>
+" range search
+xmap / <esc>/\%V
 " stay visual mode after shifting
 xnoremap < <gv
 xnoremap > >gv
-" Swap implementations of ` and ' jump to markers
-" By default, ' jumps to the marked line,
 " ` jumps to the marked line and column, so swap them
 nnoremap ' `
 nnoremap ` '
-" y$ -> Y Make Y behave like other capitals
-nmap Y y$
-" HML
+" use tab toggle fold
+nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<cr>
+nnoremap <S-tab> :call MyUnrolToggle()<CR>
+" ctrl-i is equivalent to tab, use ctrl-l instead
+noremap <C-l> <C-i>
+nnoremap q :quit<cr>
+" for quick jump back
+vnoremap y y']
+nnoremap Q q
+nnoremap U <C-r>
+nnoremap <silent> K :call SmoothScroll('u', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
+nnoremap <silent> J :call SmoothScroll('d', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
 noremap <expr> H getline(line('.'))[:col('.') - 2] =~# '^\s*$' ? "0" : "^"
 nnoremap <expr> L col('.') == col('$') - 1 ? "$l" : "$"
 xnoremap <expr> L col('.') == col('$') - 1 ? "$" : "$h"
-" help
-nnoremap ? :vert help<Space>
+" == }}}
+" ==> abbreviation {{{...
 cnoreabbrev vh vert help
-" range search
-xmap / <Esc>/\%V
 " change window layout
 cnoreabbrev wv windo wincmd H
 cnoreabbrev ws windo wincmd K
-" force write
-cnoreabbrev ww w ! sudo tee %
-" jump to end of copying and pasting region
-xnoremap gy y`]
-nnoremap gp p`]
-nnoremap gP P`]
-" select last paste in visual mode
-nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
-" quick save, workaround for sneak spell bug
-nnoremap s :write<CR>
-nnoremap S :wa<CR>
-" quick leave
-nnoremap q :quit<CR>
-nnoremap Q q
-" tab to shift, force covert UtilSnips mapping
-autocmd VimEnter * xnoremap <Tab> >gv
-xnoremap <S-Tab> <gv
-" S-tab to toggle all folds
-" remap U to <C-r> for easier redo
-nnoremap U <C-r>
-" turn off search highlight
-noremap <leader>/ :noh<CR>:windo call clearmatches()<CR>
-" window
+" }}}
+" ==> leader {{{...
+let g:mapleader = "\<space>"
+nnoremap <leader><leader> :Commands<cr>
+noremap <leader>/ :noh<cr>
+" ===> file {{{...
+nnoremap <leader>ff :Files<cr>
+nnoremap <leader>fr :FZFMru<cr>
+nnoremap <leader>fe :e ~/.vimrc<cr>
+nnoremap <leader>fs :so ~/.vimrc<cr>
+" ===}}}
+" ===> toggle {{{...
+nnoremap <leader>tw :set wrap!<cr>
+nnoremap <leader>ti :set list!<cr>
+nnoremap <leader>tc :setlocal cursorcolumn!<cr>
+" === }}}
+" ===> comment {{{...
+xmap <leader>c <Plug>Commentary
+nmap <leader>c <Plug>Commentary
+nmap <leader>cc <Plug>CommentaryLine
+" === }}}
+" ===> buffer {{{...
+nnoremap <leader>bb :Buffers<cr>
+" ===}}}
+" ===> substitute {{{...
+xnoremap <leader>s :<c-u>call MySubstituteOperator(visualmode())<cr>
+nnoremap <leader>s :set operatorfunc=MySubstituteOperator<cr>g@
+nnoremap <leader>ss :%S///gc<left><left><left><left>
+" ===}}}
+" ===> search {{{...
+xnoremap <leader>g :<c-u>call MySearchOperator(visualmode())<cr>
+nnoremap <leader>g :set operatorfunc=MySearchOperator<cr>g@
+nnoremap <leader>gg :Ag<cr>
+" ===}}}
+" ===> paste {{{...
+nmap <leader>p :call MyRegp()<CR>
+nmap <leader>P :call MyRegP()<CR>
+" ===}}}
+" ===> mapping {{{...
+nnoremap <leader>mn :call fzf#vim#maps('n', 0)<cr>
+nnoremap <leader>mv :call fzf#vim#maps('v', 0)<cr>
+nnoremap <leader>mx :call fzf#vim#maps('x', 0)<cr>
+nnoremap <leader>mo :call fzf#vim#maps('o', 0)<cr>
+nnoremap <leader>ms :call fzf#vim#maps('s', 0)<cr>
+nnoremap <leader>mi :call fzf#vim#maps('i', 0)<cr>
+nnoremap <leader>mc :call fzf#vim#maps('c', 0)<cr>
+" ===}}}
+" ===> YouCompleteMe {{{...
+nnoremap <leader>yi :YcmCompleter GoToInclude<cr>
+nnoremap <leader>yd :YcmCompleter GoToDeclaration<cr>
+nnoremap <leader>yt :YcmCompleter GetType<cr>
+nnoremap <leader>yp :YcmCompleter GetParent<cr>
+nnoremap <leader>yf :YcmCompleter FixIt<cr>:copen<cr>
+" === }}}
+" ==> vim-autoformat {{{...
+noremap <leader>= :Autoformat<CR>
+" === }}}
+" ===> window {{{...
 noremap <leader>w <C-w>
-noremap <leader>wm <C-w>o
-" use tab toggle fold
-nnoremap <silent> <tab> @=(foldlevel('.')?'za':"\<tab>")<CR>
-" ctrl-i is equivalent to tab, use ctrl-l instead
-noremap <C-l> <C-i>
-" buffer
-nnoremap + :bn<CR>
-nnoremap _ :bp<CR>
-nnoremap - :bd<CR>
-" line editing {{{...
+noremap <leader>1 1<C-w><C-w>
+noremap <leader>2 2<C-w><C-w>
+noremap <leader>3 3<C-w><C-w>
+noremap <leader>4 4<C-w><C-w>
+noremap <leader>5 5<C-w><C-w>
+noremap <leader>6 6<C-w><C-w>
+noremap <leader>7 7<C-w><C-w>
+noremap <leader>8 8<C-w><C-w>
+noremap <leader>9 9<C-w><C-w>
+" === }}}
+" == }}}
+" ==> vim-easymotion {{{...
+map ee <Plug>(easymotion-s)
+map ew <Plug>(easymotion-lineanywhere)
+map ef <Plug>(easymotion-bd-fl)
+map et <Plug>(easymotion-bd-tl)
+xmap el <Plug>(easymotion-bd-jk)
+nmap el <Plug>(easymotion-overwin-line)
+" ==}}}
+" ==> ale {{{...
+nmap <silent> ( <Plug>(ale_previous_wrap)
+nmap <silent> ) <Plug>(ale_next_wrap)
+" == }}}
+" == > line editing {{{...
 " Option + U mapped to Option + b
 set <M-b>=b
-inoremap <M-b> <s-left>
-cnoremap <M-b> <s-left>
+inoremap <M-b> <S-left>
+cnoremap <M-b> <S-left>
 " Option + I mapped to Option + f
 set <M-f>=f
-inoremap <M-f> <s-right>
-cnoremap <M-f> <s-right>
+inoremap <M-f> <S-right>
+cnoremap <M-f> <S-right>
 " Option + Y mapped to Ctrl + a
 inoremap <expr> <C-a> getline(line('.'))[:col('.') - 2] =~# '^\s*$' ? "\<C-o>0" : "\<C-o>^"
 cnoremap <C-a> <C-b>
@@ -214,223 +190,212 @@ inoremap <C-k> <C-o>D
 cnoremap <C-k> <Del>
 " forward delete word and line are not feasible in command-line editing
 " however, they are not very commonly used
-" }}}
-
-" select window by number {{{--
-noremap <leader>1 1<C-w><C-w>
-noremap <leader>2 2<C-w><C-w>
-noremap <leader>3 3<C-w><C-w>
-noremap <leader>4 4<C-w><C-w>
-noremap <leader>5 5<C-w><C-w>
-noremap <leader>6 6<C-w><C-w>
-noremap <leader>7 7<C-w><C-w>
-noremap <leader>8 8<C-w><C-w>
-noremap <leader>9 9<C-w><C-w>
-" }}}
-
-" }}}
+" == }}}
+" = }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => UI {{{...
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" show line number
+" => Better defaults {{{...
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ==> basics {{{...
+set nocompatible
+syntax on
+filetype plugin indent on
+set encoding=utf-8
+scriptencoding utf-8 " able to show some icon
+set noswapfile
+set mouse=a " enable mouse
+set spell
+set belloff=all
+set whichwrap+=<,>,h,l,[,] " allow motion across lines
+" == }}}
+" ==> UI {{{...
+set background=dark
+colorscheme gruvbox
 set number
-" eol
-set virtualedit=onemore
-" use relative line number
 set relativenumber
-" show line and column number
-set ruler
-" show typing command in status line
 set showcmd
-" enable parentheses match
-set showmatch
-" scrolloff
+set splitbelow
+set splitright
 set scrolloff=8
-" highlight current line
 set cursorline
-" highlight column at 80
 set colorcolumn=81
 " invisible character
 set listchars=tab:▸\ ,eol:¬,space:·
-" theme
-set background=dark
-colorscheme gruvbox
-" statusline
-set laststatus=2
-" fold
-set foldopen-=search foldopen-=mark
+set tabstop=4 shiftwidth=4 softtabstop=4
+set shiftround
+set expandtab
+set foldmethod=indent
 set foldcolumn=1
-set foldlevel=20
-" }}}
+set foldlevel=20 " fold deep only at opening
+" == }}}
+" = }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Indent and search {{{...
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" indent
-set autoindent
-" change tab to space, enter Tab by Ctrl-V + Tab
-set expandtab
-set smarttab
-set shiftround
-" highlight search
-set hlsearch
-" incremental search
-set incsearch
-" case insensitive
-set ignorecase
-" case sensitive when uppercase letter appear
-set smartcase
-" <CR> inside parentheses {{{
-function! MyCR()
-  if pumvisible()
-    return "\<CR>"
-  endif
-  if col('.') < 2
-    return "\<CR>"
-  endif
-  let l:prevChar = getline(line('.'))[col('.') - 2]
-  let l:currChar = getline(line('.'))[col('.') - 1]
-  if l:prevChar == '[' && l:currChar == ']'
-    return "\<CR>\<C-o><<\<UP>\<C-o>\o"
-  elseif l:prevChar == '{' && l:currChar == '}'
-    return "\<CR>\<C-o><<\<UP>\<C-o>\o"
-  endif
-  return "\<CR>"
-endfunction
-" }}}
-" my simple indent settings {{{...
-filetype indent off
-function! NumCharInStr(char, str)
-  return strlen(substitute(a:str, "[^".a:char."]", "","g"))
-endfunction
-function! GetMyIndent(lnum)
-  " Search backwards for the previous non-empty line.
-  " TODO: skip comment lines
-  let l:plnum = prevnonblank(a:lnum - 1)
-  if l:plnum == 0
-    " This is the first non-empty line, use zero indent.
-    return 0
-  endif
-  let l:pline = getline(l:plnum)
-  " if previous line end up with ...
-  if &filetype == 'python'
-    if NumCharInStr('(', l:pline) > NumCharInStr(')', l:pline)
-      if l:pline =~# '(\s*\(#.*\)\?\s*$'
-        if l:pline =~# '^\s*\(def\|while\|for\|with\|elif\).*(\s*\(#.*\)\?\s*$'
-          return indent(l:plnum) + &shiftwidth + &shiftwidth
-        else
-          return indent(l:plnum) + &shiftwidth
-        endif
-      else
-        if l:pline =~# '^\s*if'
-          return indent(l:plnum) + &shiftwidth + &shiftwidth
-        else
-          execute 'normal! [('
-          return col('.')
-        endif
-      endif
-    elseif NumCharInStr(')', l:pline) > NumCharInStr('(', l:pline)
-      let l:check_linenum = l:plnum - 1
-      let l:left_cnt = NumCharInStr('(', l:pline)
-      let l:right_cnt = NumCharInStr(')', l:pline)
-      while l:check_linenum > l:plnum - 10 && l:check_linenum > 0
-        let l:check_line = getline(l:check_linenum)
-        let l:left_cnt += NumCharInStr('(', l:check_line)
-        let l:right_cnt += NumCharInStr(')', l:check_line)
-        if l:left_cnt == l:right_cnt
-          if l:check_line =~# '^\s*\(if\|elif\|def\|while\|for\|with\)'
-            return indent(l:check_linenum) + &shiftwidth
-          else
-            return indent(l:check_linenum)
-          endif
-        endif
-        let l:check_linenum -= 1
-      endwhile
-    elseif l:pline =~# '[[{:]\s*\(#.*\)\?\s*$'
-      return indent(l:plnum) + &shiftwidth
-    elseif (l:pline =~# '^\s*return' || l:pline =~# '^\s*pass\s*$')
-      return indent(l:plnum) - &shiftwidth
-    endif
-  elseif (&filetype == 'cpp' || &filetype == 'java')
-    if NumCharInStr('(', l:pline) > NumCharInStr(')', l:pline)
-      if l:pline =~# '(\s*\(#.*\)\?\s*$'
-        return indent(l:plnum) + &shiftwidth + &shiftwidth
-      else
-        execute 'normal! [('
-        return col('.')
-      endif
-    elseif NumCharInStr(')', l:pline) > NumCharInStr('(', l:pline)
-      let l:check_linenum = l:plnum - 1
-      let l:left_cnt = NumCharInStr('(', l:pline)
-      let l:right_cnt = NumCharInStr(')', l:pline)
-      while l:check_linenum > l:plnum - 10 && l:check_linenum > 0
-        let l:check_line = getline(l:check_linenum)
-        let l:left_cnt += NumCharInStr('(', l:check_line)
-        let l:right_cnt += NumCharInStr(')', l:check_line)
-        if l:left_cnt == l:right_cnt
-          if l:pline =~# '[[{]\s*\(\/\/.*\)\?\s*$'
-            return indent(l:check_linenum) + &shiftwidth
-          else
-            return indent(l:check_linenum)
-          endif
-        endif
-        let l:check_linenum -= 1
-      endwhile
-    elseif l:pline =~# '\s*namespace.*{\s*\(\/\/.*\)\?\s*$'
-      return indent(l:plnum)
-    elseif l:pline =~# '[[{]\s*\(\/\/.*\)\?\s*$'
-      return indent(l:plnum) + &shiftwidth
-    " public:, protected:, private:
-    elseif l:pline =~# '\(public\|protected\|private\):\s*\(\/\/.*\)\?\s*$'
-      return indent(l:plnum) + 1
-    endif
-  else "other filetypes
-    if l:pline =~# '[[{]\s*$'
-      return indent(l:plnum) + &shiftwidth
-    endif
-  endif
-  return -1
-endfunction
-set indentkeys=oO
-set indentexpr=GetMyIndent(v:lnum)
-" grep
-highlight GrepHighlight ctermbg=Green ctermfg=Black
-augroup grep_cmd
+" => File Types {{{...
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ==> vim {{{...
+augroup file_vim
   autocmd!
-  autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>:cclose<CR>:windo call clearmatches()<CR>
-  autocmd BufReadPost quickfix nnoremap <buffer> J :cn<CR>:copen<CR>
-  autocmd BufReadPost quickfix nnoremap <buffer> K :cp<CR>:copen<CR>
-  autocmd BufReadPost quickfix nnoremap <buffer> // :windo call matchadd("GrepHighlight", "<C-r>g")<CR>
-  autocmd BufReadPost quickfix nnoremap <buffer> <leader>/ :windo call clearmatches()<CR>
-  autocmd BufReadPost quickfix setlocal nocursorline
-  autocmd BufReadPost quickfix :let g:quickfix_window_number = winnr()
+  autocmd FileType vim setlocal tabstop=2 shiftwidth=2 softtabstop=2
+  autocmd FileType vim setlocal foldmethod=marker
 augroup END
-function! MyGrepOperator(type, ...)
-  let l:search_term = ''
-  if a:0 == 0
-    if a:type ==# 'v'
-      normal! `<v`>"gy
-    elseif a:type ==# 'char'
-      normal! `[v`]"gy
-    else
-      return
-    endif
-    let l:search_term = shellescape(@g)
-  elseif a:0 == 1
-    let l:search_term = shellescape(a:1)
-  else
+" == }}}
+" ==> shell {{{...
+augroup file_shell
+  autocmd!
+  autocmd FileType sh,zsh setlocal tabstop=2 shiftwidth=2 softtabstop=2
+  autocmd FileType sh,zsh setlocal foldmethod=indent
+augroup END
+" == }}}
+" ==> python {{{...
+augroup file_py
+  autocmd!
+  autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
+  " for docstring
+  autocmd FileType python let b:delimitMate_nesting_quotes = ['"']
+augroup END
+" == }}}
+" ==> cpp {{{...
+augroup file_cpp
+  autocmd!
+  autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 softtabstop=2
+  autocmd FileType cpp setlocal matchpairs+=<:>
+  autocmd FileType cpp inoremap <buffer> <expr> < MyCppArrowAsParenthesis() ? "<>\<left>" : "<"
+augroup END
+" == }}}
+" = }}}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugins {{{...
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ==> lightline {{{...
+set laststatus=2
+set noshowmode " mode is shown in lightline
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste', 'spell' ],
+      \             [ 'readonly', 'relativepath', 'modified' ],
+      \             [ 'lint'] ],
+      \   'right': [ [ 'lineinfo', 'winnr' ],
+      \              [ 'percent' ],
+      \              [ 'fileencoding', 'filetype' ] ]
+      \ },
+      \ "inactive" : {
+      \   'left': [ [ 'filename' ] ],
+      \   'right': [ [ 'lineinfo', 'winnr' ],
+      \              [ 'percent' ] ]
+      \ },
+      \ 'component': {
+      \   'winnr': '%{"❐ " . winnr()}',
+      \   'readonly': '%{&readonly?"\ue0a2":""}',
+      \   'lint': '%{LinterStatus()}',
+      \ },
+      \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+      \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
+      \ }
+" == }}}
+" ==> incsearch.vim {{{...
+set hlsearch
+set ignorecase
+set smartcase
+hi Search ctermfg=Yellow ctermbg=Black
+map /  <Plug>(incsearch-forward)
+let g:incsearch#auto_nohlsearch = 1
+map n <Plug>(incsearch-nohl)<Plug>(anzu-n-with-echo)
+map N <Plug>(incsearch-nohl)<Plug>(anzu-N-with-echo)
+map g*  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)
+map * <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
+" == }}}
+" ==> vim-easyclip {{{...
+nmap M <Plug>MoveMotionEndOfLinePlug
+nnoremap gm m
+let g:EasyClipUseSubstituteDefaults = 1
+let g:EasyClipAlwaysMoveCursorToEndOfPaste = 1
+nnoremap <silent> yy :<c-u>call EasyClip#Yank#PreYankMotion()<cr>:call EasyClip#Yank#YankLine()<cr>:<c-u>call HighlightYankedLine()<cr>
+nnoremap <silent> <expr> Y ":<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opfunc=EasyClip#Yank#YankMotion<cr>" . (v:count > 0 ? v:count : '') . "g@$:<c-u>call HighlightYankedEOL()<cr>"
+nnoremap <silent> <expr> y ":<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opfunc=EasyClipYankMotionHighlithWrapper<cr>" . (v:count > 0 ? v:count : '') . "g@"
+" == }}}
+" ==> vim-easymotion {{{...
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+" == }}}
+" ==> YouCompleteMe {{{...
+set completeopt-=preview
+let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
+let g:ycm_key_list_stop_completion = ['<C-y>']
+imap <expr> <cr> pumvisible() ? "\<C-y>" : MyCR()
+let g:ycm_show_diagnostics_ui = 0
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_complete_in_comments = 1
+let g:ycm_complete_in_strings = 1
+let g:ycm_use_ultisnips_completer = 1
+let g:ycm_seed_identifiers_with_syntax=1
+" == }}}
+" ==> tagbar {{{...
+set updatetime=500
+let g:tagbar_map_togglefold = ['<tab>', 'za', 'o']
+" to enable leader
+let g:tagbar_map_showproto = ''
+" == }}}
+" ==> ultisnips {{{...
+let g:UltiSnipsExpandTrigger="<Tab>"
+let g:UltiSnipsJumpForwardTrigger="<Tab>"
+let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
+let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
+let g:UltiSnipsSnippetsDir = '~/trinity/UltiSnips'
+let g:UltiSnipsEditSplit="vertical"
+" == }}}
+" ==> vim-autoformat {{{...
+let g:formatter_yapf_style = 'pep8'
+let g:formatdef_yapf = "'yapf --line ' . a:firstline . '-' . a:lastline "
+let g:formatters_python = ['yapf']
+let g:formatdef_my_custom_cpp = "'clang-format -style=\"{BasedOnStyle: google}\" -lines=' . a:firstline . ':' . a:lastline "
+let g:formatters_cpp = ['my_custom_cpp']
+" }}}
+" ==> ale {{{...
+let g:ale_linters = {
+\   'python': ['pylint'],
+\   'cpp': ['clang'],
+\}
+let g:ale_python_pylint_options = '-E'
+function! LinterStatus() abort
+  if (g:ale_enabled == 0)
+    return 'off'
+  endif
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  return l:counts.total == 0 ? 'OK' : printf(
+  \   '%dW %dE',
+  \   all_non_errors,
+  \   all_errors
+  \)
+endfunction
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+" run linters only when save files
+let g:ale_lint_on_text_changed = 'never'
+" == }}}
+" = }}}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => My Functionalities {{{...
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ==> search {{{...
+function! MySearchOperator(type)
+  if a:type ==# 'v'
+    normal! `<v`>"sy
+    call feedkeys(":Ag\<space>\<C-r>s\<cr>")
+  elseif a:type ==# 'char'
+    normal! `[v`]"sy
+    call feedkeys(":Ag\<space>\<C-r>s\<cr>")
     return
   endif
-  execute "silent grep -Irn --exclude-dir={.git,.hg} " . l:search_term . " ."
-  copen
-  execute "redraw!"
-  execute "windo call matchadd(\"GrepHighlight\", " . l:search_term . ")"
 endfunction
-xnoremap <leader>g :<c-u>call MyGrepOperator(visualmode())<cr>
-nnoremap <leader>g :set operatorfunc=MyGrepOperator<cr>g@
-nnoremap <leader>gg :call MyGrepOperator(mode(), input("grep: "))<cr>
-" substitute
+" ==> }}}
+" ==> substitute {{{...
 function! MySubstituteOperator(type)
   if a:type ==# 'v'
     normal! `<v`>"sy
@@ -438,194 +403,100 @@ function! MySubstituteOperator(type)
   elseif a:type ==# 'char'
     normal! `[v`]"sy
     call feedkeys(":%S/\<C-r>s/\<C-r>s/gc\<left>\<left>\<left>")
+    return
+  " region substitute
   elseif a:type ==# 'V'
     call feedkeys(":'<,'>S///gc\<left>\<left>\<left>\<left>")
     return
   endif
 endfunction
-xnoremap <leader>s :<c-u>call MySubstituteOperator(visualmode())<cr>
-nnoremap <leader>s :set operatorfunc=MySubstituteOperator<cr>g@
-nnoremap <leader>ss :%S///gc<left><left><left><left>
-" }}}
-
-" }}}
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugins {{{...
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"-- tomtom/tcomment_vim -- {{{...
-let g:tcommentMapLeaderOp1 = '<Leader>c'
-" }}}
-
-"-- skywind3000/quickmenu.vim -- {{{...
-if !&diff
-  " enable cursorline (L) and cmdline help (H)
-  let g:quickmenu_options = "L"
-  let g:quickmenu_ft_blacklist = ['netrw', 'nerdtree', 'tagbar']
-  " clear all the items
-  call g:quickmenu#reset()
-  " invoke key
-  noremap <silent> <cr> :call MyTagbarClose()<cr>:NERDTreeClose<cr>:call quickmenu#toggle(0)<cr>
-  " section 1
-  call g:quickmenu#append('# Basic', '')
-  call g:quickmenu#append('Edit vimrc', 'edit ~/.vimrc')
-  call g:quickmenu#append('Reload vimrc', 'source ~/.vimrc')
-  call g:quickmenu#append('MRU', 'call MyMRU()')
-  call g:quickmenu#append('Tab to space', 'setlocal list | retab')
-  " section 2, text starting with "#" represents a section (see the screen capture below)
-  call g:quickmenu#append('# Toggle', '')
-  call g:quickmenu#append('Toggle line wrap', 'setlocal wrap!')
-  call g:quickmenu#append('Toggle invisible char display', 'setlocal list!')
-  call g:quickmenu#append('Toggle cursor column', 'setlocal cursorcolumn!')
-  call g:quickmenu#append('Toggle relative number', 'setlocal relativenumber!')
-  " section 3
-  if (g:install_external_dependent_plugin == 1)
-    call g:quickmenu#append('# External', '')
-    call g:quickmenu#append('Edit snippets', 'UltiSnipsEdit')
-    call g:quickmenu#append('Ycm config gen', 'YcmGenerateConfig')
+" ==> }}}
+" ==> smooth scroll {{{...
+function! SmoothScroll(dir, dist, speed)
+  for i in range(a:dist/a:speed)
+  let start = reltime()
+  " scroll down and cursor move
+  if a:dir ==# 'd'
+    exec "normal! ".a:speed."\<C-e>".a:speed."j"
+  " scroll up and cursor move
+  elseif a:dir ==# 'u'
+    exec "normal! ".a:speed."\<C-y>".a:speed."k"
   endif
-endif
-" }}}
-
-"-- itchyny/lightline.vim -- {{{...
-" get rid of the extraneous default vim mode
-set hidden  " allow buffer switching without saving
-set showtabline=2  " always show tabline
-set noshowmode
-let g:lightline = {
-  \ 'colorscheme': 'wombat',
-  \ 'active': {
-  \   'left': [ [ 'mode', 'paste', 'spell' ],
-  \             [ 'readonly', 'pwd' ],
-  \             [ 'lint'] ],
-  \   'right': [ [ 'lineinfo', 'winnr' ],
-  \              [ 'percent' ],
-  \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
-  \ },
-  \ "inactive" : {
-  \   'left': [ [ 'filename' ] ],
-  \   'right': [ [ 'lineinfo', 'winnr' ],
-  \              [ 'percent' ] ]
-  \ },
-  \ 'component': {
-  \   'winnr': '%{"❐ " . winnr()}',
-  \   'pwd': '%<%{LightlinePWD()}',
-  \   'readonly': '%{&readonly?"\ue0a2":""}',
-  \   'lint': '%{LinterStatus()}',
-  \ },
-  \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-  \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
-  \ 'tabline': {
-  \   'left': [ [ 'bufferinfo' ], [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
-  \   'right': [ [ 'close' ], ],
-  \ },
-  \ 'component_expand': {
-  \   'buffercurrent': 'lightline#buffer#buffercurrent2',
-  \ },
-  \ 'component_type': {
-  \   'buffercurrent': 'tabsel',
-  \ },
-  \ 'component_function': {
-  \   'lineinfo': 'LightlineLineinfo',
-  \   'percent': 'LightlinePercent',
-  \   'spell': 'LightlineSpell',
-  \   'fileformat': 'LightlineFileformat',
-  \   'filetype': 'LightlineFiletype',
-  \   'fileencoding': 'LightlineFileencoding',
-  \   'bufferbefore': 'lightline#buffer#bufferbefore',
-  \   'bufferafter': 'lightline#buffer#bufferafter',
-  \   'bufferinfo': 'lightline#buffer#bufferinfo',
-  \ },
-\ }
-function! LightlinePWD()
-  return "Dir: " . expand('%:p:h')
+  redraw
+  endfor
 endfunction
-function! LightlineSpell()
-  return winwidth(0) > 70 ? (&spell ? 'SPELL' : '') : ''
+let g:smooth_scroll_steps = &scroll
+let g:smooth_scroll_speed = 2 "must be integer
+" == }}}
+" ==> disable all format options including auto comment {{{...
+augroup disable_format_options
+  autocmd!
+  autocmd FileType * setlocal formatoptions=
+augroup END
+" === }}}
+" ==> jump to last position when reopen {{{...
+augroup jump_to_last_quit_position
+  autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+augroup END
+" == }}}
+" ==> fast escapes {{{...
+set timeout timeoutlen=3000 ttimeoutlen=30
+augroup FastEscape
+  autocmd!
+  autocmd InsertEnter * set timeoutlen=30
+  autocmd InsertLeave * set timeoutlen=3000
+  " TODO Add CmdlineEnter and CmdlineLeave 8.0.1206
+augroup END
+" == }}}
+" ==> remove trailing space when saving buffer {{{...
+function! RemoveTrailingSpace()
+  let l:save_cursor = getpos(".")
+  %s/\s\+$//e
+  call setpos('.', l:save_cursor)
 endfunction
-function! LightlineFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
+augroup remove_trailing_space
+  autocmd!
+  autocmd BufWritePre * execute "call RemoveTrailingSpace()"
+augroup END
+" == }}}
+" ==> change cursor type based on mode {{{...
+let &t_SI = "\<esc>Ptmux;\<esc>\<esc>]50;CursorShape=1\x7\<esc>\\"
+let &t_SR = "\<esc>Ptmux;\<esc>\<esc>]50;CursorShape=2\x7\<esc>\\"
+let &t_EI = "\<esc>Ptmux;\<esc>\<esc>]50;CursorShape=0\x7\<esc>\\"
+" == }}}
+" ==> auto set paste {{{...
+function! WrapForTmux(s)
+  if !exists('$TMUX')
+  return a:s
+  endif
+  let l:tmux_start = "\<esc>Ptmux;"
+  let l:tmux_end = "\<esc>\\"
+  return l:tmux_start . substitute(a:s, "\<esc>", "\<esc>\<esc>", 'g') . l:tmux_end
 endfunction
-function! LightlineFiletype()
-  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+let &t_SI .= WrapForTmux("\<esc>[?2004h")
+let &t_EI .= WrapForTmux("\<esc>[?2004l")
+function! XTermPasteBegin()
+  set pastetoggle=<esc>[201~
+  set paste
+  return ''
 endfunction
-function! LightlineFileencoding()
-  return winwidth(0) > 70 ? (&fileencoding !=# '' ? &fileencoding : &encoding) : ''
+inoremap <special> <expr> <esc>[200~ XTermPasteBegin()
+" == }}}
+" ==> fzf mru {{{...
+command! FZFMru call fzf#run({
+\ 'source':  reverse(s:all_files()),
+\ 'sink':    'edit',
+\ 'options': '-m -x +s',
+\ 'down':    '40%' })
+
+function! s:all_files()
+  return extend(
+  \ filter(copy(v:oldfiles),
+  \        "v:val !~ '.git/'"),
+  \ map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val)'))
 endfunction
-function! LightlinePercent()
-  return winwidth(0) > 70 ? ((line(".") * 100) / line("$")) . '%' : ''
-endfunction
-function! LightlineLineinfo()
-  return winwidth(0) > 70 ? (line(".") . ':' . col(".")) : ''
-endfunction
-
-" lightline-buffer ui settings
-" replace these symbols with ascii characters if your environment does not support unicode
-let g:lightline_buffer_logo = '✭ '
-let g:lightline_buffer_modified_icon = '+'
-let g:lightline_buffer_ellipsis_icon = '..'
-let g:lightline_buffer_expand_left_icon = '◀ '
-let g:lightline_buffer_expand_right_icon = ' ▶'
-let g:lightline_buffer_active_buffer_left_icon = ''
-let g:lightline_buffer_active_buffer_right_icon = ''
-let g:lightline_buffer_separator_icon = ' '
-
-" lightline-buffer function settings
-let g:lightline_buffer_show_bufnr = 1
-let g:lightline_buffer_rotate = 0
-let g:lightline_buffer_fname_mod = ':t'
-let g:lightline_buffer_excludes = ['vimfiler']
-
-let g:lightline_buffer_maxflen = 30
-let g:lightline_buffer_maxfextlen = 3
-let g:lightline_buffer_minflen = 16
-let g:lightline_buffer_minfextlen = 3
-let g:lightline_buffer_reservelen = 20
-" }}}
-
-"-- tpope/vim-surround -- {{{...
-xmap s <Plug>VSurround
-xmap S <Plug>VSurround
-xmap s( s)
-xmap s{ s}
-xmap s[ s]
-xmap s< s>
-"}}}
-
-"-- SirVer/ultisnips -- {{{...
-let g:UltiSnipsExpandTrigger="<Tab>"
-let g:UltiSnipsJumpForwardTrigger="<Tab>"
-let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
-let g:UltiSnipsEditSplit="vertical"
-let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
-let g:UltiSnipsSnippetsDir = '~/trinity/UltiSnips'
-" }}}
-
-"-- haya14busa/incsearch.vim -- {{{...
-hi Search ctermfg=Yellow ctermbg=Black
-map /  <Plug>(incsearch-forward)
-let g:incsearch#auto_nohlsearch = 1
-map n <Plug>(incsearch-nohl)<Plug>(anzu-n-with-echo)
-map N <Plug>(incsearch-nohl)<Plug>(anzu-N-with-echo)
-map *  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)
-map g* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
-map #  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)
-map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
-" }}}
-
-" -- easymotion/vim-easymotion -- {{{...
-let g:EasyMotion_do_mapping = 0 " Disable default mappings
-map F <Plug>(easymotion-bd-fl)
-map T <Plug>(easymotion-bd-tl)
-map ; :join<CR>
-map , <Plug>(easymotion-s)
-map W <Plug>(easymotion-lineanywhere)
-xmap B <Plug>(easymotion-bd-jk)
-nmap B <Plug>(easymotion-overwin-line)
-" }}}
-
-"-- svermeulen/vim-easyclip -- {{{...
-" integrate yank highlight
+" == }}}
+" ==> easyclip highlight yank{{{...
 hi HighlightedyankRegion ctermfg=Black ctermbg=Blue
 function! s:sallowsleep(ms) abort
   let t = reltime()
@@ -673,291 +544,20 @@ function! EasyClipYankMotionHighlithWrapper(type)
   call s:sallowsleep(500)
   call clearmatches()
 endfunction
-nnoremap <silent> yy :<c-u>call EasyClip#Yank#PreYankMotion()<cr>:call EasyClip#Yank#YankLine()<cr>:<c-u>call HighlightYankedLine()<cr>
-nnoremap <silent> <expr> Y ":<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opfunc=EasyClip#Yank#YankMotion<cr>" . (v:count > 0 ? v:count : '') . "g@$:<c-u>call HighlightYankedEOL()<cr>"
-nnoremap <silent> <expr> y ":<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opfunc=EasyClipYankMotionHighlithWrapper<cr>" . (v:count > 0 ? v:count : '') . "g@"
-" m key mappings
-nmap M <Plug>MoveMotionEndOfLinePlug
-nnoremap gm m
-" e for replace
-xmap e <plug>XEasyClipPaste
-nmap e <plug>SubstituteOverMotionMap
-nmap ee <plug>SubstituteLine
-nmap E <plug>SubstituteToEndOfLine
-"}}}
-
-"-- majutsushi/tagbar -- {{{...
-noremap <leader>t :NERDTreeClose<CR>:TagbarToggle<CR>
-noremap <leader>T :NERDTreeClose<CR>:TagbarToggle<CR><C-w>p
-let g:tagbar_autofocus = 1
-let g:tagbar_map_closefold = ['_', 'zc']
-let g:tagbar_map_previewwin = ''
-let g:tagbar_map_showproto = ''
-let g:tagbar_map_hidenonpublic = ''
-let g:tagbar_map_togglecaseinsensitive = ''
-augroup tagbar
-  autocmd!
-  autocmd FileType tagbar nmap <buffer> i c<CR>
-augroup END
-function! MyTagbarClose()
-  if g:install_external_dependent_plugin == 1
-    TagbarClose
-  endif
-endfunction
-" }}}
-
-"-- scrooloose/nerdtree -- {{{...
-noremap <leader>e :call MyTagbarClose()<cr>:NERDTreeToggle<CR><C-w>p<C-w>p
-noremap <leader>E :call MyTagbarClose()<cr>:NERDTreeToggle<CR><C-w>p
-let g:NERDTreeChDirMode = 2
-let g:NERDTreeMapActivateNode = 'o'
-let g:NERDTreeMapPreview = 'p'
-let g:NERDTreeMapOpenInTab = ''
-let g:NERDTreeMapOpenInTabSilent = ''
-let g:NERDTreeMapOpenSplit = 's'
-let g:NERDTreeMapPreviewSplit = 'gs'
-let g:NERDTreeMapOpenVSplit = 'v'
-let g:NERDTreeMapPreviewVSplit = 'gv'
-let g:NERDTreeMapCloseDir = '_'
-let g:NERDTreeMapOpenRecursively = ''
-let g:NERDTreeMapCloseChildren = ''
-let g:NERDTreeMapOpenExpl = ''
-let g:NERDTreeMapJumpRoot = ''
-let g:NERDTreeMapJumpParent = ''
-let g:NERDTreeMapJumpFirstChild = ''
-let g:NERDTreeMapJumpLastChild = ''
-let g:NERDTreeMapJumpNextSibling = ''
-let g:NERDTreeMapJumpPrevSibling = ''
-let g:NERDTreeMapDeleteBookmark = ''
-let g:NERDTreeMapChangeRoot = 'w'
-let g:NERDTreeMapUpdir = 'u'
-let g:NERDTreeMapUpdirKeepOpen = ''
-let g:NERDTreeMapRefresh = ''
-let g:NERDTreeMapRefreshRoot = 'r'
-let g:NERDTreeMapMenu = 'a'
-let g:NERDTreeMapCWD = ''
-let g:NERDTreeMapChdir = ''
-let g:NERDTreeMapToggleZoom = ''
-augroup nerdtree
-  autocmd!
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-  autocmd StdinReadPre * let s:std_in=1
-  autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-  autocmd FileType nerdtree nmap <buffer> i <CR>:NERDTreeClose<CR>
-augroup END
-"}}}
-
-"-- Raimondi/delimitMate -- {{{...
-let delimitMate_expand_space = 1
-" }}}
-
-"-- junegunn/fzf.vim -- {{{...
-" address conflict with eclim
-noremap <leader>fb :call fzf#vim#buffers()<CR>
-noremap <leader>fr :call fzf#vim#history()<CR>
-noremap <leader>ff :Files<CR>
-noremap <leader>fl :BLines<CR>
-noremap <leader>fk :BTags<CR>
-noremap <leader>fg :Ag<CR>
-noremap <leader>fu :Snippets<CR>
-noremap <leader>fh :Helptags<CR>
-noremap <leader>fc :Commands<CR>
-noremap <leader>f: :History:<CR>
-noremap <leader>f/ :History/<CR>
-map <leader>mn :call fzf#vim#maps('n', 0)<CR>
-map <leader>mv :call fzf#vim#maps('v', 0)<CR>
-map <leader>mx :call fzf#vim#maps('x', 0)<CR>
-map <leader>mo :call fzf#vim#maps('o', 0)<CR>
-map <leader>ms :call fzf#vim#maps('s', 0)<CR>
-map <leader>mi :call fzf#vim#maps('i', 0)<CR>
-map <leader>mc :call fzf#vim#maps('c', 0)<CR>
-" }}}
-
-"-- mhinz/vim-signify -- {{{...
-let g:signify_sign_show_count = 1
-let g:signify_sign_change = '*'
-" }}}
-
-"-- Valloric/YouCompleteMe -- {{{...
-set completeopt-=preview
-let g:EclimCompletionMethod = 'omnifunc'
-let g:ycm_key_list_select_completion = ['<C-n>']
-let g:ycm_key_list_previous_completion = ['<C-p>']
-let g:ycm_key_list_stop_completion = ['<C-y>']
-imap <expr> <CR> pumvisible() ? "\<C-y>" : MyCR()
-imap <expr> <Down> pumvisible() ? "\<C-n>" : "\<C-o>j"
-imap <expr> <Up> pumvisible() ? "\<C-p>" : "\<C-o>k"
-let g:ycm_show_diagnostics_ui = 0
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_complete_in_comments = 1
-let g:ycm_complete_in_strings = 1
-let g:ycm_use_ultisnips_completer = 1
-let g:ycm_seed_identifiers_with_syntax=1
-nnoremap <leader>yi :YcmCompleter GoToInclude<CR>
-nnoremap <leader>yd :YcmCompleter GoToDeclaration<CR>
-nnoremap <leader>yt :YcmCompleter GetType<CR>
-nnoremap <leader>yp :YcmCompleter GetParent<CR>
-nnoremap <leader>yf :YcmCompleter FixIt<CR>:copen<CR>
-"}}}
-
-"-- Chiel92/vim-autoformat -- {{{...
-noremap <leader>= :Autoformat<CR>
-" let g:autoformat_verbosemode=1
-let g:formatter_yapf_style = 'pep8'
-let g:formatdef_yapf = "'yapf --line ' . a:firstline . '-' . a:lastline "
-let g:formatters_python = ['yapf']
-let g:formatdef_my_custom_cpp = "'clang-format -style=\"{BasedOnStyle: google}\" -lines=' . a:firstline . ':' . a:lastline "
-let g:formatters_cpp = ['my_custom_cpp']
-" let g:formatters_java = ['astyle']
-" }}}
-
-"-- w0rp/ale -- {{{...
-let g:ale_linters = {
-\   'python': ['pylint'],
-\   'cpp': ['clang'],
-\   'java': ['javac'],
-\}
-let g:ale_python_pylint_options = '-E'
-function! LinterStatus() abort
-  if (g:install_external_dependent_plugin == 0 || g:ale_enabled == 0)
-    return 'off'
-  endif
-  let l:counts = ale#statusline#Count(bufnr(''))
-  let l:all_errors = l:counts.error + l:counts.style_error
-  let l:all_non_errors = l:counts.total - l:all_errors
-  return l:counts.total == 0 ? 'OK' : printf(
-  \   '%dW %dE',
-  \   all_non_errors,
-  \   all_errors
-  \)
-endfunction
-" echo message
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-" mapping
-nmap <silent> ( <Plug>(ale_previous_wrap)
-nmap <silent> ) <Plug>(ale_next_wrap)
-" run linters only when save files
-let g:ale_lint_on_text_changed = 'never'
-" }}}
-
-" }}}
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Lang {{{...
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set tabstop=4 shiftwidth=4 softtabstop=4
-set foldmethod=indent
-
-" vim {{{
-augroup file_vim
-  autocmd!
-  autocmd FileType vim setlocal tabstop=2 shiftwidth=2 softtabstop=2
-  autocmd FileType vim setlocal foldmethod=marker
-augroup END
-" }}}
-
-" shell {{{
-augroup file_shell
-  autocmd!
-  autocmd FileType sh,zsh setlocal tabstop=2 shiftwidth=2 softtabstop=2
-  autocmd FileType sh,zsh setlocal foldmethod=marker
-augroup END
-" }}}
-
-" python {{{
-augroup file_py
-  autocmd!
-  autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
-  autocmd FileType python let b:delimitMate_nesting_quotes = ['"']
-  autocmd FileType python let NERDTreeIgnore = ['\.pyc$']
-augroup END
-" }}}
-
-" cpp {{{
-function! MyCppArrowAsParenthesis()
-  if col('.') < 2
-    return 0
-  elseif getline(line('.'))[ : col('.') - 2] =~# '^#include\s'
-    return 1
-  elseif getline(line('.'))[ : col('.') - 2] =~# '^.*operator$'
-    return 0
-  elseif getline(line('.'))[col('.') - 2] =~# '[< ]'
-    return 0
+" == }}}
+" ==> toggle all folds {{{...
+let s:my_unrol_flat = 1
+function! MyUnrolToggle()
+  if s:my_unrol_flat == 0
+    execute "normal zR"
+    let s:my_unrol_flat = 1
   else
-    return 1
-  end
+    execute "normal zM"
+    let s:my_unrol_flat = 0
+endif
 endfunction
-augroup file_cpp
-  autocmd!
-  autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 softtabstop=2
-  autocmd FileType cpp let NERDTreeIgnore = ['\.o$']
-  autocmd FileType cpp setlocal matchpairs+=<:>
-  autocmd FileType cpp inoremap <buffer> <expr> < MyCppArrowAsParenthesis() ? "<>\<left>" : "<"
-augroup END
-" }}}
-
-" java {{{
-function! MyJavaArrowAsParenthesis()
-  if col('.') < 2
-    return 0
-  elseif getline(line('.'))[col('.') - 2] =~# '[< ]'
-    return 0
-  else
-    return 1
-  end
-endfunction
-augroup file_java
-  autocmd!
-  autocmd FileType java setlocal tabstop=2 shiftwidth=2 softtabstop=2
-  autocmd FileType java let NERDTreeIgnore = ['\.class$']
-  autocmd FileType java setlocal matchpairs+=<:>
-  autocmd FileType java inoremap <buffer> <expr> < MyJavaArrowAsParenthesis() ? "<>\<left>" : "<"
-augroup END
-" }}}
-
-" make {{{
-augroup file_make
-  autocmd!
-  autocmd FileType make setlocal tabstop=8 shiftwidth=8 softtabstop=8
-  autocmd FileType make setlocal noexpandtab
-  autocmd FileType make let NERDTreeIgnore = ['\.o$']
-augroup END
-" }}}
-
-" }}}
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Extra functionality {{{...
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" change cursor type based on mode {{{...
-let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
-let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-" }}}
-
-" auto set paste {{{...
-function! WrapForTmux(s)
-  if !exists('$TMUX')
-    return a:s
-  endif
-  let l:tmux_start = "\<Esc>Ptmux;"
-  let l:tmux_end = "\<Esc>\\"
-  return l:tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . l:tmux_end
-endfunction
-let &t_SI .= WrapForTmux("\<Esc>[?2004h")
-let &t_EI .= WrapForTmux("\<Esc>[?2004l")
-function! XTermPasteBegin()
-  set pastetoggle=<Esc>[201~
-  set paste
-  return ''
-endfunction
-inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
-" }}}
-
-" interactive registers {{{...
+" ==}}}
+" ==> interactive past {{{...
 function! MyRegp()
   registers
   let l:reg = input("Please select your register: ")
@@ -972,66 +572,148 @@ function! MyRegP()
     execute "normal \"" . l:reg . "P"
   endif
 endfunction
-nmap <leader>p :call MyRegp()<CR>
-nmap <leader>P :call MyRegP()<CR>
-" }}}
-
-" SmoothScroll {{{
-function! SmoothScroll(dir, dist, speed)
-  for i in range(a:dist/a:speed)
-    let start = reltime()
-    " scroll down and cursor move
-    if a:dir ==# 'd'
-      exec "normal! ".a:speed."\<C-e>".a:speed."j"
-    " scroll up and cursor move
-    elseif a:dir ==# 'u'
-      exec "normal! ".a:speed."\<C-y>".a:speed."k"
-    endif
-    redraw
-  endfor
-endfunction
-let g:smooth_scroll_steps = &scroll
-let g:smooth_scroll_speed = 3 "must be integer
-nnoremap <silent> K :call SmoothScroll('u', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
-nnoremap <silent> J :call SmoothScroll('d', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
-" }}}
-
-" Toggle all folds {{{
-let s:my_unrol_flat = 1
-function! MyUnrolToggle()
-  if s:my_unrol_flat == 0
-    execute "normal zR"
-    let s:my_unrol_flat = 1
+" == }}}
+" ==> check <> as a pair for cpp {{{...
+function! MyCppArrowAsParenthesis()
+  if col('.') < 2
+    return 0
+  elseif getline(line('.'))[ : col('.') - 2] =~# '^#include\s'
+    return 1
+  elseif getline(line('.'))[ : col('.') - 2] =~# '^.*operator$'
+    return 0
+  elseif getline(line('.'))[col('.') - 2] =~# '[< ]'
+    return 0
   else
-    execute "normal zM"
-    let s:my_unrol_flat = 0
-endif
+    return 1
+  end
 endfunction
-nnoremap <S-tab> :call MyUnrolToggle()<CR>
-"}}}
-
-" MRU {{{
-function! MyMRU()
-  oldfiles
-  let l:file = input("Please select your file: ")
-  if l:file != ''
-    execute 'e #<' . l:file
+" == }}}
+" ==> <cr> inside {} [] {{{...
+function! MyCR()
+  if pumvisible()
+    return "\<cr>"
   endif
+  if col('.') < 2
+    return "\<cr>"
+  endif
+  let l:prevChar = getline(line('.'))[col('.') - 2]
+  let l:currChar = getline(line('.'))[col('.') - 1]
+  if l:prevChar == '[' && l:currChar == ']'
+    return "\<cr>\<C-o><<\<up>\<C-o>\o"
+  elseif l:prevChar == '{' && l:currChar == '}'
+    return "\<cr>\<C-o><<\<up>\<C-o>\o"
+  endif
+  return "\<cr>"
 endfunction
-" }}}
-
-" toggle quickfix window {{{
-function! MyQuickfixToggle()
-  for i in range(1, winnr('$'))
-    let bnum = winbufnr(i)
-    if getbufvar(bnum, '&buftype') == 'quickfix'
-      cclose
-      return
+" == }}}
+" ==> my indent rule {{{...
+function! NumCharInStr(char, str)
+  return strlen(substitute(a:str, "[^".a:char."]", "","g"))
+endfunction
+function! GetMyIndent(lnum)
+  " Search backwards for the previous non-empty line.
+  " TODO: skip comment lines
+  let l:plnum = prevnonblank(a:lnum - 1)
+  if l:plnum == 0
+    " This is the first non-empty line, use zero indent.
+    return 0
+  endif
+  let l:pline = getline(l:plnum)
+  " use PEP8 rule for python
+  if &filetype == 'python'
+    if NumCharInStr('(', l:pline) > NumCharInStr(')', l:pline)
+      " opening '(' with nothing followed
+      if l:pline =~# '(\s*\(#.*\)\?\s*$'
+        " 2 indents after line ends like 'def xxx('
+        if l:pline =~# '^\s*\(def\|while\|for\|with\|elif\).*(\s*\(#.*\)\?\s*$'
+          return indent(l:plnum) + &shiftwidth + &shiftwidth
+        " otherwise 1 indent
+        else
+          return indent(l:plnum) + &shiftwidth
+        endif
+      " opening '(' with something followed
+      else
+        " 2 indents after line ends with 'if ('
+        if l:pline =~# '^\s*if'
+          return indent(l:plnum) + &shiftwidth + &shiftwidth
+        " otherwise line-up to the opening position
+        else
+          execute 'normal! [('
+          return col('.')
+        endif
+      endif
+    " closing ')'
+    elseif NumCharInStr(')', l:pline) > NumCharInStr('(', l:pline)
+      let l:check_linenum = l:plnum - 1
+      let l:left_cnt = NumCharInStr('(', l:pline)
+      let l:right_cnt = NumCharInStr(')', l:pline)
+      " fall back to check last 10 lines to find the opening line
+      while l:check_linenum > l:plnum - 10 && l:check_linenum > 0
+        let l:check_line = getline(l:check_linenum)
+        let l:left_cnt += NumCharInStr('(', l:check_line)
+        let l:right_cnt += NumCharInStr(')', l:check_line)
+        if l:left_cnt == l:right_cnt
+          if l:check_line =~# '^\s*\(if\|elif\|def\|while\|for\|with\)'
+            return indent(l:check_linenum) + &shiftwidth
+          else
+            return indent(l:check_linenum)
+          endif
+        endif
+        let l:check_linenum -= 1
+      endwhile
+    " other opening chars, 1 indent
+    elseif l:pline =~# '[[{:]\s*\(#.*\)\?\s*$'
+      return indent(l:plnum) + &shiftwidth
+    " indent back based on keywords
+    elseif (l:pline =~# '^\s*return' || l:pline =~# '^\s*pass\s*$')
+      return indent(l:plnum) - &shiftwidth
     endif
-  endfor
-  copen
+  elseif (&filetype == 'cpp' || &filetype == 'java')
+    " opening '('
+    if NumCharInStr('(', l:pline) > NumCharInStr(')', l:pline)
+      " with nothing followed
+      if l:pline =~# '(\s*\(#.*\)\?\s*$'
+        return indent(l:plnum) + &shiftwidth + &shiftwidth
+      " with something followed
+      else
+        execute 'normal! [('
+        return col('.')
+      endif
+    " closing ')'
+    elseif NumCharInStr(')', l:pline) > NumCharInStr('(', l:pline)
+      let l:check_linenum = l:plnum - 1
+      let l:left_cnt = NumCharInStr('(', l:pline)
+      let l:right_cnt = NumCharInStr(')', l:pline)
+      " fall back to check last 10 lines to find the opening line
+      while l:check_linenum > l:plnum - 10 && l:check_linenum > 0
+        let l:check_line = getline(l:check_linenum)
+        let l:left_cnt += NumCharInStr('(', l:check_line)
+        let l:right_cnt += NumCharInStr(')', l:check_line)
+        if l:left_cnt == l:right_cnt
+            return indent(l:check_linenum)
+          endif
+        endif
+        let l:check_linenum -= 1
+      endwhile
+    " no indent for namespace
+    elseif l:pline =~# '\s*namespace.*{\s*\(\/\/.*\)\?\s*$'
+      return indent(l:plnum)
+    " other opening chars, 1 indent
+    elseif l:pline =~# '[[{]\s*\(\/\/.*\)\?\s*$'
+      return indent(l:plnum) + &shiftwidth
+    " 1 space for public:, protected:, private:
+    elseif l:pline =~# '\(public\|protected\|private\):\s*\(\/\/.*\)\?\s*$'
+      return indent(l:plnum) + 1
+    endif
+  else "other filetypes
+    if l:pline =~# '[[{]\s*$'
+      return indent(l:plnum) + &shiftwidth
+    endif
+  endif
+  return -1
 endfunction
-nnoremap <leader>q :call MyQuickfixToggle()<CR>
-" }}}
-
-" }}}
+filetype indent off
+set indentkeys=oO
+set indentexpr=GetMyIndent(v:lnum)
+" == }}}
+" = }}}
