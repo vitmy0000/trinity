@@ -93,6 +93,7 @@ nnoremap <leader>fs :so ~/.vimrc<cr>
 nnoremap <leader>tw :set wrap!<cr>
 nnoremap <leader>ti :set list!<cr>
 nnoremap <leader>tc :setlocal cursorcolumn!<cr>
+nnoremap <leader>tt :TagbarToggle<cr>
 " === }}}
 " ===> comment {{{...
 xmap <leader>c <Plug>Commentary
@@ -113,8 +114,8 @@ nnoremap <leader>g :set operatorfunc=MySearchOperator<cr>g@
 nnoremap <leader>gg :Ag<cr>
 " ===}}}
 " ===> paste {{{...
-nmap <leader>p :call MyRegp()<CR>
-nmap <leader>P :call MyRegP()<CR>
+nmap <leader>p :call MyRegp()<cr>
+nmap <leader>P :call MyRegP()<cr>
 " ===}}}
 " ===> mapping {{{...
 nnoremap <leader>mn :call fzf#vim#maps('n', 0)<cr>
@@ -126,14 +127,22 @@ nnoremap <leader>mi :call fzf#vim#maps('i', 0)<cr>
 nnoremap <leader>mc :call fzf#vim#maps('c', 0)<cr>
 " ===}}}
 " ===> YouCompleteMe {{{...
-nnoremap <leader>yi :YcmCompleter GoToInclude<cr>
 nnoremap <leader>yd :YcmCompleter GoToDeclaration<cr>
 nnoremap <leader>yt :YcmCompleter GetType<cr>
 nnoremap <leader>yp :YcmCompleter GetParent<cr>
 nnoremap <leader>yf :YcmCompleter FixIt<cr>:copen<cr>
+nnoremap <leader>yg :YcmGenerateConfig<cr>
 " === }}}
 " ==> vim-autoformat {{{...
-noremap <leader>= :Autoformat<CR>
+noremap <leader>= :Autoformat<cr>
+" === }}}
+" ===> utilities {{{...
+nnoremap <leader>uu :GundoToggle<cr>
+nnoremap <leader>ue :UltiSnipsEdit<cr>
+nnoremap <leader>ur :Rename<cr>
+nnoremap <leader>um :Move<cr>
+nnoremap <leader>ud :Delete<cr>
+nnoremap <leader>uc :Mkdir<cr>
 " === }}}
 " ===> window {{{...
 noremap <leader>w <C-w>
