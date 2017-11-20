@@ -203,6 +203,12 @@ cnoremap <C-k> <Del>
 " forward delete word and line are not feasible in command-line editing
 " however, they are not very commonly used
 " == }}}
+" ==> fzf {{{...
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit' }
+" == }}}
 " = }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -242,6 +248,7 @@ set listchars=tab:▸\ ,eol:¬,space:·
 set tabstop=4 shiftwidth=4 softtabstop=4
 set shiftround
 set expandtab
+set autoindent
 set foldmethod=indent
 set foldcolumn=1
 set foldlevel=20 " fold deep only at opening
