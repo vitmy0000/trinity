@@ -143,6 +143,7 @@ nnoremap <leader>ur :Rename<cr>
 nnoremap <leader>um :Move<cr>
 nnoremap <leader>ud :Delete<cr>
 nnoremap <leader>uc :Mkdir<cr>
+nnoremap <leader>ua :A<cr>
 " === }}}
 " ===> window {{{...
 noremap <leader>w <C-w>
