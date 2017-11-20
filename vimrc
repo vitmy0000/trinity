@@ -221,6 +221,7 @@ set belloff=all
 set whichwrap+=<,>,h,l,[,] " allow motion across lines
 set wildmenu
 set wildmode=list:longest,full
+set autowriteall " save on buffer switch
 if &diff
   set viminfo=
 endif
@@ -454,7 +455,7 @@ augroup disable_format_options
   autocmd!
   autocmd FileType * setlocal formatoptions=
 augroup END
-" === }}}
+" == }}}
 " ==> jump to last position when reopen {{{...
 augroup jump_to_last_quit_position
   autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -509,7 +510,6 @@ command! FZFMru call fzf#run({
 \ 'sink':    'edit',
 \ 'options': '-m -x +s',
 \ 'down':    '40%' })
-
 function! s:all_files()
   return extend(
   \ filter(copy(v:oldfiles),
