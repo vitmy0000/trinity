@@ -101,7 +101,7 @@ nmap <leader>c <Plug>Commentary
 nmap <leader>cc <Plug>CommentaryLine
 " === }}}
 " ===> buffer {{{...
-nnoremap <leader>bb :Buffers<cr>
+nnoremap <leader>bb :FZFBuffers<cr>
 " ===}}}
 " ===> substitute {{{...
 xnoremap <leader>s :<c-u>call MySubstituteOperator(visualmode())<cr>
@@ -297,28 +297,28 @@ augroup END
 set laststatus=2
 set noshowmode " mode is shown in lightline
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste', 'spell' ],
-      \             [ 'readonly', 'relativepath', 'modified' ],
-      \             [ 'lint'] ],
-      \   'right': [ [ 'lineinfo', 'winnr' ],
-      \              [ 'percent' ],
-      \              [ 'fileencoding', 'filetype' ] ]
-      \ },
-      \ "inactive" : {
-      \   'left': [ [ 'filename' ] ],
-      \   'right': [ [ 'lineinfo', 'winnr' ],
-      \              [ 'percent' ] ]
-      \ },
-      \ 'component': {
-      \   'winnr': '%{"❐ " . winnr()}',
-      \   'readonly': '%{&readonly?"\ue0a2":""}',
-      \   'lint': '%{LinterStatus()}',
-      \ },
-      \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-      \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
-      \ }
+  \ 'colorscheme': 'wombat',
+  \ 'active': {
+  \   'left': [ [ 'mode', 'paste', 'spell' ],
+  \             [ 'readonly', 'relativepath', 'modified' ],
+  \             [ 'lint'] ],
+  \   'right': [ [ 'lineinfo', 'winnr' ],
+  \              [ 'percent' ],
+  \              [ 'fileencoding', 'filetype' ] ]
+  \ },
+  \ "inactive" : {
+  \   'left': [ [ 'filename' ] ],
+  \   'right': [ [ 'lineinfo', 'winnr' ],
+  \              [ 'percent' ] ]
+  \ },
+  \ 'component': {
+  \   'winnr': '%{"❐ " . winnr()}',
+  \   'readonly': '%{&readonly?"\ue0a2":""}',
+  \   'lint': '%{LinterStatus()}',
+  \ },
+  \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+  \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
+  \ }
 " == }}}
 " ==> {{{...
 let g:gundo_prefer_python3 = 1
@@ -384,9 +384,9 @@ let g:formatters_cpp = ['my_custom_cpp']
 " }}}
 " ==> ale {{{...
 let g:ale_linters = {
-\   'python': ['pylint'],
-\   'cpp': ['clang'],
-\}
+  \   'python': ['pylint'],
+  \   'cpp': ['clang'],
+  \}
 let g:ale_python_pylint_options = '-E'
 function! LinterStatus() abort
   if (g:ale_enabled == 0)
@@ -513,16 +513,20 @@ inoremap <special> <expr> <esc>[200~ XTermPasteBegin()
 " == }}}
 " ==> fzf mru {{{...
 command! FZFMru call fzf#run({
-\ 'source':  reverse(s:all_files()),
-\ 'sink':    'edit',
-\ 'options': '-m -x +s',
-\ 'down':    '40%' })
+  \ 'source':  reverse(s:all_files()),
+  \ 'sink':    'edit',
+  \ 'options': '-m -x +s',
+  \ 'down':    '40%' })
 function! s:all_files()
   return extend(
   \ filter(copy(v:oldfiles),
   \        "v:val !~ '.git/'"),
   \ map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val)'))
 endfunction
+" == }}}
+" ==> fzf buffers {{{...
+command! FZFBuffers call fzf#run(fzf#wrap(
+    \ {'source': map(range(1, bufnr('$')), 'bufname(v:val)')}))
 " == }}}
 " ==> easyclip highlight yank{{{...
 hi HighlightedyankRegion ctermfg=Black ctermbg=Blue
