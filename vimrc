@@ -65,6 +65,8 @@ noremap <C-l> <C-i>
 nnoremap q :quit<cr>
 " for quick jump back
 vnoremap y y']
+" select pasted text
+nnoremap gp `[v`]
 nnoremap Q q
 nnoremap U <C-r>
 nnoremap <silent> K :call SmoothScroll('u', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
