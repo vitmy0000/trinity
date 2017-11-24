@@ -103,7 +103,7 @@ nmap <leader>c <Plug>Commentary
 nmap <leader>cc <Plug>CommentaryLine
 " === }}}
 " ===> buffer {{{...
-nnoremap <leader>bb :FZFBuffers<cr>
+nnoremap <leader>bb :Buffers<cr>
 " ===}}}
 " ===> substitute {{{...
 xnoremap <leader>s :<c-u>call MySubstituteOperator(visualmode())<cr>
@@ -525,10 +525,6 @@ function! s:all_files()
   \        "v:val !~ '.git/'"),
   \ map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val)'))
 endfunction
-" == }}}
-" ==> fzf buffers {{{...
-command! FZFBuffers call fzf#run(fzf#wrap(
-    \ {'source': map(range(1, bufnr('$')), 'bufname(v:val)')}))
 " == }}}
 " ==> easyclip highlight yank{{{...
 hi HighlightedyankRegion ctermfg=Black ctermbg=Blue
