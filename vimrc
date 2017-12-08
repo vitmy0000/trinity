@@ -220,6 +220,7 @@ let g:fzf_action = {
 set nocompatible
 syntax on
 filetype plugin indent on
+set backspace=indent,eol,start
 set encoding=utf-8
 scriptencoding utf-8 " able to show some icon
 set noswapfile
