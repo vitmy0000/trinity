@@ -148,16 +148,18 @@ nnoremap <leader>uc :Mkdir<cr>
 nnoremap <leader>ua :A<cr>
 " === }}}
 " ===> window {{{...
-noremap <leader>w <C-w>
-noremap <leader>1 1<C-w><C-w>
-noremap <leader>2 2<C-w><C-w>
-noremap <leader>3 3<C-w><C-w>
-noremap <leader>4 4<C-w><C-w>
-noremap <leader>5 5<C-w><C-w>
-noremap <leader>6 6<C-w><C-w>
-noremap <leader>7 7<C-w><C-w>
-noremap <leader>8 8<C-w><C-w>
-noremap <leader>9 9<C-w><C-w>
+nnoremap <leader>w <C-w>
+" jump to tagbar window
+nnoremap <leader>wt :TagbarOpen j<cr>
+nnoremap <leader>1 1<C-w><C-w>
+nnoremap <leader>2 2<C-w><C-w>
+nnoremap <leader>3 3<C-w><C-w>
+nnoremap <leader>4 4<C-w><C-w>
+nnoremap <leader>5 5<C-w><C-w>
+nnoremap <leader>6 6<C-w><C-w>
+nnoremap <leader>7 7<C-w><C-w>
+nnoremap <leader>8 8<C-w><C-w>
+nnoremap <leader>9 9<C-w><C-w>
 " === }}}
 " == }}}
 " ==> vim-easymotion {{{...
