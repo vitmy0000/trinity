@@ -11,6 +11,7 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'morhetz/gruvbox'
 Plug 'mhinz/vim-signify'
 Plug 'miyakogi/conoline.vim'
+Plug 'kshenoy/vim-signature'
 Plug 'sjl/gundo.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'svermeulen/vim-easyclip'
@@ -120,7 +121,7 @@ nnoremap <leader>gg :Ag<cr>
 nmap <leader>p :call MyRegp()<cr>
 nmap <leader>P :call MyRegP()<cr>
 " ===}}}
-" ===> mapping {{{...
+" ===> mapping/mark {{{...
 nnoremap <leader>mn :call fzf#vim#maps('n', 0)<cr>
 nnoremap <leader>mv :call fzf#vim#maps('v', 0)<cr>
 nnoremap <leader>mx :call fzf#vim#maps('x', 0)<cr>
@@ -128,6 +129,7 @@ nnoremap <leader>mo :call fzf#vim#maps('o', 0)<cr>
 nnoremap <leader>ms :call fzf#vim#maps('s', 0)<cr>
 nnoremap <leader>mi :call fzf#vim#maps('i', 0)<cr>
 nnoremap <leader>mc :call fzf#vim#maps('c', 0)<cr>
+nnoremap <leader>mm :Marks<cr>
 " ===}}}
 " ===> YouCompleteMe {{{...
 nnoremap <leader>yd :YcmCompleter GoToDeclaration<cr>
@@ -171,10 +173,6 @@ map et <Plug>(easymotion-bd-tl)
 xmap el <Plug>(easymotion-bd-jk)
 nmap el <Plug>(easymotion-overwin-line)
 " ==}}}
-" ==> ale {{{...
-nmap <silent> ( <Plug>(ale_previous_wrap)
-nmap <silent> ) <Plug>(ale_next_wrap)
-" == }}}
 " == > line editing {{{...
 " Option + U mapped to Option + b
 set <M-b>=b
@@ -330,6 +328,31 @@ let g:lightline = {
 let g:conoline_auto_enable = 1
 let g:conoline_use_colorscheme_default_normal=1
 " == }}}
+" ==> vim-signature {{{...
+let g:SignatureMap = {
+  \ 'Leader'             :  "<leader>m",
+  \ 'PlaceNextMark'      :  "",
+  \ 'ToggleMarkAtLine'   :  "",
+  \ 'PurgeMarksAtLine'   :  "",
+  \ 'DeleteMark'         :  "",
+  \ 'PurgeMarks'         :  "dm",
+  \ 'PurgeMarkers'       :  "",
+  \ 'GotoNextLineAlpha'  :  "",
+  \ 'GotoPrevLineAlpha'  :  "",
+  \ 'GotoNextSpotAlpha'  :  "",
+  \ 'GotoPrevSpotAlpha'  :  "",
+  \ 'GotoNextLineByPos'  :  "",
+  \ 'GotoPrevLineByPos'  :  "",
+  \ 'GotoNextSpotByPos'  :  "",
+  \ 'GotoPrevSpotByPos'  :  "",
+  \ 'GotoNextMarker'     :  "",
+  \ 'GotoPrevMarker'     :  "",
+  \ 'GotoNextMarkerAny'  :  "",
+  \ 'GotoPrevMarkerAny'  :  "",
+  \ 'ListBufferMarks'    :  "",
+  \ 'ListBufferMarkers'  :  ""
+  \ }
+" == }}}
 " ==> gundo.vim {{{...
 let g:gundo_prefer_python3 = 1
 let g:gundo_return_on_revert = 0
@@ -348,7 +371,6 @@ map * <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
 " == }}}
 " ==> vim-easyclip {{{...
 nmap M <Plug>MoveMotionEndOfLinePlug
-nnoremap gm m
 let g:EasyClipUseSubstituteDefaults = 1
 let g:EasyClipAlwaysMoveCursorToEndOfPaste = 1
 nnoremap <silent> yy :<c-u>call EasyClip#Yank#PreYankMotion()<cr>:call EasyClip#Yank#YankLine()<cr>:<c-u>call HighlightYankedLine()<cr>
