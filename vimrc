@@ -10,6 +10,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'morhetz/gruvbox'
 Plug 'mhinz/vim-signify'
+Plug 'miyakogi/conoline.vim'
 Plug 'sjl/gundo.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'svermeulen/vim-easyclip'
@@ -325,7 +326,11 @@ let g:lightline = {
   \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
   \ }
 " == }}}
-" ==> {{{...
+" ==> conoline.vim {{{...
+let g:conoline_auto_enable = 1
+let g:conoline_use_colorscheme_default_normal=1
+" == }}}
+" ==> gundo.vim {{{...
 let g:gundo_prefer_python3 = 1
 let g:gundo_return_on_revert = 0
 " === }}}
