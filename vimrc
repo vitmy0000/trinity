@@ -49,8 +49,8 @@ call plug#end()
 " ==> basics {{{...
 nnoremap <space><space> :Commands<cr>
 nnoremap ; :write<cr>
-nnoremap , J
 nnoremap ? :vert help<space>
+noremap , J
 " range search
 xmap / <esc>/\%V
 " stay visual mode after shifting
@@ -71,8 +71,10 @@ vnoremap y y']
 nnoremap gp `[v`]
 nnoremap Q q
 nnoremap U <C-r>
-nnoremap <silent> K :call SmoothScroll('u', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
-nnoremap <silent> J :call SmoothScroll('d', g:smooth_scroll_steps, g:smooth_scroll_speed)<CR>
+nnoremap <silent> K :call SmoothScroll('u', g:smooth_scroll_steps, g:smooth_scroll_speed)<cr>
+nnoremap <silent> J :call SmoothScroll('d', g:smooth_scroll_steps, g:smooth_scroll_speed)<cr>
+xnoremap K <c-u>
+xnoremap J <c-d>
 noremap <expr> H getline(line('.'))[:col('.') - 2] =~# '^\s*$' ? "0" : "^"
 nnoremap <expr> L col('.') == col('$') - 1 ? "$l" : "$"
 xnoremap <expr> L col('.') == col('$') - 1 ? "$" : "$h"
@@ -330,7 +332,7 @@ let g:conoline_use_colorscheme_default_normal=1
 " == }}}
 " ==> vim-signature {{{...
 let g:SignatureMap = {
-  \ 'Leader'             :  "<leader>m",
+  \ 'Leader'             :  "gm",
   \ 'PlaceNextMark'      :  "",
   \ 'ToggleMarkAtLine'   :  "",
   \ 'PurgeMarksAtLine'   :  "",
