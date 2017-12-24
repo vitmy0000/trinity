@@ -108,6 +108,7 @@ nmap <leader>cc <Plug>CommentaryLine
 " === }}}
 " ===> buffer {{{...
 nnoremap <leader>bb :Buffers<cr>
+noremap <leader>bd :bd<cr>
 " ===}}}
 " ===> substitute {{{...
 xnoremap <leader>s :<c-u>call MySubstituteOperator(visualmode())<cr>
@@ -363,7 +364,7 @@ let g:gundo_return_on_revert = 0
 set hlsearch
 set ignorecase
 set smartcase
-hi Search ctermfg=Yellow ctermbg=Black
+hi Search ctermfg=Magenta ctermbg=Black
 map /  <Plug>(incsearch-forward)
 let g:incsearch#auto_nohlsearch = 1
 map n <Plug>(incsearch-nohl)<Plug>(anzu-n-with-echo)
