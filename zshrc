@@ -3,7 +3,6 @@
 source ~/.zplug/init.zsh
 
 zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-history-substring-search"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "hlissner/zsh-autopair", defer:2
 zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
@@ -104,10 +103,6 @@ for code ({000..255}) print -P -- "$code: %F{$code}This is how your text would l
 END
 ##}}}
 
-##-- fzf(installed as vim plugin) {{{--
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-##}}}
-
 ##}}}
 
 ##-- keybindings {{{--
@@ -115,7 +110,3 @@ END
 export WORDCHARS=
 bindkey '^u' backward-kill-line
 ##}}}
-
-
-bindkey -M emacs '^P' history-substring-search-up
-bindkey -M emacs '^N' history-substring-search-down
