@@ -235,6 +235,7 @@ set whichwrap+=<,>,h,l,[,] " allow motion across lines
 set wildmenu
 set wildmode=list:longest,full
 set autowriteall " save on buffer switch
+set hidden " keep undo history after switching buffer
 if &diff
   set viminfo=
 endif
