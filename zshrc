@@ -27,6 +27,8 @@ export SHELL=$(which zsh)
 END
 # export this variable so to enable bash sub-shell
 export ZSH_VERSION=$ZSH_VERSION
+# default editor
+export EDITOR=vim
 ##}}}
 
 ##-- history {{{--
