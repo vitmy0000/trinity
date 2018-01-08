@@ -83,6 +83,9 @@ alias vi='vim'
 alias la='ls -a'
 alias ll='ls -alh'
 alias duu='du -h -d 1'
+alias vimrc='vi ~/.vimrc'
+alias zshrc='vi ~/.zshrc'
+alias so='source ~/.zshrc'
 # dir history
 alias dh='dirs -v'
 # history sync
