@@ -105,6 +105,10 @@ for code ({000..255}) print -P -- "$code: %F{$code}This is how your text would l
 END
 ##}}}
 
+##-- fzf {{{--
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+##}}}
+
 ##}}}
 
 ##-- keybindings {{{--
