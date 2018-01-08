@@ -6,6 +6,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --no-update-rc' }
 Plug 'junegunn/fzf.vim'
+Plug 'pbogut/fzf-mru.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'morhetz/gruvbox'
@@ -546,19 +547,6 @@ function! XTermPasteBegin()
   return ''
 endfunction
 inoremap <special> <expr> <esc>[200~ XTermPasteBegin()
-" == }}}
-" ==> fzf mru {{{...
-command! FZFMru call fzf#run({
-  \ 'source':  reverse(s:all_files()),
-  \ 'sink':    'edit',
-  \ 'options': '-m -x +s',
-  \ 'down':    '40%' })
-function! s:all_files()
-  return extend(
-  \ filter(copy(v:oldfiles),
-  \        "v:val !~ '.git/'"),
-  \ map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val)'))
-endfunction
 " == }}}
 " ==> easyclip highlight yank{{{...
 hi HighlightedyankRegion ctermfg=Black ctermbg=Blue
