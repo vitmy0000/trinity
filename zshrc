@@ -4,8 +4,10 @@ source ~/.zplug/init.zsh
 
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-history-substring-search"
 zplug "hlissner/zsh-autopair", defer:2
 zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
+zplug "plugins/wd", from:oh-my-zsh
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -90,7 +92,7 @@ alias sl='echo $SHLVL'
 
 ##-- plugins {{{--
 
-##-- bhilburn/powerlevel9k {{{--
+##-- powerlevel9k {{{--
 POWERLEVEL9K_DIR_PATH_SEPARATOR=" $(print_icon "LEFT_SUBSEGMENT_SEPARATOR") "
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
@@ -103,6 +105,11 @@ POWERLEVEL9K_STATUS_OK_BACKGROUND='237'
 : <<'END'
 for code ({000..255}) print -P -- "$code: %F{$code}This is how your text would look like%f"
 END
+##}}}
+
+##-- zsh-history-substring-search {{{--
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
 ##}}}
 
 ##-- fzf {{{--
