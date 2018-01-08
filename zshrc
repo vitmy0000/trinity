@@ -82,6 +82,7 @@ fi
 alias vi='vim'
 alias la='ls -a'
 alias ll='ls -alh'
+alias duu='du -h -d 1'
 # dir history
 alias dh='dirs -v'
 # history sync
