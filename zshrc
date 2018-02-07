@@ -8,6 +8,7 @@ zplug "zsh-users/zsh-history-substring-search"
 zplug "hlissner/zsh-autopair", defer:2
 zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
 zplug "plugins/wd", from:oh-my-zsh
+zplug "vifon/deer", use:"deer"
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -94,6 +95,13 @@ alias hs='fc -R'
 alias sl='echo $SHLVL'
 ##}}}
 
+##-- keybindings {{{--
+# consistent ctrl-u behaviour
+export WORDCHARS=
+bindkey -e
+bindkey '^u' backward-kill-line
+##}}}
+
 ##-- plugins {{{--
 
 ##-- powerlevel9k {{{--
@@ -116,14 +124,14 @@ bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
 ##}}}
 
+##-- deer {{{--
+zle -N deer
+bindkey '\ek' deer
+##}}}
+
 ##-- fzf {{{--
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 ##}}}
 
 ##}}}
 
-##-- keybindings {{{--
-# consistent ctrl-u behaviour
-export WORDCHARS=
-bindkey '^u' backward-kill-line
-##}}}
