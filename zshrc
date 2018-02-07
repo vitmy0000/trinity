@@ -8,7 +8,6 @@ zplug "zsh-users/zsh-history-substring-search"
 zplug "hlissner/zsh-autopair", defer:2
 zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
 zplug "plugins/wd", from:oh-my-zsh
-zplug "vifon/deer", use:"deer"
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -115,11 +114,6 @@ END
 ##-- zsh-history-substring-search {{{--
 bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
-##}}}
-
-##-- deer {{{--
-zle -N deer
-bindkey '\ek' deer
 ##}}}
 
 ##-- fzf {{{--
