@@ -33,7 +33,7 @@ Plug 'Julian/vim-textobj-brace'
 Plug 'beloglazov/vim-textobj-quotes'
 Plug 'mhinz/vim-signify'
 Plug 'majutsushi/tagbar'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'w0rp/ale'
 Plug 'Chiel92/vim-autoformat'
