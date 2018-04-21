@@ -14,3 +14,8 @@
 [user]
     name = vitmy0000
     email = weiz.vit@gmail.com
+[http]
+    proxy = fwdproxy:8080
+[https]
+    proxy = fwdproxy:8080
+
