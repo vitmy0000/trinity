@@ -13,6 +13,7 @@ Plug 'morhetz/gruvbox'
 Plug 'mhinz/vim-signify'
 Plug 'miyakogi/conoline.vim'
 Plug 'kshenoy/vim-signature'
+Plug 'machakann/vim-highlightedyank'
 Plug 'sjl/gundo.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'svermeulen/vim-easyclip'
@@ -153,6 +154,7 @@ nnoremap <leader>um :Move<cr>
 nnoremap <leader>ud :Delete<cr>
 nnoremap <leader>uc :Mkdir<cr>
 nnoremap <leader>ua :A<cr>
+nnoremap <leader>uy :Yank<cr>
 " === }}}
 " ===> window {{{...
 nnoremap <leader>w <C-w>
@@ -378,9 +380,7 @@ map * <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
 nmap M <Plug>MoveMotionEndOfLinePlug
 let g:EasyClipUseSubstituteDefaults = 1
 let g:EasyClipAlwaysMoveCursorToEndOfPaste = 1
-nnoremap <silent> yy :<c-u>call EasyClip#Yank#PreYankMotion()<cr>:call EasyClip#Yank#YankLine()<cr>:<c-u>call HighlightYankedLine()<cr>
-nnoremap <silent> <expr> Y ":<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opfunc=EasyClip#Yank#YankMotion<cr>" . (v:count > 0 ? v:count : '') . "g@$:<c-u>call HighlightYankedEOL()<cr>"
-nnoremap <silent> <expr> y ":<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opfunc=EasyClipYankMotionHighlithWrapper<cr>" . (v:count > 0 ? v:count : '') . "g@"
+hi HighlightedyankRegion ctermfg=Black ctermbg=Blue
 " == }}}
 " ==> vim-easymotion {{{...
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
@@ -548,55 +548,6 @@ function! XTermPasteBegin()
 endfunction
 inoremap <special> <expr> <esc>[200~ XTermPasteBegin()
 " == }}}
-" ==> easyclip highlight yank{{{...
-hi HighlightedyankRegion ctermfg=Black ctermbg=Blue
-function! s:sallowsleep(ms) abort
-  let t = reltime()
-  while !getchar(1) && a:ms - str2float(reltimestr(reltime(t))) * 1000.0 > 0
-  endwhile
-endfunction
-function! HighlightYankedLine()
-  let l:curline = line('.')
-  call matchaddpos("HighlightedyankRegion", [l:curline])
-  redraw
-  call s:sallowsleep(500)
-  call clearmatches()
-endfunction
-function! HighlightYankedEOL()
-  let l:curline = line(".")
-  let l:curcol = virtcol(".")
-  let l:eofcol = virtcol("$")
-  call matchaddpos("HighlightedyankRegion", [[l:curline, l:curcol, l:eofcol - l:curcol]])
-  redraw
-  call s:sallowsleep(500)
-  call clearmatches()
-endfunction
-function! EasyClipYankMotionHighlithWrapper(type)
-  call EasyClip#Yank#YankMotion(a:type)
-  let l:startline = line("'[")
-  let l:startcol = virtcol("'[")
-  let l:endline = line("']")
-  let l:endcol = virtcol("']")
-  if a:type ==# 'char' && l:startline == l:endline
-    call matchaddpos("HighlightedyankRegion", [[l:startline, l:startcol, l:endcol - l:startcol + 1]])
-  elseif a:type ==# 'char' && l:startline != l:endline
-    execute "normal! '["
-    let l:firstlineEndcol = virtcol("$")
-    call matchaddpos("HighlightedyankRegion", [[l:startline, l:startcol, l:firstlineEndcol - l:startcol]])
-    for l:line in range(l:startline + 1, l:endline - 1)
-      call matchaddpos("HighlightedyankRegion", [l:line])
-    endfor
-    call matchaddpos("HighlightedyankRegion", [[l:endline, 0, l:endcol]])
-  elseif a:type ==# 'line'
-    for l:line in range(l:startline, l:endline)
-      call matchaddpos("HighlightedyankRegion", [l:line])
-    endfor
-  endif
-  redraw
-  call s:sallowsleep(500)
-  call clearmatches()
-endfunction
-" == }}}
 " ==> toggle all folds {{{...
 let s:my_unrol_flat = 1
 function! MyUnrolToggle()
@@ -654,6 +605,8 @@ function! MyCR()
     return "\<cr>\<C-o><<\<up>\<C-o>\o"
   elseif l:prevChar == '{' && l:currChar == '}'
     return "\<cr>\<C-o><<\<up>\<C-o>\o"
+  elseif l:prevChar == '(' && l:currChar == ')' && &filetype == 'python'
+    return "\<cr>\<C-o><<\<up>\<C-o>\o"
   endif
   return "\<cr>"
 endfunction
@@ -672,55 +625,7 @@ function! GetMyIndent(lnum)
   endif
   let l:pline = getline(l:plnum)
   " use PEP8 rule for python
-  if &filetype == 'python'
-    if NumCharInStr('(', l:pline) > NumCharInStr(')', l:pline)
-      " opening '(' with nothing followed
-      if l:pline =~# '(\s*\(#.*\)\?\s*$'
-        " 2 indents after line ends like 'def xxx('
-        if l:pline =~# '^\s*\(def\|while\|for\|with\|elif\).*(\s*\(#.*\)\?\s*$'
-          return indent(l:plnum) + &shiftwidth + &shiftwidth
-        " otherwise 1 indent
-        else
-          return indent(l:plnum) + &shiftwidth
-        endif
-      " opening '(' with something followed
-      else
-        " 2 indents after line ends with 'if ('
-        if l:pline =~# '^\s*if'
-          return indent(l:plnum) + &shiftwidth + &shiftwidth
-        " otherwise line-up to the opening position
-        else
-          execute 'normal! [('
-          return col('.')
-        endif
-      endif
-    " closing ')'
-    elseif NumCharInStr(')', l:pline) > NumCharInStr('(', l:pline)
-      let l:check_linenum = l:plnum - 1
-      let l:left_cnt = NumCharInStr('(', l:pline)
-      let l:right_cnt = NumCharInStr(')', l:pline)
-      " fall back to check last 10 lines to find the opening line
-      while l:check_linenum > l:plnum - 10 && l:check_linenum > 0
-        let l:check_line = getline(l:check_linenum)
-        let l:left_cnt += NumCharInStr('(', l:check_line)
-        let l:right_cnt += NumCharInStr(')', l:check_line)
-        if l:left_cnt == l:right_cnt
-          if l:check_line =~# '^\s*\(if\|elif\|def\|while\|for\|with\)'
-            return indent(l:check_linenum) + &shiftwidth
-          else
-            return indent(l:check_linenum)
-          endif
-        endif
-        let l:check_linenum -= 1
-      endwhile
-    " other opening chars, 1 indent
-    elseif l:pline =~# '[[{:]\s*\(#.*\)\?\s*$'
-      return indent(l:plnum) + &shiftwidth
-    " indent back based on keywords
-    elseif (l:pline =~# '^\s*return' || l:pline =~# '^\s*pass\s*$')
-      return indent(l:plnum) - &shiftwidth
-    endif
-  elseif (&filetype == 'cpp' || &filetype == 'java')
+  if (&filetype == 'cpp' || &filetype == 'java')
     " opening '('
     if NumCharInStr('(', l:pline) > NumCharInStr(')', l:pline)
       " with nothing followed
@@ -758,7 +663,7 @@ function! GetMyIndent(lnum)
       return indent(l:plnum) + 1
     endif
   else "other filetypes
-    if l:pline =~# '[[{]\s*$'
+    if l:pline =~# '[[{(]\s*$'
       return indent(l:plnum) + &shiftwidth
     endif
   endif
