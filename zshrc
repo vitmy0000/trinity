@@ -8,7 +8,7 @@ zplug "zsh-users/zsh-history-substring-search"
 zplug "hlissner/zsh-autopair", defer:2
 zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
 zplug "plugins/wd", from:oh-my-zsh
-zplug "vifon/deer", use:"deer"
+zplug "vitmy0000/deer", use:"deer"
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
