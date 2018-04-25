@@ -239,6 +239,7 @@ set whichwrap+=<,>,h,l,[,] " allow motion across lines
 set wildmenu
 set wildmode=list:longest,full
 set autowriteall " save on buffer switch
+set virtualedit=onemore,block
 set hidden " keep undo history after switching buffer
 if &diff
   set viminfo=
@@ -445,6 +446,9 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " run linters only when save files
 let g:ale_lint_on_text_changed = 'never'
 " == }}}
+" ==> vim-textobj-parameter {{{...
+let g:vim_textobj_parameter_mapping = 'a'
+" ==}}}
 " = }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
