@@ -50,7 +50,6 @@ call plug#end()
 " => Key mappings {{{...
 " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ==> basics {{{...
-nnoremap <space><space> :Commands<cr>
 nnoremap ; :write<cr>
 nnoremap ? :vert help<space>
 noremap , J
