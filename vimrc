@@ -14,6 +14,7 @@ Plug 'mhinz/vim-signify'
 Plug 'miyakogi/conoline.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'machakann/vim-highlightedyank'
+Plug 'sheerun/vim-polyglot'
 Plug 'sjl/gundo.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'svermeulen/vim-easyclip'
@@ -24,6 +25,7 @@ Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-vinegar'
 Plug 'tpope/tpope-vim-abolish'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/vim-asterisk'
@@ -40,7 +42,6 @@ Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'w0rp/ale'
 Plug 'Chiel92/vim-autoformat'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
 " TODO incsearch.vim added in 8.0.1238
 
 call plug#end()
