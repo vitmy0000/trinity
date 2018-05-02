@@ -9,6 +9,9 @@ Plug 'junegunn/fzf.vim'
 Plug 'pbogut/fzf-mru.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'f4t-t0ny/nerdtree-hg-plugin'
 Plug 'morhetz/gruvbox'
 Plug 'mhinz/vim-signify'
 Plug 'miyakogi/conoline.vim'
@@ -25,7 +28,6 @@ Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-projectionist'
-Plug 'tpope/vim-vinegar'
 Plug 'tpope/tpope-vim-abolish'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/vim-asterisk'
@@ -103,6 +105,7 @@ nnoremap <leader>tw :set wrap!<cr>
 nnoremap <leader>ti :set list!<cr>
 nnoremap <leader>tc :setlocal cursorcolumn!<cr>
 nnoremap <leader>tt :TagbarToggle<cr>
+nnoremap <leader>te :NERDTreeToggle<CR>
 " === }}}
 " ===> comment {{{...
 xmap <leader>c <Plug>Commentary
@@ -159,8 +162,6 @@ nnoremap <leader>uy :Yank<cr>
 " === }}}
 " ===> window {{{...
 nnoremap <leader>w <C-w>
-" jump to tagbar window
-nnoremap <leader>wt :TagbarOpen j<cr>
 nnoremap <leader>1 1<C-w><C-w>
 nnoremap <leader>2 2<C-w><C-w>
 nnoremap <leader>3 3<C-w><C-w>
@@ -405,6 +406,19 @@ set updatetime=500
 let g:tagbar_map_togglefold = ['<tab>', 'za', 'o']
 " to enable leader
 let g:tagbar_map_showproto = ''
+let g:tagbar_autofocus = 1
+let g:tagbar_sort = 0
+let g:Tlist_WinWidth=40
+" == }}}
+" ==> nerdtree {{{...
+" open NERDTree automatically when vim starts up on opening a directory
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+" close vim if the only window left open is a NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let g:NERDTreeIgnore=['\~$']
+let g:NERDTreeWinSize=40
+let g:NERDTreeMapActivateNode='<tab>'
 " == }}}
 " ==> ultisnips {{{...
 let g:UltiSnipsExpandTrigger="<Tab>"
