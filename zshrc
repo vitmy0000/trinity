@@ -80,7 +80,8 @@ if [[ $platform == 'LINUX' ]]; then
 elif [[ $platform == 'OSX' ]]; then
    alias ls='ls -G'
 fi
-alias vi='vim'
+alias vi='/usr/local/bin/vim'
+export EDITOR='/usr/local/bin/vim'
 alias la='ls -a'
 alias ll='ls -alh'
 alias duu='du -h -d 1'
@@ -99,6 +100,7 @@ alias sl='echo $SHLVL'
 # consistent ctrl-u behaviour
 export WORDCHARS=
 bindkey -e
+bindkey "\e[3~" delete-char
 bindkey '^u' backward-kill-line
 ##}}}
 

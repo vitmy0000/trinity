@@ -40,7 +40,7 @@ Plug 'w0rp/ale'
 Plug 'Chiel92/vim-autoformat'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
-" TODO incsearch.vim added in 8.0.1238
+Plug 'vitmy0000/vim-smooth-scroll'
 
 call plug#end()
 " = }}}
@@ -71,10 +71,17 @@ nnoremap q :quit<cr>
 vnoremap y y']
 " select pasted text
 nnoremap gp `[v`]
+" HML
+nnoremap gh H
+nnoremap gm M
+nnoremap gl L
+" quit
 nnoremap Q q
+" redo
 nnoremap U <C-r>
-nnoremap <silent> K :call SmoothScroll('u', g:smooth_scroll_steps, g:smooth_scroll_speed)<cr>
-nnoremap <silent> J :call SmoothScroll('d', g:smooth_scroll_steps, g:smooth_scroll_speed)<cr>
+" smooth scroll
+noremap <silent> K :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> J :call smooth_scroll#down(&scroll, 0, 4)<CR>
 xnoremap K <c-u>
 xnoremap J <c-d>
 noremap <expr> H getline(line('.'))[:col('.') - 2] =~# '^\s*$' ? "0" : "^"
@@ -104,9 +111,9 @@ nnoremap <leader>tc :setlocal cursorcolumn!<cr>
 nnoremap <leader>tt :TagbarToggle<cr>
 " === }}}
 " ===> comment {{{...
-xmap <leader>c <Plug>Commentary
-nmap <leader>c <Plug>Commentary
-nmap <leader>cc <Plug>CommentaryLine
+xmap <leader>; <Plug>Commentary
+nmap <leader>; <Plug>Commentary
+nmap <leader>;; <Plug>CommentaryLine
 " === }}}
 " ===> buffer {{{...
 nnoremap <leader>bb :Buffers<cr>
@@ -160,6 +167,7 @@ nnoremap <leader>uy :Yank<cr>
 nnoremap <leader>w <C-w>
 " jump to tagbar window
 nnoremap <leader>wt :TagbarOpen j<cr>
+nnoremap <leader>w<space> <C-w>o
 nnoremap <leader>1 1<C-w><C-w>
 nnoremap <leader>2 2<C-w><C-w>
 nnoremap <leader>3 3<C-w><C-w>
@@ -256,6 +264,7 @@ set scrolloff=8
 set cursorline
 set colorcolumn=81
 " invisible character
+set list
 set listchars=tab:▸\ ,eol:¬,space:·
 set tabstop=4 shiftwidth=4 softtabstop=4
 set shiftround
@@ -338,7 +347,7 @@ let g:conoline_use_colorscheme_default_normal=1
 " == }}}
 " ==> vim-signature {{{...
 let g:SignatureMap = {
-  \ 'Leader'             :  "gm",
+  \ 'Leader'             :  "&",
   \ 'PlaceNextMark'      :  "",
   \ 'ToggleMarkAtLine'   :  "",
   \ 'PurgeMarksAtLine'   :  "",
@@ -481,23 +490,6 @@ function! MySubstituteOperator(type)
   endif
 endfunction
 " ==> }}}
-" ==> smooth scroll {{{...
-function! SmoothScroll(dir, dist, speed)
-  for i in range(a:dist/a:speed)
-  let start = reltime()
-  " scroll down and cursor move
-  if a:dir ==# 'd'
-    exec "normal! ".a:speed."\<C-e>".a:speed."j"
-  " scroll up and cursor move
-  elseif a:dir ==# 'u'
-    exec "normal! ".a:speed."\<C-y>".a:speed."k"
-  endif
-  redraw
-  endfor
-endfunction
-let g:smooth_scroll_steps = &scroll
-let g:smooth_scroll_speed = 2 "must be integer
-" == }}}
 " ==> disable all format options including auto comment {{{...
 augroup disable_format_options
   autocmd!
