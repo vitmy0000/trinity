@@ -12,7 +12,7 @@ ln -s trinity/tmux.conf ~/.tmux.conf
 ln -s trinity/gitconfig ~/.gitconfig
 ln -s trinity/vimrc ~/.vimrc
 ln -s trinity/zshrc ~/.zshrc
-ln -rs UltiSnips ~/.vim/UltiSnips
+ln -rs trinity/UltiSnips ~/.vim/UltiSnips
 ```
 
 ## Install dependencies
