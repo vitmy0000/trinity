@@ -80,8 +80,7 @@ if [[ $platform == 'LINUX' ]]; then
 elif [[ $platform == 'OSX' ]]; then
    alias ls='ls -G'
 fi
-alias vi='/usr/local/bin/vim'
-export EDITOR='/usr/local/bin/vim'
+alias vi='vim'
 alias la='ls -a'
 alias ll='ls -alh'
 alias duu='du -h -d 1'
