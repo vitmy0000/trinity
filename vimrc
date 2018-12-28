@@ -472,9 +472,6 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " run linters only when save files
 let g:ale_lint_on_text_changed = 'never'
 " == }}}
-" ==> vim-textobj-parameter {{{...
-let g:vim_textobj_parameter_mapping = 'a'
-" ==}}}
 " = }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
