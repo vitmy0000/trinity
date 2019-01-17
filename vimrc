@@ -269,7 +269,6 @@ set scrolloff=8
 set cursorline
 set colorcolumn=81
 " invisible character
-set list
 set listchars=tab:▸\ ,eol:¬,space:·
 set tabstop=4 shiftwidth=4 softtabstop=4
 set shiftround

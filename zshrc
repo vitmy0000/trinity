@@ -136,3 +136,10 @@ bindkey '\ek' deer
 
 ##}}}
 
+##-- misc {{{--
+# for emacs-babel
+[ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
+
+# path
+export PATH="$HOME/bin:$PATH"
+##}}}
