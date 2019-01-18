@@ -111,6 +111,7 @@ nnoremap <leader>fs :so ~/.vimrc<cr>
 " ===> toggle {{{...
 nnoremap <leader>tw :set wrap!<cr>
 nnoremap <leader>ti :set list!<cr>
+nnoremap <leader>tp :set paste!<cr>
 nnoremap <leader>tc :setlocal cursorcolumn!<cr>
 nnoremap <leader>tt :TagbarToggle<cr>
 nnoremap <leader>te :NERDTreeToggle<CR>
