@@ -14,7 +14,6 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'f4t-t0ny/nerdtree-hg-plugin'
 Plug 'morhetz/gruvbox'
 Plug 'mhinz/vim-signify'
-Plug 'miyakogi/conoline.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'machakann/vim-highlightedyank'
 Plug 'sheerun/vim-polyglot'
@@ -686,5 +685,12 @@ endfunction
 filetype indent off
 set indentkeys=oO
 set indentexpr=GetMyIndent(v:lnum)
+" == }}}
+" == show cursorline only in active window {{{...
+augroup CursorLineOnlyInActiveWindow
+  autocmd!
+  autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  autocmd WinLeave * setlocal nocursorline
+augroup END
 " == }}}
 " = }}}
