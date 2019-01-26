@@ -401,8 +401,8 @@ let g:EasyMotion_do_mapping = 0 " Disable default mappings
 " == }}}
 " ==> YouCompleteMe {{{...
 set completeopt-=preview
-let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
+let g:ycm_key_list_select_completion   = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:ycm_key_list_stop_completion = ['<C-y>']
 imap <expr> <cr> pumvisible() ? "\<C-y>" : MyCR()
 let g:ycm_show_diagnostics_ui = 0
@@ -573,7 +573,7 @@ function! MyUnrolToggle()
 endif
 endfunction
 " ==}}}
-" ==> interactive past {{{...
+" ==> interactive paste {{{...
 function! MyRegp()
   registers
   let l:reg = input("Please select your register: ")
