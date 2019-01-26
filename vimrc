@@ -544,22 +544,22 @@ let &t_SR = "\<esc>Ptmux;\<esc>\<esc>]50;CursorShape=2\x7\<esc>\\"
 let &t_EI = "\<esc>Ptmux;\<esc>\<esc>]50;CursorShape=0\x7\<esc>\\"
 " == }}}
 " ==> auto set paste {{{...
-function! WrapForTmux(s)
-  if !exists('$TMUX')
-  return a:s
-  endif
-  let l:tmux_start = "\<esc>Ptmux;"
-  let l:tmux_end = "\<esc>\\"
-  return l:tmux_start . substitute(a:s, "\<esc>", "\<esc>\<esc>", 'g') . l:tmux_end
-endfunction
-let &t_SI .= WrapForTmux("\<esc>[?2004h")
-let &t_EI .= WrapForTmux("\<esc>[?2004l")
-function! XTermPasteBegin()
-  set pastetoggle=<esc>[201~
+let &t_SI .= "\<Esc>[?2004h"
+let &t_EI .= "\<Esc>[?2004l"
+
+function! XTermPasteBegin(ret)
+  set pastetoggle=<f29>
   set paste
-  return ''
+  return a:ret
 endfunction
-inoremap <special> <expr> <esc>[200~ XTermPasteBegin()
+
+execute "set <f28>=\<Esc>[200~"
+execute "set <f29>=\<Esc>[201~"
+map <expr> <f28> XTermPasteBegin("i")
+imap <expr> <f28> XTermPasteBegin("")
+vmap <expr> <f28> XTermPasteBegin("c")
+cmap <f28> <nop>
+cmap <f29> <nop>
 " == }}}
 " ==> toggle all folds {{{...
 let s:my_unrol_flat = 1
