@@ -14,3 +14,5 @@
 [user]
     name = vitmy0000
     email = weiz.vit@gmail.com
+[push]
+	default = simple

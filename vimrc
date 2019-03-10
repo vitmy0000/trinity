@@ -103,6 +103,7 @@ nnoremap <leader><leader> :Commands<cr>
 noremap <leader>/ :noh<cr>
 " ===> file {{{...
 nnoremap <leader>ff :Files<cr>
+nnoremap <leader>fd :Cd<cr>
 nnoremap <leader>fr :FZFMru<cr>
 nnoremap <leader>fe :e ~/.vimrc<cr>
 nnoremap <leader>fs :so ~/.vimrc<cr>
@@ -226,6 +227,7 @@ cnoremap <C-k> <Del>
 " however, they are not very commonly used
 " == }}}
 " ==> fzf {{{...
+command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap({'source': 'find . -type d', 'sink': 'cd'}))
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-s': 'split',
