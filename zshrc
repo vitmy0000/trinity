@@ -2,13 +2,14 @@
 # git clone https://github.com/zplug/zplug ~/.zplug
 source ~/.zplug/init.zsh
 
-zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
-zplug "zsh-users/zsh-history-substring-search"
-zplug "hlissner/zsh-autopair", defer:2
 zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
 zplug "plugins/wd", from:oh-my-zsh
-zplug "vitmy0000/deer", use:"deer"
+zplug "zsh-users/zsh-history-substring-search"
+zplug "agkozak/zsh-z"
+zplug "Aloxaf/fzf-tab", defer:2
+zplug "hlissner/zsh-autopair", defer:3
+zplug "zsh-users/zsh-autosuggestions", defer:3
+zplug "zsh-users/zsh-syntax-highlighting", defer:3
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -83,13 +84,8 @@ fi
 alias vi='vim'
 alias la='ls -a'
 alias ll='ls -alh'
-alias duu='du -h -d 1'
-alias vimrc='vi ~/.vimrc'
-alias zshrc='vi ~/.zshrc'
 alias so='source ~/.zshrc'
-# dir history
-alias dh='dirs -v'
-# history sync
+# cmd history sync
 alias hs='fc -R'
 # shell level
 alias sl='echo $SHLVL'
@@ -99,7 +95,6 @@ alias sl='echo $SHLVL'
 # consistent ctrl-u behaviour
 export WORDCHARS=
 bindkey -e
-bindkey "\e[3~" delete-char
 bindkey '^u' backward-kill-line
 ##}}}
 
@@ -125,13 +120,16 @@ bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
 ##}}}
 
-##-- deer {{{--
-zle -N deer
-bindkey '\ek' deer
-##}}}
-
 ##-- fzf {{{--
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+##}}}
+
+##-- zsh-z {{{--
+unalias z 2> /dev/null
+z() {
+  [ $# -gt 0 ] && zshz "$*" && return
+  cd "$(zshz -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
+}
 ##}}}
 
 ##}}}
