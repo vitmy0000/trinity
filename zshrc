@@ -32,7 +32,7 @@ END
 # export this variable so to enable bash sub-shell
 export ZSH_VERSION=$ZSH_VERSION
 # default editor
-export EDITOR=vim
+export EDITOR=code-fb
 ##}}}
 
 ##-- history {{{--
@@ -81,7 +81,8 @@ if [[ $platform == 'LINUX' ]]; then
 elif [[ $platform == 'OSX' ]]; then
    alias ls='ls -G'
 fi
-alias vi='vim'
+
+alias c='code-fb'
 alias la='ls -a'
 alias ll='ls -alh'
 alias so='source ~/.zshrc'
@@ -92,10 +93,14 @@ alias sl='echo $SHLVL'
 ##}}}
 
 ##-- keybindings {{{--
-# consistent ctrl-u behaviour
 export WORDCHARS=
 bindkey -e
+# consistent ctrl-u behaviour
 bindkey '^u' backward-kill-line
+# allow Mac fn+delete to work
+bindkey '\e[3~' delete-char
+# alt+. for inserting last argument
+bindkey '≥' insert-last-word
 ##}}}
 
 ##-- plugins {{{--
@@ -106,8 +111,8 @@ POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
 POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="$ "
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=('status' 'time' 'dir' 'vcs' 'background_jobs' 'anaconda')
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=('status' 'time' 'dir' 'vcs' 'background_jobs')
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=('os_icon' 'context')
 POWERLEVEL9K_STATUS_OK_BACKGROUND='237'
 # show color
 : <<'END'
@@ -118,6 +123,12 @@ END
 ##-- zsh-history-substring-search {{{--
 bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
+##}}}
+
+##-- zsh-users/zsh-syntax-highlighting {{{--
+(( ${+ZSH_HIGHLIGHT_STYLES} )) || typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[path]='fg=cyan,bold'
+ZSH_HIGHLIGHT_STYLES[path_prefix]='fg=cyan,bold'
 ##}}}
 
 ##-- fzf {{{--
@@ -133,27 +144,3 @@ z() {
 ##}}}
 
 ##}}}
-
-##-- misc {{{--
-# for emacs-babel
-[ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
-
-# path
-export PATH="$HOME/bin:$PATH"
-##}}}
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/vagrant/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/vagrant/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/vagrant/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/vagrant/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
